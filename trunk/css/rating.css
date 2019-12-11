@@ -1,0 +1,10 @@
+.raiting {position:relative; height:16px; cursor:pointer; width:83px; float:left;} /* Блок рейтинга*/
+.raiting_blank, .raiting_votes, .raiting_hover {height:16px; position:absolute;}
+.raiting_blank {background-position: 0 0; width:83px; background-repeat: no-repeat;} /* "Чистые" звездочки */
+.raiting_votes {background-position: 0 -16px; background-repeat: no-repeat;} /*  Закрашенные звездочки */ 
+.raiting_hover {background-position: 0 -32px; display:none; background-repeat: no-repeat;}  /*  звездочки при голосовании */ 
+.raiting_info {margin-left:100px;}
+.raiting_info img{vertical-align:middle; margin:0 5px; display:none;}
+.brpv_pic1 {background-image:url(../img/ratings1.png);}
+.brpv_pic2 {background-image:url(../img/ratings2.png);}
+.brpv_pic3 {background-image:url(../img/ratings3.png);}

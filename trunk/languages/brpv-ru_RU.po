@@ -1,0 +1,331 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-01-27 19:25+0300\n"
+"PO-Revision-Date: 2018-01-27 19:33+0300\n"
+"Last-Translator: \n"
+"Language-Team: Maxim Glazunov <djdiplomat477@gmail.com>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.5\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: best-rating-pageviews.php\n"
+"X-Poedit-SearchPath-1: settings.php\n"
+"X-Poedit-SearchPath-2: statistics.php\n"
+
+#: best-rating-pageviews.php:64
+msgid "Rating & PageViews"
+msgstr "Рейтинг и Просмотры"
+
+#: best-rating-pageviews.php:100
+msgid "BRPV"
+msgstr ""
+
+#: best-rating-pageviews.php:103
+msgid "Settings"
+msgstr "Настройки"
+
+#: best-rating-pageviews.php:184
+msgid "Raiting"
+msgstr "Рейтинг"
+
+#: best-rating-pageviews.php:250
+msgid "Updated"
+msgstr "Обновлено"
+
+#: best-rating-pageviews.php:263 best-rating-pageviews.php:268
+msgid "Popular"
+msgstr "Популярное"
+
+#: best-rating-pageviews.php:264
+msgid "Shows popular posts and pages based on the rating and pageviews"
+msgstr ""
+"Отображаются популярные записи и страницы на основе рейтинга и просмотров"
+
+#: best-rating-pageviews.php:285 statistics.php:68
+msgid "Title"
+msgstr "Название"
+
+#: best-rating-pageviews.php:292
+msgid "Num Posts"
+msgstr "Число постов"
+
+#: best-rating-pageviews.php:298 statistics.php:63
+msgid "Show"
+msgstr "Показать"
+
+#: best-rating-pageviews.php:301
+msgid "Post"
+msgstr "Записи"
+
+#: best-rating-pageviews.php:302
+msgid "Page"
+msgstr "Страницы"
+
+#: best-rating-pageviews.php:309 statistics.php:51
+msgid "Order"
+msgstr "Сортировка"
+
+#: best-rating-pageviews.php:312 statistics.php:53
+msgid "ASC"
+msgstr "Прямая"
+
+#: best-rating-pageviews.php:313 statistics.php:54
+msgid "DESC"
+msgstr "Обратная"
+
+#: best-rating-pageviews.php:320
+msgid "Order by"
+msgstr "Сортировать по"
+
+#: best-rating-pageviews.php:323
+msgid "PageViews"
+msgstr "Просмотры"
+
+#: best-rating-pageviews.php:324 statistics.php:69
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: settings.php:31
+msgid "Best Rating & Pageviews Settings"
+msgstr "Рейтинг и Просмотры"
+
+#: settings.php:37
+msgid "Main parameters"
+msgstr "Основные параметры"
+
+#: settings.php:40
+msgid "Not count bots"
+msgstr "Не считать ботов"
+
+#: settings.php:43
+msgid "Yes"
+msgstr "Да"
+
+#: settings.php:44
+msgid "No"
+msgstr "Нет"
+
+#: settings.php:46
+msgid "Do not count the bots visiting the site"
+msgstr "Не считайте ботов, посещающих сайт"
+
+#: settings.php:50 settings.php:55
+msgid "Rating icons"
+msgstr "Значки рейтинга"
+
+#: settings.php:67
+msgid "Save"
+msgstr "Сохранить"
+
+#: settings.php:68
+msgid "Click to save the settings"
+msgstr "Нажмите, чтобы сохранить настройки"
+
+#: settings.php:79
+msgid "Please support the project!"
+msgstr "Пожалуйста, поддержите проект!"
+
+#: settings.php:80
+msgid "Thank you for using the plugin"
+msgstr "Спасибо, что используете плагин"
+
+#: settings.php:81
+msgid "Please help make the plugin better"
+msgstr "Помогите сделать плагин лучше"
+
+#: settings.php:81
+msgid "answering 5 questions"
+msgstr "ответив на 5 вопросов"
+
+#: settings.php:82
+msgid "If this plugin useful to you, please support the project one way"
+msgstr "Если этот плагин вам полезен, пожалуйста, поддержите проект"
+
+#: settings.php:84
+msgid "Leave a comment on the plugin page"
+msgstr "Оставить комментарий на странице плагина"
+
+#: settings.php:85
+msgid "Support the project financially. Even $1 is a help!"
+msgstr "Поддержите проект деньгами. Даже 100 рублей - это помощь!"
+
+#: settings.php:85
+msgid "Donate now"
+msgstr "Поддержать"
+
+#: settings.php:86
+msgid "Noticed a bug or have an idea how to improve the quality of the plugin?"
+msgstr "Заметили ошибку или есть идея, как улучшить качество плагина?"
+
+#: settings.php:86
+msgid "Let me know"
+msgstr "Напишите мне"
+
+#: settings.php:88
+msgid "The author of the plugin Maxim Glazunov"
+msgstr "Автор плагина, Максим Глазунов"
+
+#: settings.php:89
+msgid "Accept orders for individual revision of the plugin"
+msgstr "Принимаю заказы на индивидуальную доработку плагина"
+
+#: settings.php:89
+msgid "Leave a request"
+msgstr "Оставить заявку"
+
+#: settings.php:96
+msgid "Examples shotcodes"
+msgstr "Пример шорткодов"
+
+#: settings.php:97
+msgid "To display the rating stars"
+msgstr "Вывести рейтинг"
+
+#: settings.php:98 settings.php:101
+msgid "or in php code"
+msgstr "или в php коде"
+
+#: settings.php:100
+msgid "To display the number of page views"
+msgstr "Вывести количество просмотров"
+
+#: settings.php:103
+msgid "Notice"
+msgstr "Примечание"
+
+#: settings.php:104
+msgid "This shortcodes can be used in the body of the article"
+msgstr "Шорткоды могут использоваться в тексте статьи"
+
+#: settings.php:105
+msgid "This shortcodes can be used in the loop body of templates"
+msgstr "Шорткоды могут использоваться в шаблоне"
+
+#: settings.php:106
+msgid "This shortcodes cannot be used outside the loop of the template"
+msgstr "Шорткоды не могут использоваться вне цикла шаблона"
+
+#: statistics.php:40
+msgid "Statistics"
+msgstr "Статистика"
+
+#: statistics.php:43
+msgid "Consolidated report"
+msgstr "Сводный отчет"
+
+#: statistics.php:45
+msgid "Statistics by"
+msgstr "Статистика по"
+
+#: statistics.php:47
+msgid "Posts"
+msgstr "Записям"
+
+#: statistics.php:48
+msgid "Pages"
+msgstr "Страницам"
+
+#: statistics.php:49
+msgid "Posts & Pages"
+msgstr "Записям и Страницам"
+
+#: statistics.php:57
+msgid "Order by Rating"
+msgstr "Сортировать по Рейтингу"
+
+#: statistics.php:58
+msgid "Order by Votes"
+msgstr "Сортировать по Голосам"
+
+#: statistics.php:59
+msgid "Order by Page views"
+msgstr "Сортировать по Просмотрам"
+
+#: statistics.php:60
+msgid "Order by date of last visit"
+msgstr "Сортировать по дате последнего визита"
+
+#: statistics.php:70
+msgid "Votes"
+msgstr "Голосов"
+
+#: statistics.php:71
+msgid "Page Views"
+msgstr "Просмотры"
+
+#: statistics.php:72
+msgid "Date of last visit"
+msgstr "Дата последнего визита"
+
+#: statistics.php:83
+msgid "Edit"
+msgstr "Редактировать"
+
+#: statistics.php:99
+msgid ""
+"Please note that there are no pages for which data was not collected in the "
+"results"
+msgstr ""
+"Обратите внимание, что в результатах нет страниц, для которых данные не были "
+"собраны"
+
+#~ msgid "Settings Maps for WP"
+#~ msgstr "Настройки Maps for WP"
+
+#~ msgid "Text when you hover over a point"
+#~ msgstr "Текст при наведении на точку"
+
+#~ msgid "The image point on the map (36×36)"
+#~ msgstr "Иконка точки на карте (36×36)"
+
+#~ msgid "Zoom map with many points"
+#~ msgstr "Масштаб карты с множеством точек"
+
+#~ msgid "Latitude center map with many points"
+#~ msgstr "Широта центра карты с множеством точек"
+
+#~ msgid "Longitude center map with many points"
+#~ msgstr "Долгота карты с множеством точек"
+
+#~ msgid "Zoom map with one point"
+#~ msgstr "Масштаб карты с одной точкой"
+
+#~ msgid "Latitude map with one point"
+#~ msgstr "Широтка карты с одной точкой"
+
+#~ msgid "Longitude map with one point"
+#~ msgstr "Долготак карты с одной точкой"
+
+#~ msgid "Location"
+#~ msgstr "Местоположение"
+
+#~ msgid "Latitude"
+#~ msgstr "Широта"
+
+#~ msgid "Longitude"
+#~ msgstr "Долгота"
+
+#~ msgid "Country"
+#~ msgstr "Страна"
+
+#~ msgid "Region"
+#~ msgstr "Регион"
+
+#~ msgid "Subadministrative"
+#~ msgstr "Район"
+
+#~ msgid "City"
+#~ msgstr "Город"
+
+#~ msgid "The exact address"
+#~ msgstr "Точный адрес"
+
+#~ msgid "Container Yandex Maps"
+#~ msgstr "Блок Yandex Maps"
