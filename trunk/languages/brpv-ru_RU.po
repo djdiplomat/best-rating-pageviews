@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-01-27 19:25+0300\n"
-"PO-Revision-Date: 2018-01-27 19:33+0300\n"
+"POT-Creation-Date: 2019-12-12 11:28+0300\n"
+"PO-Revision-Date: 2019-12-12 11:28+0300\n"
 "Last-Translator: \n"
 "Language-Team: Maxim Glazunov <djdiplomat477@gmail.com>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -19,76 +19,76 @@ msgstr ""
 "X-Poedit-SearchPath-1: settings.php\n"
 "X-Poedit-SearchPath-2: statistics.php\n"
 
-#: best-rating-pageviews.php:64
+#: best-rating-pageviews.php:84
 msgid "Rating & PageViews"
 msgstr "Рейтинг и Просмотры"
 
-#: best-rating-pageviews.php:100
-msgid "BRPV"
-msgstr ""
+#: best-rating-pageviews.php:116 statistics.php:40
+msgid "Statistics"
+msgstr "Статистика"
 
-#: best-rating-pageviews.php:103
+#: best-rating-pageviews.php:119
 msgid "Settings"
 msgstr "Настройки"
 
-#: best-rating-pageviews.php:184
+#: best-rating-pageviews.php:203
 msgid "Raiting"
 msgstr "Рейтинг"
 
-#: best-rating-pageviews.php:250
+#: best-rating-pageviews.php:269
 msgid "Updated"
 msgstr "Обновлено"
 
-#: best-rating-pageviews.php:263 best-rating-pageviews.php:268
+#: best-rating-pageviews.php:282 best-rating-pageviews.php:287
 msgid "Popular"
 msgstr "Популярное"
 
-#: best-rating-pageviews.php:264
+#: best-rating-pageviews.php:283
 msgid "Shows popular posts and pages based on the rating and pageviews"
 msgstr ""
 "Отображаются популярные записи и страницы на основе рейтинга и просмотров"
 
-#: best-rating-pageviews.php:285 statistics.php:68
+#: best-rating-pageviews.php:304 statistics.php:72
 msgid "Title"
 msgstr "Название"
 
-#: best-rating-pageviews.php:292
+#: best-rating-pageviews.php:311
 msgid "Num Posts"
 msgstr "Число постов"
 
-#: best-rating-pageviews.php:298 statistics.php:63
+#: best-rating-pageviews.php:317 statistics.php:67
 msgid "Show"
 msgstr "Показать"
 
-#: best-rating-pageviews.php:301
+#: best-rating-pageviews.php:320
 msgid "Post"
 msgstr "Записи"
 
-#: best-rating-pageviews.php:302
+#: best-rating-pageviews.php:321
 msgid "Page"
 msgstr "Страницы"
 
-#: best-rating-pageviews.php:309 statistics.php:51
+#: best-rating-pageviews.php:328 statistics.php:55
 msgid "Order"
 msgstr "Сортировка"
 
-#: best-rating-pageviews.php:312 statistics.php:53
+#: best-rating-pageviews.php:331 statistics.php:57
 msgid "ASC"
 msgstr "Прямая"
 
-#: best-rating-pageviews.php:313 statistics.php:54
+#: best-rating-pageviews.php:332 statistics.php:58
 msgid "DESC"
 msgstr "Обратная"
 
-#: best-rating-pageviews.php:320
+#: best-rating-pageviews.php:339
 msgid "Order by"
 msgstr "Сортировать по"
 
-#: best-rating-pageviews.php:323
+#: best-rating-pageviews.php:342
 msgid "PageViews"
 msgstr "Просмотры"
 
-#: best-rating-pageviews.php:324 statistics.php:69
+#: best-rating-pageviews.php:343 statistics.php:73
 msgid "Rating"
 msgstr "Рейтинг"
 
@@ -96,179 +96,187 @@ msgstr "Рейтинг"
 msgid "Best Rating & Pageviews Settings"
 msgstr "Рейтинг и Просмотры"
 
-#: settings.php:37
+#: settings.php:54
 msgid "Main parameters"
 msgstr "Основные параметры"
 
-#: settings.php:40
+#: settings.php:57
 msgid "Not count bots"
 msgstr "Не считать ботов"
 
-#: settings.php:43
+#: settings.php:60
 msgid "Yes"
 msgstr "Да"
 
-#: settings.php:44
+#: settings.php:61
 msgid "No"
 msgstr "Нет"
 
-#: settings.php:46
+#: settings.php:63
 msgid "Do not count the bots visiting the site"
 msgstr "Не считайте ботов, посещающих сайт"
 
-#: settings.php:50 settings.php:55
+#: settings.php:67 settings.php:72
 msgid "Rating icons"
 msgstr "Значки рейтинга"
 
-#: settings.php:67
+#: settings.php:84
 msgid "Save"
 msgstr "Сохранить"
 
-#: settings.php:68
+#: settings.php:85
 msgid "Click to save the settings"
 msgstr "Нажмите, чтобы сохранить настройки"
 
-#: settings.php:79
+#: settings.php:96
 msgid "Please support the project!"
 msgstr "Пожалуйста, поддержите проект!"
 
-#: settings.php:80
+#: settings.php:97
 msgid "Thank you for using the plugin"
 msgstr "Спасибо, что используете плагин"
 
-#: settings.php:81
+#: settings.php:98
 msgid "Please help make the plugin better"
 msgstr "Помогите сделать плагин лучше"
 
-#: settings.php:81
+#: settings.php:98
 msgid "answering 5 questions"
 msgstr "ответив на 5 вопросов"
 
-#: settings.php:82
+#: settings.php:99
 msgid "If this plugin useful to you, please support the project one way"
 msgstr "Если этот плагин вам полезен, пожалуйста, поддержите проект"
 
-#: settings.php:84
+#: settings.php:101
 msgid "Leave a comment on the plugin page"
 msgstr "Оставить комментарий на странице плагина"
 
-#: settings.php:85
+#: settings.php:102
 msgid "Support the project financially. Even $1 is a help!"
 msgstr "Поддержите проект деньгами. Даже 100 рублей - это помощь!"
 
-#: settings.php:85
+#: settings.php:102
 msgid "Donate now"
 msgstr "Поддержать"
 
-#: settings.php:86
+#: settings.php:103
 msgid "Noticed a bug or have an idea how to improve the quality of the plugin?"
 msgstr "Заметили ошибку или есть идея, как улучшить качество плагина?"
 
-#: settings.php:86
+#: settings.php:103
 msgid "Let me know"
 msgstr "Напишите мне"
 
-#: settings.php:88
+#: settings.php:105
 msgid "The author of the plugin Maxim Glazunov"
 msgstr "Автор плагина, Максим Глазунов"
 
-#: settings.php:89
+#: settings.php:106
 msgid "Accept orders for individual revision of the plugin"
 msgstr "Принимаю заказы на индивидуальную доработку плагина"
 
-#: settings.php:89
+#: settings.php:106
 msgid "Leave a request"
 msgstr "Оставить заявку"
 
-#: settings.php:96
+#: settings.php:113
 msgid "Examples shotcodes"
 msgstr "Пример шорткодов"
 
-#: settings.php:97
+#: settings.php:114
 msgid "To display the rating stars"
 msgstr "Вывести рейтинг"
 
-#: settings.php:98 settings.php:101
+#: settings.php:115 settings.php:118
 msgid "or in php code"
 msgstr "или в php коде"
 
-#: settings.php:100
+#: settings.php:117
 msgid "To display the number of page views"
 msgstr "Вывести количество просмотров"
 
-#: settings.php:103
+#: settings.php:120
 msgid "Notice"
 msgstr "Примечание"
 
-#: settings.php:104
+#: settings.php:121
 msgid "This shortcodes can be used in the body of the article"
 msgstr "Шорткоды могут использоваться в тексте статьи"
 
-#: settings.php:105
+#: settings.php:122
 msgid "This shortcodes can be used in the loop body of templates"
 msgstr "Шорткоды могут использоваться в шаблоне"
 
-#: settings.php:106
+#: settings.php:123
 msgid "This shortcodes cannot be used outside the loop of the template"
 msgstr "Шорткоды не могут использоваться вне цикла шаблона"
 
-#: statistics.php:40
-msgid "Statistics"
-msgstr "Статистика"
+#: statistics.php:43
+msgid ""
+"this is a plugin for WooCommerce that creates an XML-feed for uploading your "
+"products to the Google Merchant Center"
+msgstr ""
+"это плагин для WooCommerce, который создает XML-фид для загрузки ваших "
+"товаров в Google Merchant Center"
 
 #: statistics.php:43
+msgid "Learn More"
+msgstr "Подробнее"
+
+#: statistics.php:47
 msgid "Consolidated report"
 msgstr "Сводный отчет"
 
-#: statistics.php:45
+#: statistics.php:49
 msgid "Statistics by"
 msgstr "Статистика по"
 
-#: statistics.php:47
+#: statistics.php:51
 msgid "Posts"
 msgstr "Записям"
 
-#: statistics.php:48
+#: statistics.php:52
 msgid "Pages"
 msgstr "Страницам"
 
-#: statistics.php:49
+#: statistics.php:53
 msgid "Posts & Pages"
 msgstr "Записям и Страницам"
 
-#: statistics.php:57
+#: statistics.php:61
 msgid "Order by Rating"
 msgstr "Сортировать по Рейтингу"
 
-#: statistics.php:58
+#: statistics.php:62
 msgid "Order by Votes"
 msgstr "Сортировать по Голосам"
 
-#: statistics.php:59
+#: statistics.php:63
 msgid "Order by Page views"
 msgstr "Сортировать по Просмотрам"
 
-#: statistics.php:60
+#: statistics.php:64
 msgid "Order by date of last visit"
 msgstr "Сортировать по дате последнего визита"
 
-#: statistics.php:70
+#: statistics.php:74
 msgid "Votes"
 msgstr "Голосов"
 
-#: statistics.php:71
+#: statistics.php:75
 msgid "Page Views"
 msgstr "Просмотры"
 
-#: statistics.php:72
+#: statistics.php:76
 msgid "Date of last visit"
 msgstr "Дата последнего визита"
 
-#: statistics.php:83
+#: statistics.php:87
 msgid "Edit"
 msgstr "Редактировать"
 
-#: statistics.php:99
+#: statistics.php:103
 msgid ""
 "Please note that there are no pages for which data was not collected in the "
 "results"
