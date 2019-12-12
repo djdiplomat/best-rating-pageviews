@@ -12,8 +12,8 @@ Plugin URL: https://wordpress.org/plugins/best-rating-pageviews/
 
 Requires at least: WordPress 4.4.2
 
-Tested up to: WordPress 5.2.3
+Tested up to: WordPress 5.3.0
 
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 
 # The version in development is in the dev branch

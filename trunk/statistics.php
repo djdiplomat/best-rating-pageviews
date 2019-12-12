@@ -38,6 +38,10 @@ function brpv_statistics_page() {
 ?>
 <div id="welcome-panel" class="wrap">
   <h1><?php _e('Statistics', 'brpv'); ?></h1>
+ <?php
+  if (!class_exists('XmlforGoogleMerchantCenter') && class_exists('WooCommerce')) {
+	print '<div class="notice notice-info"><p><span style="font-weight: 700;">XML for Google Merchant Center</span> '. __('this is a plugin for WooCommerce that creates an XML-feed for uploading your products to the Google Merchant Center', 'brpv'). '. <a href="https://wordpress.org/plugins/xml-for-google-merchant-center/">'. __('Learn More', 'brpv'). '</a>.</p></div>';
+  } ?>
   <div class="welcome-panel">
 	<div class="welcome-panel-content">
 	 <h2><?php _e('Consolidated report', 'brpv'); ?></h2><br />

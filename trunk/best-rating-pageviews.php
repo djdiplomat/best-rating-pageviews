@@ -2,11 +2,11 @@
 /*
 Plugin Name: Best Rating & Pageviews
 Description: Add Star rating, pageviews and adds a tool for analyzing the effectiveness of content. Also this plugin adds a widget which shows popular posts and pages based on the rating and pageviews.
-Tags: rating, stars, pageviews, widget, popular, виджет  
+Tags: rating, stars, pageviews, widget, popular  
 Author: Maxim Glazunov
 Author URI: http://icopydoc.ru
 License: GPLv2
-Version: 1.1.2
+Version: 1.1.3
 Text Domain: best-rating-pageviews
 Domain Path: /languages/
 */
@@ -45,7 +45,7 @@ class BestRatingPageviews {
 	define('brpv_DIR', plugin_dir_path(__FILE__)); 
 	// yfym_URL contains http://site.ru/wp-content/plugins/myplagin/
 	define('brpv_URL', plugin_dir_url(__FILE__));
-	define('brpv_VER', '1.1.2');
+	define('brpv_VER', '1.1.3');
 	
 	add_action('admin_menu', array($this, 'add_admin_menu'));
 	add_action('wp_head',  array($this, 'brpv_pageviews')); // cчетчик посещений
@@ -88,12 +88,10 @@ class BestRatingPageviews {
  } 
  public static function on_activation() { 
 	if (is_multisite()) {
-		add_blog_option(get_current_blog_id(), 'brpv_version', '1.1.2');
 		add_blog_option(get_current_blog_id(), 'brpv_debug', 'true');
 		add_blog_option(get_current_blog_id(), 'brpv_not_count_bots', 'yes');
 		add_blog_option(get_current_blog_id(), 'brpv_rating_icons', 'brpv_pic1');
 	} else {
-		add_option('brpv_version', '1.1.2');
 		add_option('brpv_debug', 'true');
 		add_option('brpv_not_count_bots', 'yes'); // Учитывать ботов?	
 		add_option('brpv_rating_icons', 'brpv_pic1');		
@@ -104,12 +102,10 @@ class BestRatingPageviews {
  } 
  public static function on_uninstall() {
 	if (is_multisite()) {
-		delete_blog_option(get_current_blog_id(), 'brpv_version');
 		delete_blog_option(get_current_blog_id(), 'brpv_debug');
 		delete_blog_option(get_current_blog_id(), 'brpv_not_count_bots');
 		delete_blog_option(get_current_blog_id(), 'brpv_rating_icons');
 	} else {
-		delete_option('brpv_version');
 		delete_option('brpv_debug');
 		delete_option('brpv_not_count_bots');
 		delete_option('brpv_rating_icons');		
@@ -195,9 +191,9 @@ class BestRatingPageviews {
 	} else {
 		$rating_icons = get_option('brpv_rating_icons');
 	}
-	
+	$itemReviewed = esc_html($post->post_title);
 	?>
-	<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $ratingValue; ?>"><meta itemprop="ratingCount" content="<?php echo $ratingCount; ?>"></div>	
+	<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $ratingValue; ?>"><meta itemprop="ratingCount" content="<?php echo $ratingCount; ?>"><meta itemprop="itemReviewed" content="<?php echo $itemReviewed; ?>"></div>	
 	<div class="brpv_raiting_star_<?php echo $postId; ?>">
 		<div class="raiting">
 			<div class="raiting_blank <?php echo $rating_icons; ?>"></div>
