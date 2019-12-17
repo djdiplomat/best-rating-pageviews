@@ -5,6 +5,7 @@ function brpv_settings_page() {
 	if (is_multisite()) {
 		if (isset($_POST['brpv_submit_action'])) {
 			update_blog_option(get_current_blog_id(), 'brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
+			update_blog_option(get_current_blog_id(), 'brpv_enable_rich_snippets', sanitize_text_field($_POST['brpv_enable_rich_snippets']));
 		}
 		if (isset($_POST['brpv_rating_icons'])) {
 			update_blog_option(get_current_blog_id(), 'brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
@@ -12,6 +13,7 @@ function brpv_settings_page() {
 	} else {
 		if (isset($_POST['brpv_submit_action'])) {
 			update_option('brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
+			update_option('brpv_not_count_bots', sanitize_text_field($_POST['brpv_enable_rich_snippets']));
 		}
 		if (isset($_POST['brpv_rating_icons'])) {
 			update_option('brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
@@ -21,9 +23,11 @@ function brpv_settings_page() {
  } 
  if (is_multisite()) {
 	$not_count_bots = get_blog_option(get_current_blog_id(), 'brpv_not_count_bots');
+	 $enable_rich_snippets = get_blog_option(get_current_blog_id(), 'brpv_enable_rich_snippets');
 	$brpv_rating_icons = get_blog_option(get_current_blog_id(), 'brpv_rating_icons');
  } else {
 	$not_count_bots = get_option('brpv_not_count_bots');
+	 $enable_rich_snippets = get_option('brpv_enable_rich_snippets');
 	$brpv_rating_icons = get_option('brpv_rating_icons');
  }
 ?>
@@ -61,6 +65,16 @@ function brpv_settings_page() {
 					<option value="no" <?php selected($not_count_bots, 'no'); ?>><?php _e('No', 'brpv'); ?></option>
 				</select><br />
 				<span class="description"><?php _e('Do not count the bots visiting the site', 'brpv'); ?></span>
+			</td>
+		 </tr>	
+		 <tr>		
+			<th scope="row"><label for="brpv_enable_rich_snippets"><?php _e('Disable Rich Snippets', 'brpv'); ?></label></th>
+			<td class="overalldesc">
+				<select name="brpv_enable_rich_snippets">					
+					<option value="yes" <?php selected($enable_rich_snippets, 'yes'); ?>><?php _e('Yes', 'brpv'); ?></option>
+					<option value="no" <?php selected($enable_rich_snippets, 'no'); ?>><?php _e('No', 'brpv'); ?></option>
+				</select><br />
+				<span class="description"><?php _e('Enable/Disable the AggregateRating Rich Snippets output', 'brpv'); ?></span>
 			</td>
 		 </tr>	
 		 <tr>		

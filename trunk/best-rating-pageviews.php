@@ -90,10 +90,12 @@ class BestRatingPageviews {
 	if (is_multisite()) {
 		add_blog_option(get_current_blog_id(), 'brpv_debug', 'true');
 		add_blog_option(get_current_blog_id(), 'brpv_not_count_bots', 'yes');
+		add_blog_option(get_current_blog_id(), 'brpv_enable_rich_snippets', 'yes');
 		add_blog_option(get_current_blog_id(), 'brpv_rating_icons', 'brpv_pic1');
 	} else {
 		add_option('brpv_debug', 'true');
 		add_option('brpv_not_count_bots', 'yes'); // Учитывать ботов?	
+		add_option('brpv_enable_rich_snippets', 'yes'); 
 		add_option('brpv_rating_icons', 'brpv_pic1');		
 	}	
  } 
@@ -104,10 +106,12 @@ class BestRatingPageviews {
 	if (is_multisite()) {
 		delete_blog_option(get_current_blog_id(), 'brpv_debug');
 		delete_blog_option(get_current_blog_id(), 'brpv_not_count_bots');
+		delete_blog_option(get_current_blog_id(), 'brpv_enable_rich_snippets');
 		delete_blog_option(get_current_blog_id(), 'brpv_rating_icons');
 	} else {
 		delete_option('brpv_debug');
 		delete_option('brpv_not_count_bots');
+		delete_option('brpv_enable_rich_snippets');
 		delete_option('brpv_rating_icons');		
 	}	  
  }
@@ -192,8 +196,15 @@ class BestRatingPageviews {
 		$rating_icons = get_option('brpv_rating_icons');
 	}
 	$itemReviewed = esc_html($post->post_title);
+	 if (is_multisite()) {
+		$enable_rich_snippets = get_blog_option(get_current_blog_id(), 'brpv_enable_rich_snippets');
+	} else {
+		$enable_rich_snippets = get_option('brpv_enable_rich_snippets');
+	}
+	if ($enable_rich_snippets == 'no') {
 	?>
-	<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $ratingValue; ?>"><meta itemprop="ratingCount" content="<?php echo $ratingCount; ?>"><meta itemprop="itemReviewed" content="<?php echo $itemReviewed; ?>"></div>	
+		<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $ratingValue; ?>"><meta itemprop="ratingCount" content="<?php echo $ratingCount; ?>"><meta itemprop="itemReviewed" content="<?php echo $itemReviewed; ?>"></div>
+<?php } ?>
 	<div class="brpv_raiting_star_<?php echo $postId; ?>">
 		<div class="raiting">
 			<div class="raiting_blank <?php echo $rating_icons; ?>"></div>
