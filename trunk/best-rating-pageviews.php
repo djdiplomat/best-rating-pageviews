@@ -201,10 +201,10 @@ class BestRatingPageviews {
 	} else {
 		$enable_rich_snippets = get_option('brpv_enable_rich_snippets');
 	}
-	if ($enable_rich_snippets == 'no') {
+	if ($enable_rich_snippets == 'no') :
 	?>
 		<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $ratingValue; ?>"><meta itemprop="ratingCount" content="<?php echo $ratingCount; ?>"><meta itemprop="itemReviewed" content="<?php echo $itemReviewed; ?>"></div>
-<?php } ?>
+	<?php endif; ?>
 	<div class="brpv_raiting_star_<?php echo $postId; ?>">
 		<div class="raiting">
 			<div class="raiting_blank <?php echo $rating_icons; ?>"></div>
