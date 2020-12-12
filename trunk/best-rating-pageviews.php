@@ -4,9 +4,9 @@ Plugin Name: Best Rating & Pageviews
 Description: Add Star rating, pageviews and adds a tool for analyzing the effectiveness of content. Also this plugin adds a widget which shows popular posts and pages based on the rating and pageviews.
 Tags: rating, stars, pageviews, widget, popular  
 Author: Maxim Glazunov
-Author URI: http://icopydoc.ru
+Author URI: https://icopydoc.ru
 License: GPLv2
-Version: 1.1.3
+Version: 1.2.0
 Text Domain: best-rating-pageviews
 Domain Path: /languages/
 */
@@ -41,11 +41,11 @@ class BestRatingPageviews {
  }
 
  public function __construct() {
-	// yfym_DIR contains /home/p135/www/site.ru/wp-content/plugins/myplagin/
+	// brpv_DIR contains /home/p135/www/site.ru/wp-content/plugins/myplagin/
 	define('brpv_DIR', plugin_dir_path(__FILE__)); 
-	// yfym_URL contains http://site.ru/wp-content/plugins/myplagin/
+	// brpv_URL contains http://site.ru/wp-content/plugins/myplagin/
 	define('brpv_URL', plugin_dir_url(__FILE__));
-	define('brpv_VER', '1.1.3');
+	define('brpv_VER', '1.2.0');
 	
 	add_action('admin_menu', array($this, 'add_admin_menu'));
 	add_action('wp_head',  array($this, 'brpv_pageviews')); // cчетчик посещений
@@ -54,7 +54,7 @@ class BestRatingPageviews {
 	add_action('admin_notices', array($this, 'brpv_admin_notices_function'));
 	add_action('wp_ajax_brpv_ajax_func',  array($this, 'brpv_ajax_func'));
 	add_action('wp_ajax_nopriv_brpv_ajax_func',  array($this, 'brpv_ajax_func'));
-	add_action('wp_dashboard_setup', array($this, 'brpvrating_widgets'));
+//	add_action('wp_dashboard_setup', array($this, 'brpvrating_widgets'));
 	
 	add_shortcode('pageviews', array($this, 'brpv_pageviews_func'));
 	add_shortcode('pageratings', array($this, 'brpv_pageratings_func')); /* шорткод рейтинг поста */
@@ -63,6 +63,8 @@ class BestRatingPageviews {
 	add_action('admin_init', function() {
 		wp_register_style('brpv-admin-css', plugins_url('css/brpv.css', __FILE__));
 	}, 9999);	
+
+	add_filter('plugin_action_links', array($this, 'brpv_plugin_action_links'), 10, 2 );
  }
 
  public static function brpv_admin_css_func() {
@@ -76,9 +78,11 @@ class BestRatingPageviews {
 		.icp_img1 {background-image: url('. brpv_URL .'/img/sl1.jpg);}
 		.icp_img2 {background-image: url('. brpv_URL .'/img/sl2.jpg);}
 		.icp_img3 {background-image: url('. brpv_URL .'/img/sl3.jpg);}
+		.icp_img4 {background-image: url('. brpv_URL .'/img/sl4.jpg);}
+		.icp_img5 {background-image: url('. brpv_URL .'/img/sl5.jpg);}
 	</style>';
  }
-
+/*
  function brpvrating_widgets() {
 	global $wp_meta_boxes;
 	wp_add_dashboard_widget('brpvrating_widget', __( 'Rating & PageViews', 'brpv'), array($this, 'brpv_rating_widgets_info'));
@@ -86,6 +90,7 @@ class BestRatingPageviews {
  public function brpv_rating_widgets_info() {
 	
  } 
+*/
  public static function on_activation() { 
 	if (is_multisite()) {
 		add_blog_option(get_current_blog_id(), 'brpv_debug', 'true');
@@ -269,7 +274,16 @@ class BestRatingPageviews {
 		print '<div class="updated notice notice-success is-dismissible"><p>'. __('Updated', 'brpv'). '.</p></div>';
 	}
  }
- 
+
+ public static function brpv_plugin_action_links($actions, $plugin_file) {
+	if (false === strpos($plugin_file, basename(__FILE__))) {
+		// проверка, что у нас текущий плагин
+		return $actions;
+	}	
+	$settings_link = '<a href="/wp-admin/admin.php?page=brpvsettings">'. __('Settings', 'brpv').'</a>';
+	array_unshift($actions, $settings_link); 
+	return $actions; 
+ }
 } /* end class BestRatingPageviews */
 
 

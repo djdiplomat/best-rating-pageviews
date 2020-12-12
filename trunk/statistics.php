@@ -1,4 +1,4 @@
-<?php if ( ! defined('ABSPATH') ) { exit; }
+<?php if (!defined('ABSPATH')) {exit;}
 function brpv_statistics_page() { 
  
  $brpv_stat_of = 'all';

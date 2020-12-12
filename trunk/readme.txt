@@ -3,8 +3,8 @@ Contributors: icopydoc
 Donate link: http://icopydoc.ru/ynadex-maps-7.html
 Tags: rating, stars, pageviews, widget, popular
 Requires at least: 4.4.2
-Tested up to: 5.3.0
-Stable tag: 1.1.3
+Tested up to: 5.6.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,9 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Changelog ==
 
+= 1.2.0 =
+* Some changes
+
 = 1.1.3 =
 * Fix bugs
 * Added itemReviewed
@@ -88,6 +91,5 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Upgrade Notice ==
 
-= 1.1.3 =
-* Fix bugs
-* Added itemReviewed
+= 1.2.0 =
+* Some changes
