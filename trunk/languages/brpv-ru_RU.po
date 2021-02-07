@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-12-12 22:05+0300\n"
-"PO-Revision-Date: 2020-12-12 22:06+0300\n"
+"POT-Creation-Date: 2021-02-07 19:52+0300\n"
+"PO-Revision-Date: 2021-02-07 19:52+0300\n"
 "Last-Translator: \n"
 "Language-Team: Maxim Glazunov <djdiplomat477@gmail.com>\n"
 "Language: ru\n"
@@ -14,226 +14,238 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c\n"
 "X-Poedit-SearchPath-0: best-rating-pageviews.php\n"
 "X-Poedit-SearchPath-1: settings.php\n"
 "X-Poedit-SearchPath-2: statistics.php\n"
 
-#: best-rating-pageviews.php:88
-msgid "Rating & PageViews"
-msgstr "Рейтинг и Просмотры"
-
-#: best-rating-pageviews.php:120 statistics.php:40
+#: best-rating-pageviews.php:130 statistics.php:40
 msgid "Statistics"
 msgstr "Статистика"
 
-#: best-rating-pageviews.php:123 best-rating-pageviews.php:282
+#: best-rating-pageviews.php:133 best-rating-pageviews.php:341
 msgid "Settings"
 msgstr "Настройки"
 
-#: best-rating-pageviews.php:207
+#: best-rating-pageviews.php:217
 msgid "Raiting"
 msgstr "Рейтинг"
 
-#: best-rating-pageviews.php:273
+#: best-rating-pageviews.php:301
 msgid "Updated"
 msgstr "Обновлено"
 
-#: best-rating-pageviews.php:295 best-rating-pageviews.php:300
+#: best-rating-pageviews.php:331
+msgid "Statistics deleted"
+msgstr "Статистика удалена"
+
+#: best-rating-pageviews.php:354 best-rating-pageviews.php:359
 msgid "Popular"
 msgstr "Популярное"
 
-#: best-rating-pageviews.php:296
+#: best-rating-pageviews.php:355
 msgid "Shows popular posts and pages based on the rating and pageviews"
 msgstr ""
 "Отображаются популярные записи и страницы на основе рейтинга и просмотров"
 
-#: best-rating-pageviews.php:317 statistics.php:72
+#: best-rating-pageviews.php:376 statistics.php:72
 msgid "Title"
 msgstr "Название"
 
-#: best-rating-pageviews.php:324
+#: best-rating-pageviews.php:383
 msgid "Num Posts"
 msgstr "Число постов"
 
-#: best-rating-pageviews.php:330 statistics.php:67
+#: best-rating-pageviews.php:389 statistics.php:67
 msgid "Show"
 msgstr "Показать"
 
-#: best-rating-pageviews.php:333
+#: best-rating-pageviews.php:392
 msgid "Post"
 msgstr "Записи"
 
-#: best-rating-pageviews.php:334
+#: best-rating-pageviews.php:393
 msgid "Page"
 msgstr "Страницы"
 
-#: best-rating-pageviews.php:341 statistics.php:55
+#: best-rating-pageviews.php:400 statistics.php:55
 msgid "Order"
 msgstr "Сортировка"
 
-#: best-rating-pageviews.php:344 statistics.php:57
+#: best-rating-pageviews.php:403 statistics.php:57
 msgid "ASC"
 msgstr "Прямая"
 
-#: best-rating-pageviews.php:345 statistics.php:58
+#: best-rating-pageviews.php:404 statistics.php:58
 msgid "DESC"
 msgstr "Обратная"
 
-#: best-rating-pageviews.php:352
+#: best-rating-pageviews.php:411
 msgid "Order by"
 msgstr "Сортировать по"
 
-#: best-rating-pageviews.php:355
+#: best-rating-pageviews.php:414
 msgid "PageViews"
 msgstr "Просмотры"
 
-#: best-rating-pageviews.php:356 statistics.php:73
+#: best-rating-pageviews.php:415 statistics.php:73
 msgid "Rating"
 msgstr "Рейтинг"
 
-#: settings.php:31
+#: settings.php:12
 msgid "Best Rating & Pageviews Settings"
 msgstr "Рейтинг и Просмотры"
 
-#: settings.php:37
+#: settings.php:18
+msgid "Clear all statistics"
+msgstr "Очистить всю статистику"
+
+#: settings.php:22
+msgid "Clear statistics"
+msgstr "Очистить статистику"
+
+#: settings.php:28
 msgid "Please support the project"
 msgstr "Пожалуйста, поддержите проект"
 
-#: settings.php:39
+#: settings.php:30
 msgid "Thank you for using the plugin"
 msgstr "Спасибо, что используете плагин"
 
-#: settings.php:40
+#: settings.php:31
 msgid "Please help make the plugin better"
 msgstr "Помогите сделать плагин лучше"
 
-#: settings.php:40
+#: settings.php:31
 msgid "answering 5 questions"
 msgstr "ответив на 5 вопросов"
 
-#: settings.php:41
+#: settings.php:32
 msgid "If this plugin useful to you, please support the project one way"
 msgstr "Если этот плагин вам полезен, пожалуйста, поддержите проект"
 
-#: settings.php:43
+#: settings.php:34
 msgid "Leave a comment on the plugin page"
 msgstr "Оставить комментарий на странице плагина"
 
-#: settings.php:44
+#: settings.php:35
 msgid "Support the project financially"
 msgstr "Поддержите проект деньгами"
 
-#: settings.php:44
+#: settings.php:35
 msgid "Donate now"
 msgstr "Поддержать"
 
-#: settings.php:45
+#: settings.php:36
 msgid "Noticed a bug or have an idea how to improve the quality of the plugin?"
 msgstr "Заметили ошибку или есть идея, как улучшить качество плагина?"
 
-#: settings.php:45
+#: settings.php:36
 msgid "Let me know"
 msgstr "Напишите мне"
 
-#: settings.php:47
+#: settings.php:38
 msgid "The author of the plugin Maxim Glazunov"
 msgstr "Автор плагина, Максим Глазунов"
 
-#: settings.php:48
+#: settings.php:39
 msgid "Accept orders for individual revision of the plugin"
 msgstr "Принимаю заказы на индивидуальную доработку плагина"
 
-#: settings.php:48
+#: settings.php:39
 msgid "Leave a request"
 msgstr "Оставить заявку"
 
-#: settings.php:61
+#: settings.php:50
 msgid "Main parameters"
 msgstr "Основные параметры"
 
-#: settings.php:65
+#: settings.php:54
 msgid "Not count bots"
 msgstr "Не считать ботов"
 
-#: settings.php:68
+#: settings.php:57
 msgid "Yes"
 msgstr "Да"
 
-#: settings.php:69
+#: settings.php:58
 msgid "No"
 msgstr "Нет"
 
-#: settings.php:71
+#: settings.php:60
 msgid "Do not count the bots visiting the site"
 msgstr "Не считайте ботов, посещающих сайт"
 
-#: settings.php:75 settings.php:80
+#: settings.php:64 settings.php:69
 msgid "Rating icons"
 msgstr "Значки рейтинга"
 
-#: settings.php:88
+#: settings.php:77
 msgid "Examples shotcodes"
 msgstr "Пример шорткодов"
 
-#: settings.php:90
+#: settings.php:79
 msgid "To display the rating stars"
 msgstr "Вывести рейтинг"
 
-#: settings.php:91 settings.php:94
+#: settings.php:80 settings.php:83
 msgid "or in php code"
 msgstr "или в php коде"
 
-#: settings.php:93
+#: settings.php:82
 msgid "To display the number of page views"
 msgstr "Вывести количество просмотров"
 
-#: settings.php:96
+#: settings.php:85
 msgid "Notice"
 msgstr "Примечание"
 
-#: settings.php:97
+#: settings.php:86
 msgid "This shortcodes can be used in the body of the article"
 msgstr "Шорткоды могут использоваться в тексте статьи"
 
-#: settings.php:98
+#: settings.php:87
 msgid "This shortcodes can be used in the loop body of templates"
 msgstr "Шорткоды могут использоваться в шаблоне"
 
-#: settings.php:99
+#: settings.php:88
 msgid "This shortcodes cannot be used outside the loop of the template"
 msgstr "Шорткоды не могут использоваться вне цикла шаблона"
 
-#: settings.php:108
+#: settings.php:97
 msgid "Save"
 msgstr "Сохранить"
 
-#: settings.php:109
+#: settings.php:98
 msgid "Click to save the settings"
 msgstr "Нажмите, чтобы сохранить настройки"
 
-#: settings.php:148
+#: settings.php:143
 msgid "My plugins that may interest you"
 msgstr "Мои плагины, которые могут вас заинтересовать"
 
-#: settings.php:150
+#: settings.php:145
 msgid "Сreates a XML-feed to upload to Google Merchant Center"
 msgstr "Создает XML-фид для загрузки в Google Merchant Center"
 
-#: settings.php:150 settings.php:151 settings.php:152 settings.php:153
-#: settings.php:154 settings.php:155 settings.php:156
+#: settings.php:145 settings.php:146 settings.php:147 settings.php:148
+#: settings.php:149 settings.php:150 settings.php:151 settings.php:152
 msgid "Read more"
 msgstr "Подробнее"
 
-#: settings.php:151
+#: settings.php:146
 msgid "Сreates a YML-feed for importing your products to Yandex Market"
 msgstr "Создает YML-фид для импорта ваших товаров на Яндекс Маркет"
 
-#: settings.php:152
+#: settings.php:147
+msgid "Imports products from YML to your shop"
+msgstr "Импортирует товары из YML в ваш магазин"
+
+#: settings.php:148
 msgid "Сreates a XML-feed for importing your products to Hotline"
 msgstr "Создает XML-фид для импорта ваших товаров на Hotline"
 
-#: settings.php:153
+#: settings.php:149
 msgid ""
 "This plugin will add a marketing tool that will allow you to give gifts to "
 "the buyer upon purchase"
@@ -241,12 +253,12 @@ msgstr ""
 "Этот плагин добавит маркетинговый инструмент, который позволит вам дарить "
 "подарки покупателю при покупке"
 
-#: settings.php:154
+#: settings.php:150
 msgid "With this plugin, you can import products to your group on ok.ru"
 msgstr ""
 "С помощью этого плагина вы можете импортировать товары в свою группу на ok.ru"
 
-#: settings.php:155 settings.php:156
+#: settings.php:151 settings.php:152
 msgid "Сreates a XML-feed for importing your products to"
 msgstr "Создает XML-фид для импорта ваших товаров на"
 
@@ -321,6 +333,9 @@ msgid ""
 msgstr ""
 "Обратите внимание, что в результатах нет страниц, для которых данные не были "
 "собраны"
+
+#~ msgid "Rating & PageViews"
+#~ msgstr "Рейтинг и Просмотры"
 
 #~ msgid "Settings Maps for WP"
 #~ msgstr "Настройки Maps for WP"

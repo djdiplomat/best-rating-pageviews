@@ -6,25 +6,26 @@ Tags: rating, stars, pageviews, widget, popular
 Author: Maxim Glazunov
 Author URI: https://icopydoc.ru
 License: GPLv2
-Version: 1.2.0
+Version: 2.0.0
 Text Domain: best-rating-pageviews
 Domain Path: /languages/
 */
-/*  Copyright YEAR  PLUGIN_AUTHOR_NAME  (email : djdiplomat@yandex.ru)
+/*	Copyright YEAR PLUGIN_AUTHOR_NAME (email : djdiplomat@yandex.ru)
  
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as
-    published by the Free Software Foundation.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License, version 2, as
+	published by the Free Software Foundation.
  
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
  
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
+require_once plugin_dir_path(__FILE__).'/functions.php'; // Подключаем файл функций
 register_activation_hook(__FILE__, array('BestRatingPageviews', 'on_activation'));
 register_deactivation_hook(__FILE__, array('BestRatingPageviews', 'on_deactivation'));
 register_uninstall_hook(__FILE__, array('BestRatingPageviews', 'on_uninstall'));
@@ -45,7 +46,9 @@ class BestRatingPageviews {
 	define('brpv_DIR', plugin_dir_path(__FILE__)); 
 	// brpv_URL contains http://site.ru/wp-content/plugins/myplagin/
 	define('brpv_URL', plugin_dir_url(__FILE__));
-	define('brpv_VER', '1.2.0');
+	define('brpv_VER', '2.0.0');
+	$brpv_version = brpv_optionGET('brpv_version');
+  	if ($brpv_version !== brpv_VER) {brpv_set_new_options();} // автообновим настройки, если нужно	
 	
 	add_action('admin_menu', array($this, 'add_admin_menu'));
 	add_action('wp_head',  array($this, 'brpv_pageviews')); // cчетчик посещений
@@ -80,6 +83,8 @@ class BestRatingPageviews {
 		.icp_img3 {background-image: url('. brpv_URL .'/img/sl3.jpg);}
 		.icp_img4 {background-image: url('. brpv_URL .'/img/sl4.jpg);}
 		.icp_img5 {background-image: url('. brpv_URL .'/img/sl5.jpg);}
+		.icp_img6 {background-image: url('. brpv_URL .'/img/sl6.jpg);}
+		.icp_img7 {background-image: url('. brpv_URL .'/img/sl7.jpg);}
 	</style>';
  }
 /*
@@ -93,13 +98,15 @@ class BestRatingPageviews {
 */
  public static function on_activation() { 
 	if (is_multisite()) {
+		add_blog_option(get_current_blog_id(), 'brpv_version', '2.0.0');
 		add_blog_option(get_current_blog_id(), 'brpv_debug', 'true');
 		add_blog_option(get_current_blog_id(), 'brpv_not_count_bots', 'yes');
 		add_blog_option(get_current_blog_id(), 'brpv_rating_icons', 'brpv_pic1');
 	} else {
+		add_option('brpv_version', '2.0.0', '', 'no');
 		add_option('brpv_debug', 'true');
 		add_option('brpv_not_count_bots', 'yes'); // Учитывать ботов?	
-		add_option('brpv_rating_icons', 'brpv_pic1');		
+		add_option('brpv_rating_icons', 'brpv_pic1');
 	}	
  } 
  public static function on_deactivation() {
@@ -107,10 +114,12 @@ class BestRatingPageviews {
  } 
  public static function on_uninstall() {
 	if (is_multisite()) {
+		delete_blog_option(get_current_blog_id(), 'brpv_version');
 		delete_blog_option(get_current_blog_id(), 'brpv_debug');
 		delete_blog_option(get_current_blog_id(), 'brpv_not_count_bots');
 		delete_blog_option(get_current_blog_id(), 'brpv_rating_icons');
 	} else {
+		delete_option('brpv_version');
 		delete_option('brpv_debug');
 		delete_option('brpv_not_count_bots');
 		delete_option('brpv_rating_icons');		
@@ -198,7 +207,7 @@ class BestRatingPageviews {
 	}
 	$itemReviewed = esc_html($post->post_title);
 	?>
-	<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $ratingValue; ?>"><meta itemprop="ratingCount" content="<?php echo $ratingCount; ?>"><meta itemprop="itemReviewed" content="<?php echo $itemReviewed; ?>"></div>	
+	<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="https://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $ratingValue; ?>"><meta itemprop="ratingCount" content="<?php echo $ratingCount; ?>"><meta itemprop="itemReviewed" content="<?php echo $itemReviewed; ?>"></div>	
 	<div class="brpv_raiting_star_<?php echo $postId; ?>">
 		<div class="raiting">
 			<div class="raiting_blank <?php echo $rating_icons; ?>"></div>
@@ -271,7 +280,56 @@ class BestRatingPageviews {
  
  public function brpv_admin_notices_function() {
 	if (isset($_REQUEST['brpv_submit_action'])) {
-		print '<div class="updated notice notice-success is-dismissible"><p>'. __('Updated', 'brpv'). '.</p></div>';
+		if (isset($_REQUEST['brpv_submit_action'])) {
+			if (!empty($_POST) && check_admin_referer('brpv_nonce_action', 'brpv_nonce_field')) {
+			  if (is_multisite()) {
+				  if (isset($_POST['brpv_submit_action'])) {
+					  update_blog_option(get_current_blog_id(), 'brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
+				  }
+				  if (isset($_POST['brpv_rating_icons'])) {
+					  update_blog_option(get_current_blog_id(), 'brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
+				  }
+			  } else {
+				  if (isset($_POST['brpv_submit_action'])) {
+					  update_option('brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
+				  }
+				  if (isset($_POST['brpv_rating_icons'])) {
+					  update_option('brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
+				  }		
+			  }
+			}
+			print '<div class="updated notice notice-success is-dismissible"><p>'. __('Updated', 'brpv'). '.</p></div>';
+		}
+	}
+
+	if (isset($_REQUEST['brpv_submit_clear_stat'])) {
+		if (!empty($_POST) && check_admin_referer('brpv_nonce_action_clear_stat', 'brpv_nonce_clear_stat_field')) {
+			$args = array(
+				'post_type' => array('post', 'page', 'product'),
+				'post_status' => 'publish',
+				'posts_per_page' => -1,
+				'relation' => 'AND',
+				'fields'  => 'ids',
+				'meta_query' => array(
+					array(
+						'key' => 'brpv_pageviews',
+						'compare' => 'EXISTS'
+					)
+				)
+			);
+			$res_query = new WP_Query($args);
+			global $wpdb;
+			if ($res_query->have_posts()) { 
+				for ($i = 0; $i < count($res_query->posts); $i++) {
+					delete_post_meta($res_query->posts[$i], 'brpv_ballov');
+					delete_post_meta($res_query->posts[$i], 'brpv_golosov');
+					delete_post_meta($res_query->posts[$i], 'brpv_lastime');
+					delete_post_meta($res_query->posts[$i], 'brpv_pageviews');
+					delete_post_meta($res_query->posts[$i], 'brpv_total_rating');
+				}
+			}
+			print '<div class="updated notice notice-success is-dismissible"><p>'. __('Statistics deleted', 'brpv'). '</p></div>';
+		}
 	}
  }
 

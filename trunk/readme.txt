@@ -1,10 +1,10 @@
 ﻿=== Best Rating & Pageviews ===
 Contributors: icopydoc
-Donate link: http://icopydoc.ru/ynadex-maps-7.html
+Donate link: https://sobe.ru/na/best_rating_pageviews
 Tags: rating, stars, pageviews, widget, popular
 Requires at least: 4.4.2
-Tested up to: 5.6.0
-Stable tag: 1.2.0
+Tested up to: 5.6.1
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,9 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Changelog ==
 
+= 2.0.0 =
+* Added the ability to delete all statistics
+
 = 1.2.0 =
 * Some changes
 
@@ -91,5 +94,5 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Upgrade Notice ==
 
-= 1.2.0 =
-* Some changes
+= 2.0.0 =
+* Added the ability to delete all statistics
