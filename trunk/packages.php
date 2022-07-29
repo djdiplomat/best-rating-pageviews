@@ -15,4 +15,5 @@ require_once plugin_dir_path(__FILE__).'classes/system/class-brpv-error-log.php'
 require_once plugin_dir_path(__FILE__).'classes/system/class-brpv-settings-page.php';
 require_once plugin_dir_path(__FILE__).'classes/system/class-brpv-data-arr.php';
 require_once plugin_dir_path(__FILE__).'classes/system/class-brpv-debug-page.php';
+require_once plugin_dir_path(__FILE__).'classes/widgets/class-brpv-widget-popular.php';
 ?>

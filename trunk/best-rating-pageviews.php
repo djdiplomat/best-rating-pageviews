@@ -10,7 +10,7 @@
 * Author URI: https://icopydoc.ru
 * License: GPL v2 or later
 * License URI: https://www.gnu.org/licenses/gpl-2.0.html
-* Text Domain: yfym
+* Text Domain: brpv
 * Domain Path: /languages
 * Tags: rating, stars, pageviews, widget, popular
 *
@@ -37,7 +37,7 @@ define('BRPV_PLUGIN_SLUG', wp_basename(dirname(__FILE__))); // best-rating-pagev
 define('BRPV_PLUGIN_BASENAME', plugin_basename(__FILE__)); // best-rating-pageviews/best-rating-pageviews.php - полный псевдоним плагина (папка плагина + имя главного файла)
 unset($upload_dir);
 
-require_once plugin_dir_path(__FILE__).'/functions.php'; // Подключаем файл функций
+require_once plugin_dir_path(__FILE__).'/packages.php';
 register_activation_hook(__FILE__, array('BestRatingPageviews', 'on_activation'));
 register_deactivation_hook(__FILE__, array('BestRatingPageviews', 'on_deactivation'));
 add_action('plugins_loaded', array('BestRatingPageviews', 'init'));
@@ -46,8 +46,8 @@ final class BestRatingPageviews {
 	private $site_uploads_url = BRPV_SITE_UPLOADS_URL; // http://site.ru/wp-content/uploads
 	private $site_uploads_dir_path = BRPV_SITE_UPLOADS_DIR_PATH; // /home/site.ru/public_html/wp-content/uploads
 	private $plugin_version = BRPV_PLUGIN_VERSION; // 1.0.0
-	private $plugin_upload_dir_url = BRPV_PLUGIN_UPLOADS_DIR_URL; // http://site.ru/wp-content/uploads/yfym/
-	private $plugin_upload_dir_path = BRPV_PLUGIN_UPLOADS_DIR_PATH; // /home/site.ru/public_html/wp-content/uploads/yfym/
+	private $plugin_upload_dir_url = BRPV_PLUGIN_UPLOADS_DIR_URL; // http://site.ru/wp-content/uploads/brpv/
+	private $plugin_upload_dir_path = BRPV_PLUGIN_UPLOADS_DIR_PATH; // /home/site.ru/public_html/wp-content/uploads/brpv/
 	private $plugin_dir_url = BRPV_PLUGIN_DIR_URL; // http://site.ru/wp-content/plugins/best-rating-pageviews/
 	private $plugin_dir_path = BRPV_PLUGIN_DIR_PATH; // /home/p135/www/site.ru/wp-content/plugins/best-rating-pageviews/
 	private $plugin_main_file_path = BRPV_PLUGIN_MAIN_FILE_PATH; // /home/p135/www/site.ru/wp-content/plugins/best-rating-pageviews/best-rating-pageviews.php
@@ -67,12 +67,10 @@ final class BestRatingPageviews {
 		if (!current_user_can('activate_plugins')) {return;}
 		if (is_multisite()) {
 			add_blog_option(get_current_blog_id(), 'brpv_version', '2.0.1');
-			add_blog_option(get_current_blog_id(), 'brpv_debug', 'true');
 			add_blog_option(get_current_blog_id(), 'brpv_not_count_bots', 'yes');
 			add_blog_option(get_current_blog_id(), 'brpv_rating_icons', 'brpv_pic1');
 		} else {
 			add_option('brpv_version', '2.0.1', '', 'no');
-			add_option('brpv_debug', 'true');
 			add_option('brpv_not_count_bots', 'yes'); // Учитывать ботов?
 			add_option('brpv_rating_icons', 'brpv_pic1');
 		}
@@ -113,6 +111,10 @@ final class BestRatingPageviews {
 	}
 
 	public function set_new_options() {
+		// удаление старых опций
+		if (brpv_optionGET('brpv_debug') !== false) {brpv_optionDEL('brpv_debug');}
+
+		// добавление новых опций
 		if (brpv_optionGET('brpv_version') === false) {brpv_optionUPD('2.0.1', '', '', 'no');}
 
 		if (is_multisite()) {
@@ -132,7 +134,7 @@ final class BestRatingPageviews {
 		add_action('wp_head',  array($this, 'brpv_pageviews')); // cчетчик посещений
 		add_action('wp_enqueue_scripts', array($this, 'brpv_enqueue_fp'));
 		add_action('wp_enqueue_scripts', array($this, 'brpv_register_style_frontend'));
-		add_action('admin_notices', array($this, 'brpv_admin_notices_function'));
+		add_action('admin_notices', array($this, 'print_admin_notices_func'));
 		add_action('wp_ajax_brpv_ajax_func',  array($this, 'brpv_ajax_func'));
 		add_action('wp_ajax_nopriv_brpv_ajax_func',  array($this, 'brpv_ajax_func'));
 	//	add_action('wp_dashboard_setup', array($this, 'brpvrating_widgets'));
@@ -145,13 +147,8 @@ final class BestRatingPageviews {
 			wp_register_style('brpv-admin-css', plugins_url('css/brpv.css', __FILE__));
 		}, 9999);	
 
-		add_filter('plugin_action_links', array($this, 'brpv_plugin_action_links'), 10, 2 );
+		add_filter('plugin_action_links', array($this, 'add_plugin_action_links'), 10, 2 );
 	}
-
-	public static function brpv_admin_css_func() {
-		/* Ставим css-файл в очередь на вывод */
-		wp_enqueue_style('brpv-admin-css');
-	} 
 
 	public static function brpv_admin_head_css_func() {
 		/* печатаем css в шапке админки */
@@ -175,16 +172,33 @@ final class BestRatingPageviews {
 	} 
 	*/
  
-	// Register the management page
+	public function brpv_admin_css_func() {
+		wp_enqueue_style('brpv-admin-css'); /* Ставим css-файл в очередь на вывод */
+	} 
+
+	// Добавляем пункты меню
 	public function add_admin_menu() {
-		add_menu_page(null , __('Statistics', 'brpv'), 'manage_options', 'brpvstatistics', 'brpv_statistics_page', 'dashicons-chart-bar', 51);
-		require_once brpv_DIR.'/statistics.php'; // Подключаем файл настроек
-		
-		$page_suffix = add_submenu_page('brpvstatistics', __('Settings', 'brpv'), __('Settings', 'brpv'), 'manage_options', 'brpvsettings', 'brpv_settings_page');
-		require_once brpv_DIR.'/settings.php'; // Подключаем файл настроек
-		
-		add_action('admin_print_styles-' . $page_suffix, array($this, 'brpv_admin_css_func'));
-		add_action('admin_print_styles-' . $page_suffix, array($this, 'brpv_admin_head_css_func'));	
+		$page_suffix = add_menu_page(null , __('Statistics', 'brpv'), 'unfiltered_html', 'brpvstatistics', array($this, 'get_settings_page_func'), 'dashicons-chart-bar', 51);	
+		add_action('admin_print_styles-'. $page_suffix, array($this, 'brpv_admin_css_func')); // создаём хук, чтобы стили выводились только на странице настроек
+
+		$page_suffix = add_submenu_page('brpvstatistics', __('Settings', 'brpv'), __('Settings', 'brpv'), 'unfiltered_html', 'brpvsettings', array($this, 'get_statistics_page_func'));
+		add_action('admin_print_styles-'. $page_suffix, array($this, 'brpv_admin_css_func'));
+
+		// $page_subsuffix = add_submenu_page('brpvexport', __('Add Extensions', 'brpv'), __('Extensions', 'brpv'), 'manage_woocommerce', 'brpvextensions', 'brpv_extensions_page');
+		// require_once BRPV_PLUGIN_DIR_PATH.'/extensions.php';
+		add_action('admin_print_styles-'. $page_subsuffix, array($this, 'brpv_admin_css_func'));
+	} 
+
+	// вывод страницы настроек плагина
+	public function get_settings_page_func() {
+		new BRPV_Settings_Page();
+		return;
+	} 
+
+	// вывод страницы настроек плагина
+	public function get_statistics_page_func() {
+		new BRPV_Statistics_Page();
+		return;
 	} 
 	
 	public function brpv_pageviews() {
@@ -327,7 +341,7 @@ final class BestRatingPageviews {
 		wp_localize_script('brpv_rating', 'brpvajax', array('brpvajaxurl' => admin_url('admin-ajax.php')));	
 	} 
  
-	public function brpv_admin_notices_function() {
+	public function print_admin_notices_func() {
 		if (isset($_REQUEST['brpv_submit_action'])) {
 			if (isset($_REQUEST['brpv_submit_action'])) {
 				if (!empty($_POST) && check_admin_referer('brpv_nonce_action', 'brpv_nonce_field')) {
@@ -382,9 +396,8 @@ final class BestRatingPageviews {
 		}
 	}
 
-	public static function brpv_plugin_action_links($actions, $plugin_file) {
-		if (false === strpos($plugin_file, basename(__FILE__))) {
-			// проверка, что у нас текущий плагин
+	public function add_plugin_action_links($actions, $plugin_file) {
+		if (false === strpos($plugin_file, basename(__FILE__))) { // проверка, что у нас текущий плагин
 			return $actions;
 		}	
 		$settings_link = '<a href="/wp-admin/admin.php?page=brpvsettings">'. __('Settings', 'brpv').'</a>';
@@ -392,131 +405,4 @@ final class BestRatingPageviews {
 		return $actions;
 	}
 } /* end class BestRatingPageviews */
-
-
-
-
-
-/* ВИДЖЕТ ПОПУЛЯРНОЕ */
-class brpv_widget_popular extends WP_Widget {
- public function __construct() {
-	parent::__construct("text_widget", __( 'Popular', 'brpv' ),
-		array( 'description' => __( 'Shows popular posts and pages based on the rating and pageviews', 'brpv' ), ));
- }	
- //Метод form() (отвечает за внешний вид виджета в админке)
- public function form($instance) {
-	$title = __( 'Popular', 'brpv' ); // дефольный заголовок
-	$NumPostov = "5"; // дефолтное число постов
-	$WhatShows = "post";
-	$order = "ASC";
-	$orderby = "brpv_pageviews";
-	// если instance не пустой, достанем значения
-	if (!empty($instance)) {
-		$title = $instance["title"];
-		$NumPostov = $instance["NumPostovId"];
-		$WhatShows = $instance["WhatShowsId"];
-		$order = $instance["orderId"];
-		$orderby = $instance["orderbyId"];
-	}
-		
-	/* вытаскиваем первый параметр (заголовок виджета) */
-	$tableId = $this->get_field_id("title");
-	$tableName = $this->get_field_name("title");
-	echo '<p><label for="' . $tableId . '">'.__( "Title", "brpv" ).':</label>';
-	echo '<input class="widefat" id="' . $tableId . '" type="text" name="' .
-	$tableName . '" value="' . $title . '"></p>';
-		
-	/* вытаскиваем второй параметр (число постов в виджете) */
-	$NumPostovId = $this->get_field_id("NumPostovId");
-	$NumPostovName = $this->get_field_name("NumPostovId");
-	echo '<p><label for="' . $NumPostovId . '">'.__( "Num Posts", "brpv" ).': </label><input class="tiny-text" size="3" step="1" min="1" id="' . $NumPostovId . '" type="number" name="' .
-	$NumPostovName . '" value="' . $NumPostov . '"></p>';
-	
-	/* вытаскиваем третий параметр (что выводить) */
-	$WhatShowsId = $this->get_field_id("WhatShowsId");
-	$WhatShowsName = $this->get_field_name("WhatShowsId");?>
-	<p><label for="<?php echo $WhatShowsId; ?>"><?php _e( 'Show', 'brpv' ); ?>:</label>
-	<select id="<?php $WhatShowsId; ?>" class="widefat" name="<?php
-	echo $WhatShowsName; ?>">
-		<option value="post" <?php echo ($WhatShows == 'post') ? ' selected="selected"' : '' ?>><?php _e( 'Post', 'brpv' ); ?></option>
-		<option value="page" <?php echo ($WhatShows == 'page') ? ' selected="selected"' : '' ?>><?php _e( 'Page', 'brpv'); ?></option>
-	</select></p>	
-	<?php
-	
-	/* вытаскиваем четвертый параметр (сортировка) */
-	$orderId = $this->get_field_id("orderId");
-	$orderName = $this->get_field_name("orderId"); ?>
-	<p><label for="<?php echo $orderId; ?>"><?php _e( 'Order', 'brpv' ); ?>:</label>
-	<select id="<?php $orderId; ?>" class="widefat" name="<?php
-	echo $orderName; ?>">
-		<option value="ASC" <?php echo ($order == 'ASC') ? ' selected="selected"' : '' ?>><?php _e( 'ASC', 'brpv' ); ?></option>
-		<option value="DESC" <?php echo ($order == 'DESC') ? ' selected="selected"' : '' ?>><?php _e( 'DESC', 'brpv'); ?></option>
-	</select></p>	
-	<?php 
-	
-	/* вытаскиваем пятый параметр (ключ сортировки) */
-	$orderbyId = $this->get_field_id("orderbyId");
-	$orderbyName = $this->get_field_name("orderbyId"); ?>
-	<p><label for="<?php echo $orderbyId; ?>"><?php _e( 'Order by', 'brpv' ); ?>:</label>
-	<select id="<?php $orderbyId; ?>" class="widefat" name="<?php
-	echo $orderbyName; ?>">
-		<option value="brpv_pageviews" <?php echo ($orderby == 'brpv_pageviews') ? ' selected="selected"' : '' ?>><?php _e( 'PageViews', 'brpv' ); ?></option>
-		<option value="brpv_total_rating" <?php echo ($orderby == 'brpv_total_rating') ? ' selected="selected"' : '' ?>><?php _e( 'Rating', 'brpv'); ?></option>
-	</select></p>	
-	<?php 
- }
- //Метод update() (отвечает за обновление параметров)
- public function update($newInstance, $oldInstance) {
-	$values = array();
-	$values["title"] = htmlentities($newInstance["title"]); // обновляем заголовок
-	$values["NumPostovId"] = htmlentities($newInstance["NumPostovId"]); // обновляем число постов
-	$values["WhatShowsId"] = htmlentities($newInstance["WhatShowsId"]); // обновляем что выводить
-	$values["orderId"] = htmlentities($newInstance["orderId"]); // обновляем сортировку
-	$values["orderbyId"] = htmlentities($newInstance["orderbyId"]); // обновляем ключ сортировки
-	return $values;
- }
-	
- //Метод widget() (отвечает за вывод виджета на сайте)
- public function widget($args, $instance) {
-	/* получение параметров */
-	$title = $instance["title"]; // получаем заголовок
-	$NumPostov = $instance["NumPostovId"]; //получаем число постов
-	$WhatShows = $instance["WhatShowsId"]; // что выводить
-	$order = $instance["orderId"]; // сортировка
-	$orderby = $instance["orderbyId"]; // ключ сортировки
-		
-	echo $args['before_widget']; // вывод обертки виджета (открывающий тег)
-	/* Выводт виджета */
-	if (!empty( $title )) { echo $args['before_title'] . $title . $args['after_title'];} // выводим заголовок виджета в оберткие $args['after_title']
-	
-	$argums = array(
-		'meta_key' => $orderby,
-		'post_type' => array($WhatShows),
-		'showposts' => $NumPostov,
-		'posts_per_page' => -1,
-		'orderby' => $orderby,
-		'order' => $order,
-		'post_status' => 'publish',
-	);
-	$t_dir = get_bloginfo('template_directory'); // в $t_dir храним урл директории шаблона
-	query_posts($argums);
-	$brpv = new WP_Query($argums);
-	if($brpv->have_posts()) : ?>
-		<ul>
-			<?php while($brpv->have_posts()):
-				$brpv->the_post();
-				$post_id = get_the_ID(); ?>
-				<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-			<?php endwhile; ?>
-		</ul>
-	<?php endif;
-	wp_reset_postdata(); // восстанавливаем глобальную переменную $post
-	/* End Выводт виджета*/
-	echo $args['after_widget']; // вывод обертки виджета (закрывающий тег)
- }
-}
-add_action("widgets_init", function () {
- register_widget("brpv_widget_popular");
-});
-/* END ВИДЖЕТ ПОПУЛЯРНОЕ */
 ?>
