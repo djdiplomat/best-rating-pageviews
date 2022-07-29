@@ -29,7 +29,7 @@ class BRPV_Statistics_Page {
 	}
 
 	public function get_html_feeds_list() { 
-		$brpvListTable = new BRPV_WP_List_Table(); ?>
+		$brpvListTable = new BRPV_Statistics_WP_List_Table(); ?>
 		<form method="get">
 			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
 			<input type="hidden" name="brpv_form_id" value="brpv_wp_list_table" />
