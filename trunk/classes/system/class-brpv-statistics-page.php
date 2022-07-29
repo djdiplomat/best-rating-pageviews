@@ -18,9 +18,24 @@ class BRPV_Statistics_Page {
 	}
 
 	public function get_html_form() { ?>
-	
-		<?php // end get_html_form();
+		<div class="wrap">
+  			<h1><?php _e('Exporter', 'brpv'); ?> Best Rating & Pageviews</h1>
+			<div id="poststuff">
+				<?php $this->get_html_feeds_list(); ?>
+			</div><!-- /poststuff -->
+			<?php $this->get_html_icp_banners(); ?>
+			<?php $this->get_html_my_plugins_list(); ?>
+		</div><?php // end get_html_form();
 	}
+
+	public function get_html_feeds_list() { 
+		$brpvListTable = new BRPV_WP_List_Table(); ?>
+		<form method="get">
+			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
+			<input type="hidden" name="brpv_form_id" value="brpv_wp_list_table" />
+			<?php $brpvListTable->prepare_items(); $brpvListTable->display(); ?>
+		</form><?php // end get_html_feeds_list();
+	} // end get_html_feeds_list();
 
 	public function get_html_icp_banners() { ?>
 		<div id="icp_slides" class="clear">

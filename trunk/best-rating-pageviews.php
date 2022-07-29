@@ -115,7 +115,7 @@ final class BestRatingPageviews {
 		if (brpv_optionGET('brpv_debug') !== false) {brpv_optionDEL('brpv_debug');}
 
 		// добавление новых опций
-		if (brpv_optionGET('brpv_version') === false) {brpv_optionUPD('2.0.1', '', '', 'no');}
+		// if (brpv_optionGET('brpv_version') === false) {brpv_optionUPD('2.0.1', '', '', 'no');}
 
 		if (is_multisite()) {
 			update_blog_option(get_current_blog_id(), 'brpv_version', BRPV_PLUGIN_VERSION);
@@ -130,14 +130,15 @@ final class BestRatingPageviews {
 	}
 
 	public function init_hooks() {		
-		add_action('admin_menu', array($this, 'add_admin_menu'));
+		add_action('admin_init', array($this, 'listen_submits_func'), 10); // ещё можно слушать чуть раньше на wp_loaded
+		add_action('admin_menu', array($this, 'add_admin_menu_func'));
+
 		add_action('wp_head',  array($this, 'brpv_pageviews')); // cчетчик посещений
 		add_action('wp_enqueue_scripts', array($this, 'brpv_enqueue_fp'));
-		add_action('wp_enqueue_scripts', array($this, 'brpv_register_style_frontend'));
+		add_action('wp_enqueue_scripts', array($this, 'register_style_frontend'));
 		add_action('admin_notices', array($this, 'print_admin_notices_func'));
 		add_action('wp_ajax_brpv_ajax_func',  array($this, 'brpv_ajax_func'));
 		add_action('wp_ajax_nopriv_brpv_ajax_func',  array($this, 'brpv_ajax_func'));
-	//	add_action('wp_dashboard_setup', array($this, 'brpvrating_widgets'));
 		
 		add_shortcode('pageviews', array($this, 'brpv_pageviews_func'));
 		add_shortcode('pageratings', array($this, 'brpv_pageratings_func')); /* шорткод рейтинг поста */
@@ -150,43 +151,30 @@ final class BestRatingPageviews {
 		add_filter('plugin_action_links', array($this, 'add_plugin_action_links'), 10, 2 );
 	}
 
-	public static function brpv_admin_head_css_func() {
-		/* печатаем css в шапке админки */
-		print '<style>/* Best Rating & Pageviews */
-			.icp_img1 {background-image: url('. BRPV_PLUGIN_DIR_URL .'/img/sl1.jpg);}
-			.icp_img2 {background-image: url('. BRPV_PLUGIN_DIR_URL .'/img/sl2.jpg);}
-			.icp_img3 {background-image: url('. BRPV_PLUGIN_DIR_URL .'/img/sl3.jpg);}
-			.icp_img4 {background-image: url('. BRPV_PLUGIN_DIR_URL .'/img/sl4.jpg);}
-			.icp_img5 {background-image: url('. BRPV_PLUGIN_DIR_URL .'/img/sl5.jpg);}
-			.icp_img6 {background-image: url('. BRPV_PLUGIN_DIR_URL .'/img/sl6.jpg);}
-			.icp_img7 {background-image: url('. BRPV_PLUGIN_DIR_URL .'/img/sl7.jpg);}
-		</style>';
+	public function listen_submits_func() {
+		do_action('brpv_listen_submits');
+
+		if (isset($_REQUEST['brpv_submit_action'])) {
+			$message = __('Updated', 'brpv');
+			$class = 'notice-success';
+					
+			add_action('admin_notices', function() use ($message, $class) { 
+				$this->admin_notices_func($message, $class);
+			}, 10, 2);
+		}
 	}
-	/*
-	function brpvrating_widgets() {
-		global $wp_meta_boxes;
-		wp_add_dashboard_widget('brpvrating_widget', __( 'Rating & PageViews', 'brpv'), array($this, 'brpv_rating_widgets_info'));
-	} 
-	public function brpv_rating_widgets_info() {
-		
-	} 
-	*/
- 
-	public function brpv_admin_css_func() {
-		wp_enqueue_style('brpv-admin-css'); /* Ставим css-файл в очередь на вывод */
-	} 
 
 	// Добавляем пункты меню
-	public function add_admin_menu() {
+	public function add_admin_menu_func() {
 		$page_suffix = add_menu_page(null , __('Statistics', 'brpv'), 'unfiltered_html', 'brpvstatistics', array($this, 'get_settings_page_func'), 'dashicons-chart-bar', 51);	
-		add_action('admin_print_styles-'. $page_suffix, array($this, 'brpv_admin_css_func')); // создаём хук, чтобы стили выводились только на странице настроек
+		add_action('admin_print_styles-'. $page_suffix, array($this, 'enqueue_style_admin_css_func')); // создаём хук, чтобы стили выводились только на странице настроек
 
 		$page_suffix = add_submenu_page('brpvstatistics', __('Settings', 'brpv'), __('Settings', 'brpv'), 'unfiltered_html', 'brpvsettings', array($this, 'get_statistics_page_func'));
-		add_action('admin_print_styles-'. $page_suffix, array($this, 'brpv_admin_css_func'));
+		add_action('admin_print_styles-'. $page_suffix, array($this, 'enqueue_style_admin_css_func'));
 
 		// $page_subsuffix = add_submenu_page('brpvexport', __('Add Extensions', 'brpv'), __('Extensions', 'brpv'), 'manage_woocommerce', 'brpvextensions', 'brpv_extensions_page');
 		// require_once BRPV_PLUGIN_DIR_PATH.'/extensions.php';
-		add_action('admin_print_styles-'. $page_subsuffix, array($this, 'brpv_admin_css_func'));
+		add_action('admin_print_styles-'. $page_subsuffix, array($this, 'enqueue_style_admin_css_func'));
 	} 
 
 	// вывод страницы настроек плагина
@@ -199,6 +187,10 @@ final class BestRatingPageviews {
 	public function get_statistics_page_func() {
 		new BRPV_Statistics_Page();
 		return;
+	} 
+
+	public function enqueue_style_admin_css_func() {
+		wp_enqueue_style('brpv-admin-css'); /* Ставим css-файл в очередь на вывод */
 	} 
 	
 	public function brpv_pageviews() {
@@ -229,17 +221,6 @@ final class BestRatingPageviews {
 		return true;
 	}
  
-	/* Функция увеличения счетчика просмотров */
-	private function add_pageviews() {
-		global $user_ID, $post;		
-		$post_id = (int)$post->ID; // получаем id поста
-		$lastime = current_time('timestamp');
-		$pageviews = (int)get_post_meta($post_id, 'brpv_pageviews', true); // получаем число постов
-		update_post_meta($post_id, 'brpv_pageviews', ($pageviews+1));
-		update_post_meta($post_id, 'brpv_lastime', $lastime);
-	}
-	/* end Функция увеличения счетчика просмотров */
-	
 	public function brpv_pageviews_func() {
 		global $post;
 		if (get_post_meta($post->ID, 'brpv_pageviews', true)) {
@@ -327,7 +308,7 @@ final class BestRatingPageviews {
 	/* end Функция Аякс обработчика рейтинга */ 
  
 	/* Подключение таблицы стилей только для фронтенда */
-	public function brpv_register_style_frontend() {	 
+	public function register_style_frontend() {	 
 		wp_register_style('brpv_style', BRPV_PLUGIN_DIR_URL . 'css/rating.css', '', null, 'all' );
 		wp_enqueue_style('brpv_style', '', '', '', true); // подключаем в футре
 	}
@@ -399,10 +380,25 @@ final class BestRatingPageviews {
 	public function add_plugin_action_links($actions, $plugin_file) {
 		if (false === strpos($plugin_file, basename(__FILE__))) { // проверка, что у нас текущий плагин
 			return $actions;
-		}	
+		}
 		$settings_link = '<a href="/wp-admin/admin.php?page=brpvsettings">'. __('Settings', 'brpv').'</a>';
 		array_unshift($actions, $settings_link);
 		return $actions;
+	}
+
+	/* Функция увеличения счетчика просмотров */
+	private function add_pageviews() {
+		global $user_ID, $post;
+		$post_id = (int)$post->ID; // получаем id поста
+		$lastime = current_time('timestamp');
+		$pageviews = (int)get_post_meta($post_id, 'brpv_pageviews', true); // получаем число постов
+		update_post_meta($post_id, 'brpv_pageviews', ($pageviews + 1));
+		update_post_meta($post_id, 'brpv_lastime', $lastime);
+	}
+
+	private function admin_notices_func($message, $class) {
+		printf('<div class="notice %1$s"><p>%2$s</p></div>', $class, $message);
+		return;
 	}
 } /* end class BestRatingPageviews */
 ?>
