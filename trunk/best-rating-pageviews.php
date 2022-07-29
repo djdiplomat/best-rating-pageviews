@@ -277,7 +277,7 @@ final class BestRatingPageviews {
 				<div class="raiting_hover <?php echo $rating_icons; ?>"></div>
 				<div class="raiting_votes <?php echo $rating_icons; ?>"></div>
 			</div>
-			<div class="raiting_info"><img src="<?php echo brpv_URL.'img/'; ?>load.gif" /><strong><?php _e('Raiting', 'brpv'); ?>:</strong> <span class="brpv_raiting_value"></span></div>
+			<div class="raiting_info"><img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/'; ?>load.gif" /><strong><?php _e('Raiting', 'brpv'); ?>:</strong> <span class="brpv_raiting_value"></span></div>
 			<div style="display: none;" class="hidden" postid="<?php echo $post_id; ?>" ratingvalue="<?php echo $ratingValue; ?>"></div>
 		</div><?php 
 	}
@@ -328,15 +328,15 @@ final class BestRatingPageviews {
  
 	/* Подключение таблицы стилей только для фронтенда */
 	public function brpv_register_style_frontend() {	 
-		wp_register_style('brpv_style', brpv_URL . 'css/rating.css', '', null, 'all' );
+		wp_register_style('brpv_style', BRPV_PLUGIN_DIR_URL . 'css/rating.css', '', null, 'all' );
 		wp_enqueue_style('brpv_style', '', '', '', true); // подключаем в футре
 	}
 	
 	//регистрируем скрипты для внешней части сайта
 	public function brpv_enqueue_fp() { 
-		wp_register_script('brpv_rating', brpv_URL . 'js/rating.js');
+		wp_register_script('brpv_rating', BRPV_PLUGIN_DIR_URL . 'js/rating.js');
 		wp_enqueue_script('brpv_rating', '', '', array('jquery'), true); // подключаем в футре
-		wp_register_script('brpv_jquery_cookiess', brpv_URL . 'js/jquery.cookies.js');
+		wp_register_script('brpv_jquery_cookiess', BRPV_PLUGIN_DIR_URL . 'js/jquery.cookies.js');
 		wp_enqueue_script('brpv_jquery_cookiess', '', '', array('jquery'), true);
 		wp_localize_script('brpv_rating', 'brpvajax', array('brpvajaxurl' => admin_url('admin-ajax.php')));	
 	} 

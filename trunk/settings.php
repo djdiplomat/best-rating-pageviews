@@ -63,9 +63,9 @@ function brpv_settings_page() {
 		 <tr>		
 			<th scope="row"><label for="brpv_rating_icons"><?php _e('Rating icons', 'brpv'); ?></label></th>
 			<td class="overalldesc">
-				<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic1" <?php checked($brpv_rating_icons, 'brpv_pic1'); ?>> <img src="<?php echo brpv_URL.'img/ratings1.png'; ?>" alt="" /><br />
-				<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic2" <?php checked($brpv_rating_icons, 'brpv_pic2'); ?>> <img src="<?php echo brpv_URL.'img/ratings2.png'; ?>" alt="" /><br />
-				<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic3" <?php checked($brpv_rating_icons, 'brpv_pic3'); ?>> <img src="<?php echo brpv_URL.'img/ratings3.png'; ?>" alt="" /><br />
+				<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic1" <?php checked($brpv_rating_icons, 'brpv_pic1'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings1.png'; ?>" alt="" /><br />
+				<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic2" <?php checked($brpv_rating_icons, 'brpv_pic2'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings2.png'; ?>" alt="" /><br />
+				<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic3" <?php checked($brpv_rating_icons, 'brpv_pic3'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings3.png'; ?>" alt="" /><br />
 				<span class="description"><?php _e('Rating icons', 'brpv'); ?></span>
 			</td>
 		 </tr>
