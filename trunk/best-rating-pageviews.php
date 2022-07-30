@@ -3,7 +3,7 @@
 * Plugin Name: Best Rating & Pageviews
 * Plugin URI: https://icopydoc.ru/category/documentation/
 * Description: Add Star rating, pageviews and adds a tool for analyzing the effectiveness of content. Also this plugin adds a widget which shows popular posts and pages based on the rating and pageviews.
-* Version: 2.1.0
+* Version: 2.2.0
 * Requires at least: 4.5
 * Requires PHP: 5.6
 * Author: Maxim Glazunov
@@ -27,7 +27,7 @@ $upload_dir = wp_get_upload_dir();
 define('BRPV_SITE_UPLOADS_URL', $upload_dir['baseurl']); // http://site.ru/wp-content/uploads
 define('BRPV_SITE_UPLOADS_DIR_PATH', $upload_dir['basedir']); // /home/site.ru/public_html/wp-content/uploads
 
-define('BRPV_PLUGIN_VERSION', '2.1.0'); // 1.0.0
+define('BRPV_PLUGIN_VERSION', '2.2.0'); // 1.0.0
 define('BRPV_PLUGIN_UPLOADS_DIR_URL', $upload_dir['baseurl'].'/best-rating-pageviews'); // http://site.ru/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_UPLOADS_DIR_PATH', $upload_dir['basedir'].'/best-rating-pageviews'); // /home/site.ru/public_html/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_DIR_URL', plugin_dir_url(__FILE__)); // http://site.ru/wp-content/plugins/best-rating-pageviews/
@@ -66,11 +66,11 @@ final class BestRatingPageviews {
 	public static function on_activation() {
 		if (!current_user_can('activate_plugins')) {return;}
 		if (is_multisite()) {
-			add_blog_option(get_current_blog_id(), 'brpv_version', '2.1.0');
+			add_blog_option(get_current_blog_id(), 'brpv_version', '2.2.0');
 			add_blog_option(get_current_blog_id(), 'brpv_not_count_bots', 'yes');
 			add_blog_option(get_current_blog_id(), 'brpv_rating_icons', 'brpv_pic1');
 		} else {
-			add_option('brpv_version', '2.1.0', '', 'no');
+			add_option('brpv_version', '2.2.0', '', 'no');
 			add_option('brpv_not_count_bots', 'yes'); // Учитывать ботов?
 			add_option('brpv_rating_icons', 'brpv_pic1');
 		}
@@ -115,7 +115,7 @@ final class BestRatingPageviews {
 		if (brpv_optionGET('brpv_debug') !== false) {brpv_optionDEL('brpv_debug');}
 
 		// добавление новых опций
-		// if (brpv_optionGET('brpv_version') === false) {brpv_optionUPD('2.1.0', '', '', 'no');}
+		// if (brpv_optionGET('brpv_version') === false) {brpv_optionUPD('2.2.0', '', '', 'no');}
 
 		if (is_multisite()) {
 			update_blog_option(get_current_blog_id(), 'brpv_version', BRPV_PLUGIN_VERSION);

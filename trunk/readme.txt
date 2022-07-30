@@ -4,7 +4,7 @@ Donate link: https://sobe.ru/na/best_rating_pageviews
 Tags: rating, stars, pageviews, widget, popular
 Requires at least: 4.5
 Tested up to: 6.0.1
-Stable tag: 2.1.0
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,7 +64,7 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Changelog ==
 
-= 2.1.0 =
+= 2.2.0 =
 * New interface
 
 = 2.0.0 =
@@ -97,5 +97,5 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Upgrade Notice ==
 
-= 2.1.0 =
+= 2.2.0 =
 * New interface

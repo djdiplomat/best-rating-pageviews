@@ -41,44 +41,41 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	*	Метод вытаскивает из БД данные, которые будут лежать в таблице
 	*	$this->table_data();
 	*/
-	private function table_data($posts_per_page = -1, $orderby = 'meta_value_num', $order = 'ASC') {
+	private function table_data() {
 		$result_arr = array();
 
-		$brpv_stat_of = 'all';
-		$brpv_get_type_arr = array('post', 'page');
-		
+		$brpv_get_type_arr = array('post', 'page');		
 		if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins', array()))) && !(is_multisite() && array_key_exists($plugin, get_site_option('active_sitewide_plugins', array())))) {
 			$brpv_get_type_arr[] = 'product';
 		}
 
-		$brpv_meta_key = 'brpv_pageviews';
-		
 		$args = array(	
 			'post_type' => $brpv_get_type_arr,
-			'meta_key' => $brpv_meta_key,
-			'posts_per_page' => $posts_per_page,
-//			'orderby' => $orderby,
-//			'order' => $order, 	
+			'fields' => 'ids',
+			'posts_per_page' => -1,
 			'get_status' => 'publish',
 		);
 
-		$brpv = new WP_Query($args); 
-		if ($brpv->have_posts()) {while($brpv->have_posts()) {
-			$brpv->the_post(); $post_id = get_the_ID();
-			if (get_post_meta($post_id, 'brpv_lastime', true) !== '') {
-				$unixDate = (int)get_post_meta($post_id, 'brpv_lastime', true); 
-				$normalDate = date('d/m/Y g:i A', $unixDate);			
-			} else {
-				$normalDate = '';
+		$featured_query = new WP_Query($args);
+		if ($featured_query->have_posts()) { 
+			for ($i = 0; $i < count($featured_query->posts); $i++) {
+				$cur_post_id = $featured_query->posts[$i];
+				if (get_post_meta($cur_post_id, 'brpv_lastime', true) !== '') {
+					$unix_date = (int)get_post_meta($cur_post_id, 'brpv_lastime', true); 
+					$normal_date = date('d/m/Y g:i A', $unix_date);			
+				} else {
+					$normal_date = '';
+				}
+				$result_arr[] = array(
+					'brpv_title' 				=> sprintf('<a href="%1$s">%2$s</a>', get_the_permalink($cur_post_id), get_the_title($cur_post_id)),
+					'brpv_rating' 				=> (int)get_post_meta($cur_post_id, 'brpv_total_rating', true),
+					'brpv_votes' 				=> (int)get_post_meta($cur_post_id, 'brpv_golosov', true),
+					'brpv_page_views' 			=> (int)get_post_meta($cur_post_id, 'brpv_pageviews', true),
+					'brpv_date_of_last_visit'	=> $normal_date
+				);
 			}
-			$result_arr[] = array(
-				'brpv_title' 				=> sprintf('<a href="%1$s">%2$s</a>', get_the_permalink(), get_the_title()),
-				'brpv_rating' 				=> (int)get_post_meta($post_id, 'brpv_total_rating', true),
-				'brpv_votes' 				=> (int)get_post_meta($post_id, 'brpv_golosov', true),
-				'brpv_page_views' 			=> (int)get_post_meta($post_id, 'brpv_pageviews', true),
-				'brpv_date_of_last_visit'	=> $normalDate
-			);
-		}}
+		}
+
 		wp_reset_postdata();
 
 		return $result_arr;
@@ -139,9 +136,9 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	function get_sortable_columns() {
 		$sortable_columns = array(
 			'brpv_title'		=> array('brpv_title', true),
-		//	'brpv_rating'		=> array('brpv_rating', true),
-		//	'brpv_votes'		=> array('brpv_votes', true),
-		//	'brpv_page_views'	=> array('brpv_page_views', false)
+			'brpv_rating'		=> array('brpv_rating', true),
+			'brpv_votes'		=> array('brpv_votes', true),
+			'brpv_page_views'	=> array('brpv_page_views', false)
 		);
 		return $sortable_columns;
 	}
@@ -159,10 +156,15 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 		} else {
 			$order = 'asc';
 		} 
-		// Определяем порядок сортировки
-		$result = strcmp( $a[$orderby], $b[$orderby] );
-		// Отправляем конечный порядок сортировки usort
-		return ( $order === 'asc' ) ? $result : -$result;
+
+		// https://phpstack.ru/php/sortirovka-massivov-v-php-ksort-asort-i-procie-sorty.html
+		if ($order === 'asc') {
+			$result = ($a[$orderby] > $b[$orderby]);
+		} else {
+			$result = ($a[$orderby] < $b[$orderby]);
+		}
+
+		return $result;
 	}
 
 	// Флажки для строк должны быть определены отдельно. Как упоминалось выше, есть метод column_{column} для отображения столбца. cb-столбец – особый случай:
