@@ -21,13 +21,22 @@ class BRPV_Settings_Page {
 
 	public function get_html_form() { ?>
 		<div class="wrap">
-  			<h1><?php _e('Exporter', 'brpv'); ?> Best Rating & Pageviews</h1>
+  			<h1>Best Rating & Pageviews</h1>
 			<div id="poststuff">
 
 				<div id="post-body" class="columns-2">
 
 					<div id="postbox-container-1" class="postbox-container">
 						<div class="meta-box-sortables">
+							<div class="postbox">
+								<h2 class="hndle"><?php _e('Clear all statistics', 'brpv'); ?>!</h2>
+								<div class="inside">
+									<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
+										<?php wp_nonce_field('brpv_nonce_action_clear_stat', 'brpv_nonce_clear_stat_field'); ?>
+										<input id="brpv_submit_clear_stat" class="button" type="submit" name="brpv_submit_clear_stat" value="<?php _e('Clear statistics', 'brpv'); ?>" />
+									</form>
+								</div>
+							</div>
 							<?php $this->feedback->get_block_support_project(); ?>
 						</div>
 					</div><!-- /postbox-container-1 -->

@@ -19,7 +19,7 @@ class BRPV_Statistics_Page {
 
 	public function get_html_form() { ?>
 		<div class="wrap">
-  			<h1><?php _e('Exporter', 'brpv'); ?> Best Rating & Pageviews</h1>
+  			<h1>Best Rating & Pageviews</h1>
 			<div id="poststuff">
 				<?php $this->get_html_feeds_list(); ?>
 			</div><!-- /poststuff -->

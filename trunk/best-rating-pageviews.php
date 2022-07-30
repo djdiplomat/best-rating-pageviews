@@ -3,7 +3,7 @@
 * Plugin Name: Best Rating & Pageviews
 * Plugin URI: https://icopydoc.ru/category/documentation/
 * Description: Add Star rating, pageviews and adds a tool for analyzing the effectiveness of content. Also this plugin adds a widget which shows popular posts and pages based on the rating and pageviews.
-* Version: 2.0.1
+* Version: 2.1.0
 * Requires at least: 4.5
 * Requires PHP: 5.6
 * Author: Maxim Glazunov
@@ -27,7 +27,7 @@ $upload_dir = wp_get_upload_dir();
 define('BRPV_SITE_UPLOADS_URL', $upload_dir['baseurl']); // http://site.ru/wp-content/uploads
 define('BRPV_SITE_UPLOADS_DIR_PATH', $upload_dir['basedir']); // /home/site.ru/public_html/wp-content/uploads
 
-define('BRPV_PLUGIN_VERSION', '2.0.1'); // 1.0.0
+define('BRPV_PLUGIN_VERSION', '2.1.0'); // 1.0.0
 define('BRPV_PLUGIN_UPLOADS_DIR_URL', $upload_dir['baseurl'].'/best-rating-pageviews'); // http://site.ru/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_UPLOADS_DIR_PATH', $upload_dir['basedir'].'/best-rating-pageviews'); // /home/site.ru/public_html/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_DIR_URL', plugin_dir_url(__FILE__)); // http://site.ru/wp-content/plugins/best-rating-pageviews/
@@ -66,11 +66,11 @@ final class BestRatingPageviews {
 	public static function on_activation() {
 		if (!current_user_can('activate_plugins')) {return;}
 		if (is_multisite()) {
-			add_blog_option(get_current_blog_id(), 'brpv_version', '2.0.1');
+			add_blog_option(get_current_blog_id(), 'brpv_version', '2.1.0');
 			add_blog_option(get_current_blog_id(), 'brpv_not_count_bots', 'yes');
 			add_blog_option(get_current_blog_id(), 'brpv_rating_icons', 'brpv_pic1');
 		} else {
-			add_option('brpv_version', '2.0.1', '', 'no');
+			add_option('brpv_version', '2.1.0', '', 'no');
 			add_option('brpv_not_count_bots', 'yes'); // Учитывать ботов?
 			add_option('brpv_rating_icons', 'brpv_pic1');
 		}
@@ -115,7 +115,7 @@ final class BestRatingPageviews {
 		if (brpv_optionGET('brpv_debug') !== false) {brpv_optionDEL('brpv_debug');}
 
 		// добавление новых опций
-		// if (brpv_optionGET('brpv_version') === false) {brpv_optionUPD('2.0.1', '', '', 'no');}
+		// if (brpv_optionGET('brpv_version') === false) {brpv_optionUPD('2.1.0', '', '', 'no');}
 
 		if (is_multisite()) {
 			update_blog_option(get_current_blog_id(), 'brpv_version', BRPV_PLUGIN_VERSION);
@@ -133,7 +133,7 @@ final class BestRatingPageviews {
 		add_action('admin_init', array($this, 'listen_submits_func'), 10); // ещё можно слушать чуть раньше на wp_loaded
 		add_action('admin_menu', array($this, 'add_admin_menu_func'));
 
-		add_action('wp_head',  array($this, 'brpv_pageviews')); // cчетчик посещений
+		add_action('wp_head',  array($this, 'session_counter')); // cчетчик посещений
 		add_action('wp_enqueue_scripts', array($this, 'brpv_enqueue_fp'));
 		add_action('wp_enqueue_scripts', array($this, 'register_style_frontend'));
 		add_action('admin_notices', array($this, 'print_admin_notices_func'));
@@ -155,26 +155,78 @@ final class BestRatingPageviews {
 		do_action('brpv_listen_submits');
 
 		if (isset($_REQUEST['brpv_submit_action'])) {
+			if (!empty($_POST) && check_admin_referer('brpv_nonce_action', 'brpv_nonce_field')) {
+				if (is_multisite()) {
+					if (isset($_POST['brpv_submit_action'])) {
+						update_blog_option(get_current_blog_id(), 'brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
+					}
+					if (isset($_POST['brpv_rating_icons'])) {
+						update_blog_option(get_current_blog_id(), 'brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
+					}
+				} else {
+					if (isset($_POST['brpv_submit_action'])) {
+						update_option('brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
+					}
+					if (isset($_POST['brpv_rating_icons'])) {
+						update_option('brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
+					}
+				}
+			}
+
 			$message = __('Updated', 'brpv');
 			$class = 'notice-success';
-					
 			add_action('admin_notices', function() use ($message, $class) { 
 				$this->admin_notices_func($message, $class);
 			}, 10, 2);
+		}
+
+		if (isset($_REQUEST['brpv_submit_clear_stat'])) {
+			if (!empty($_POST) && check_admin_referer('brpv_nonce_action_clear_stat', 'brpv_nonce_clear_stat_field')) {
+				$args = array(
+					'post_type' => array('post', 'page', 'product'),
+					'post_status' => 'publish',
+					'posts_per_page' => -1,
+					'relation' => 'AND',
+					'fields'  => 'ids',
+					'meta_query' => array(
+						array(
+							'key' => 'brpv_pageviews',
+							'compare' => 'EXISTS'
+						)
+					)
+				);
+				$res_query = new WP_Query($args);
+				global $wpdb;
+				if ($res_query->have_posts()) { 
+					for ($i = 0; $i < count($res_query->posts); $i++) {
+						delete_post_meta($res_query->posts[$i], 'brpv_ballov');
+						delete_post_meta($res_query->posts[$i], 'brpv_golosov');
+						delete_post_meta($res_query->posts[$i], 'brpv_lastime');
+						delete_post_meta($res_query->posts[$i], 'brpv_pageviews');
+						delete_post_meta($res_query->posts[$i], 'brpv_total_rating');
+					}
+				}
+
+				$message = __('Statistics deleted', 'brpv');
+				$class = 'notice-success';
+				add_action('admin_notices', function() use ($message, $class) { 
+					$this->admin_notices_func($message, $class);
+				}, 10, 2);
+			}
 		}
 	}
 
 	// Добавляем пункты меню
 	public function add_admin_menu_func() {
-		$page_suffix = add_menu_page(null , __('Statistics', 'brpv'), 'unfiltered_html', 'brpvstatistics', array($this, 'get_settings_page_func'), 'dashicons-chart-bar', 51);	
+		$page_suffix = add_menu_page(null , __('Statistics', 'brpv'), 'unfiltered_html', 'brpv-statistics', array($this, 'get_statistics_page_func'), 'dashicons-chart-bar', 51);	
 		add_action('admin_print_styles-'. $page_suffix, array($this, 'enqueue_style_admin_css_func')); // создаём хук, чтобы стили выводились только на странице настроек
 
-		$page_suffix = add_submenu_page('brpvstatistics', __('Settings', 'brpv'), __('Settings', 'brpv'), 'unfiltered_html', 'brpvsettings', array($this, 'get_statistics_page_func'));
+		$page_suffix = add_submenu_page('brpv-statistics', __('Settings', 'brpv'), __('Settings', 'brpv'), 'unfiltered_html', 'brpv-settings', array($this, 'get_settings_page_func'));
 		add_action('admin_print_styles-'. $page_suffix, array($this, 'enqueue_style_admin_css_func'));
 
-		// $page_subsuffix = add_submenu_page('brpvexport', __('Add Extensions', 'brpv'), __('Extensions', 'brpv'), 'manage_woocommerce', 'brpvextensions', 'brpv_extensions_page');
+		// $page_subsuffix = add_submenu_page('brpvexport', __('Add Extensions', 'brpv'), __('Extensions', 'brpv'), 'manage_woocommerce', 'brpv-extensions', 'brpv_extensions_page');
 		// require_once BRPV_PLUGIN_DIR_PATH.'/extensions.php';
-		add_action('admin_print_styles-'. $page_subsuffix, array($this, 'enqueue_style_admin_css_func'));
+		// add_action('admin_print_styles-'. $page_subsuffix, array($this, 'enqueue_style_admin_css_func'));
 	} 
 
 	// вывод страницы настроек плагина
@@ -193,7 +245,7 @@ final class BestRatingPageviews {
 		wp_enqueue_style('brpv-admin-css'); /* Ставим css-файл в очередь на вывод */
 	} 
 	
-	public function brpv_pageviews() {
+	public function session_counter() {
 		// https://habrahabr.ru/sandbox/74080/
 		if (is_singular()) { // Функция объединяет в себе : is_single(), is_page(), is_attachment() и и произвольные типы записей.
 			// если не учитываем ботов
@@ -313,7 +365,7 @@ final class BestRatingPageviews {
 		wp_enqueue_style('brpv_style', '', '', '', true); // подключаем в футре
 	}
 	
-	//регистрируем скрипты для внешней части сайта
+	// регистрируем скрипты для внешней части сайта
 	public function brpv_enqueue_fp() { 
 		wp_register_script('brpv_rating', BRPV_PLUGIN_DIR_URL . 'js/rating.js');
 		wp_enqueue_script('brpv_rating', '', '', array('jquery'), true); // подключаем в футре
@@ -323,58 +375,7 @@ final class BestRatingPageviews {
 	} 
  
 	public function print_admin_notices_func() {
-		if (isset($_REQUEST['brpv_submit_action'])) {
-			if (isset($_REQUEST['brpv_submit_action'])) {
-				if (!empty($_POST) && check_admin_referer('brpv_nonce_action', 'brpv_nonce_field')) {
-				if (is_multisite()) {
-					if (isset($_POST['brpv_submit_action'])) {
-						update_blog_option(get_current_blog_id(), 'brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
-					}
-					if (isset($_POST['brpv_rating_icons'])) {
-						update_blog_option(get_current_blog_id(), 'brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
-					}
-				} else {
-					if (isset($_POST['brpv_submit_action'])) {
-						update_option('brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
-					}
-					if (isset($_POST['brpv_rating_icons'])) {
-						update_option('brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
-					}		
-				}
-				}
-				print '<div class="updated notice notice-success is-dismissible"><p>'. __('Updated', 'brpv'). '.</p></div>';
-			}
-		}
-
-		if (isset($_REQUEST['brpv_submit_clear_stat'])) {
-			if (!empty($_POST) && check_admin_referer('brpv_nonce_action_clear_stat', 'brpv_nonce_clear_stat_field')) {
-				$args = array(
-					'post_type' => array('post', 'page', 'product'),
-					'post_status' => 'publish',
-					'posts_per_page' => -1,
-					'relation' => 'AND',
-					'fields'  => 'ids',
-					'meta_query' => array(
-						array(
-							'key' => 'brpv_pageviews',
-							'compare' => 'EXISTS'
-						)
-					)
-				);
-				$res_query = new WP_Query($args);
-				global $wpdb;
-				if ($res_query->have_posts()) { 
-					for ($i = 0; $i < count($res_query->posts); $i++) {
-						delete_post_meta($res_query->posts[$i], 'brpv_ballov');
-						delete_post_meta($res_query->posts[$i], 'brpv_golosov');
-						delete_post_meta($res_query->posts[$i], 'brpv_lastime');
-						delete_post_meta($res_query->posts[$i], 'brpv_pageviews');
-						delete_post_meta($res_query->posts[$i], 'brpv_total_rating');
-					}
-				}
-				print '<div class="updated notice notice-success is-dismissible"><p>'. __('Statistics deleted', 'brpv'). '</p></div>';
-			}
-		}
+		return;
 	}
 
 	public function add_plugin_action_links($actions, $plugin_file) {

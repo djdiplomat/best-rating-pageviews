@@ -41,29 +41,30 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	*	Метод вытаскивает из БД данные, которые будут лежать в таблице
 	*	$this->table_data();
 	*/
-	private function table_data() {
+	private function table_data($posts_per_page = -1, $orderby = 'meta_value_num', $order = 'ASC') {
 		$result_arr = array();
 
 		$brpv_stat_of = 'all';
-		$brpv_get_type = array('post', 'page');
+		$brpv_get_type_arr = array('post', 'page');
+		
+		if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins', array()))) && !(is_multisite() && array_key_exists($plugin, get_site_option('active_sitewide_plugins', array())))) {
+			$brpv_get_type_arr[] = 'product';
+		}
+
 		$brpv_meta_key = 'brpv_pageviews';
-		$brpv_posts_per_page = 50;
-		$brpv_orderby = 'meta_value_num';
-		$brpv_order = 'ASC'; 
 		
 		$args = array(	
-			'post_type' => $brpv_get_type,
+			'post_type' => $brpv_get_type_arr,
 			'meta_key' => $brpv_meta_key,
-			'posts_per_page' => $brpv_posts_per_page,
-			'orderby' => $brpv_orderby,
-			'order' => $brpv_order, 	
+			'posts_per_page' => $posts_per_page,
+//			'orderby' => $orderby,
+//			'order' => $order, 	
 			'get_status' => 'publish',
 		);
 
 		$brpv = new WP_Query($args); 
 		if ($brpv->have_posts()) {while($brpv->have_posts()) {
 			$brpv->the_post(); $post_id = get_the_ID();
-			// get_the_permalink();
 			if (get_post_meta($post_id, 'brpv_lastime', true) !== '') {
 				$unixDate = (int)get_post_meta($post_id, 'brpv_lastime', true); 
 				$normalDate = date('d/m/Y g:i A', $unixDate);			
@@ -71,10 +72,10 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 				$normalDate = '';
 			}
 			$result_arr[] = array(
-				'brpv_title' 				=> get_the_title(),
-				'brpv_rating' 				=> get_post_meta($post_id, 'brpv_total_rating', true),
-				'brpv_votes' 				=> get_post_meta($post_id, 'brpv_golosov', true),
-				'brpv_page_views' 			=> get_post_meta($post_id, 'brpv_pageviews', true),
+				'brpv_title' 				=> sprintf('<a href="%1$s">%2$s</a>', get_the_permalink(), get_the_title()),
+				'brpv_rating' 				=> (int)get_post_meta($post_id, 'brpv_total_rating', true),
+				'brpv_votes' 				=> (int)get_post_meta($post_id, 'brpv_golosov', true),
+				'brpv_page_views' 			=> (int)get_post_meta($post_id, 'brpv_pageviews', true),
 				'brpv_date_of_last_visit'	=> $normalDate
 			);
 		}}
@@ -94,17 +95,19 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 		$hidden = array();
 		$sortable = $this->get_sortable_columns(); // вызов сортировки
 		$this->_column_headers = array($columns, $hidden, $sortable);
+		$table_data = $this->table_data(); // данные для формирования таблицы
+		usort($table_data, array(&$this, 'usort_reorder')); // сортировка в usort_reorder() для работы get_sortable_columns()
 		// пагинация 
-		$per_page = 3;
+		$per_page = 20;
 		$current_page = $this->get_pagenum();
-		$total_items = count($this->table_data());
-		$found_data = array_slice($this->table_data(), (($current_page - 1) * $per_page), $per_page);
+		$total_items = count($table_data);	
+		$found_data = array_slice($table_data, (($current_page - 1) * $per_page), $per_page);
 		$this->set_pagination_args(array(
 			'total_items' => $total_items, // Мы должны вычислить общее количество элементов
 			'per_page'	  => $per_page // Мы должны определить, сколько элементов отображается на странице
 		));
 		// end пагинация 
-		$this->items = $found_data; // $this->items = $this->table_data() // Получаем данные для формирования таблицы
+		$this->items = $found_data; // $this->items = $table_data // Получаем данные для формирования таблицы
 	}
 	/*
 	* 	Данные таблицы.
@@ -125,11 +128,55 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 				return print_r($item, true) ; // Мы отображаем целый массив во избежание проблем
 		}
 	}
+
+	/*
+	* 	Функция сортировки.
+	*	Второй параметр в массиве значений $sortable_columns отвечает за порядок сортировки столбца. 
+	*	Если значение true, столбец будет сортироваться в порядке возрастания, если значение false, столбец сортируется в порядке 
+	*	убывания, или не упорядочивается. Это необходимо для маленького треугольника около названия столбца, который указывает порядок
+	*	сортировки, чтобы строки отображались в правильном направлении
+	*/
+	function get_sortable_columns() {
+		$sortable_columns = array(
+			'brpv_title'		=> array('brpv_title', true),
+		//	'brpv_rating'		=> array('brpv_rating', true),
+		//	'brpv_votes'		=> array('brpv_votes', true),
+		//	'brpv_page_views'	=> array('brpv_page_views', false)
+		);
+		return $sortable_columns;
+	}
+
+	function usort_reorder($a, $b) {
+		// Если не отсортировано, по умолчанию brpv_title
+		if (!empty( $_GET['orderby'] ) ) {
+			$orderby = $_GET['orderby'];
+		} else {
+			$orderby = 'brpv_title';
+		} 
+		// Если не отсортировано, по умолчанию asc
+		if (!empty( $_GET['order'] ) ) {
+			$order = $_GET['order'];
+		} else {
+			$order = 'asc';
+		} 
+		// Определяем порядок сортировки
+		$result = strcmp( $a[$orderby], $b[$orderby] );
+		// Отправляем конечный порядок сортировки usort
+		return ( $order === 'asc' ) ? $result : -$result;
+	}
+
 	// Флажки для строк должны быть определены отдельно. Как упоминалось выше, есть метод column_{column} для отображения столбца. cb-столбец – особый случай:
-/*	function column_cb($item) {
+	/* function column_cb($item) {
 		return sprintf(
 			'<input type="checkbox" name="checkbox_xml_file[]" value="%s" />', $item['brpv_title']
 		);
-	}*/
+	} */
+	/*
+	* Нет элементов.
+	* Если в списке нет никаких элементов, отображается стандартное сообщение «No items found.». Если вы хотите изменить это сообщение, вы можете переписать метод no_items():
+	*/
+	function no_items() {
+		_e('No data availabled', 'brpv');
+	}
 }
 ?>
