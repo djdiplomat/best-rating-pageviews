@@ -53,7 +53,21 @@ class BRPV_Settings_Page {
 										<?php $this->get_html_main_settings(); ?>
 										<?php break; ?>
 								<?php endswitch; ?>
-
+								<div class="postbox">
+									<h2 class="hndle"><?php _e('Examples shotcodes', 'brpv'); ?></h2>	
+									<div class="inside">
+										<p><strong><?php _e('To display the rating stars', 'brpv'); ?></strong></p>
+										<p><strong>[pageratings]</strong><br /><?php _e('or in php code', 'brpv'); ?>:<br /> 
+										<strong>do_shortcode('[pageratings]');</strong></p>		
+										<p><strong><?php _e('To display the number of page views', 'brpv'); ?></strong></p>
+										<p><strong>[pageviews]</strong><br /><?php _e('or in php code', 'brpv'); ?>:<br />
+										<strong>do_shortcode('[pageviews]');</strong></p>
+										<?php _e('Notice', 'brpv'); ?>:<br />
+										- <?php _e('This shortcodes can be used in the body of the article', 'brpv'); ?>.<br />
+										- <?php _e('This shortcodes can be used in the loop body of templates', 'brpv'); ?>.<br />
+										- <?php _e('This shortcodes cannot be used outside the loop of the template', 'brpv'); ?>.
+									</div>
+								</div>
 								<?php do_action('brpv_after_optional_elemet_block'); ?>
 								<div class="postbox">
 									<div class="inside">

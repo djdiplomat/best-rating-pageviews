@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-07-30 11:51+0300\n"
-"PO-Revision-Date: 2022-07-30 11:51+0300\n"
+"POT-Creation-Date: 2022-07-30 12:03+0300\n"
+"PO-Revision-Date: 2022-07-30 12:03+0300\n"
 "Last-Translator: \n"
 "Language-Team: Maxim Glazunov <djdiplomat477@gmail.com>\n"
 "Language: ru\n"
@@ -79,12 +79,12 @@ msgid "Did my plugin help you upload your products to the"
 msgstr "Помог ли Вам плагин загрузить продукцию на"
 
 #: classes/system/class-brpv-feedback.php:31
-#: classes/system/class-brpv-settings-page.php:121
+#: classes/system/class-brpv-settings-page.php:135
 msgid "Yes"
 msgstr "Да"
 
 #: classes/system/class-brpv-feedback.php:32
-#: classes/system/class-brpv-settings-page.php:122
+#: classes/system/class-brpv-settings-page.php:136
 msgid "No"
 msgstr "Нет"
 
@@ -178,50 +178,83 @@ msgstr "Очистить всю статистику"
 msgid "Clear statistics"
 msgstr "Очистить статистику"
 
+#: classes/system/class-brpv-settings-page.php:57
+msgid "Examples shotcodes"
+msgstr "Пример шорткодов"
+
+#: classes/system/class-brpv-settings-page.php:59
+msgid "To display the rating stars"
+msgstr "Вывести рейтинг"
+
+#: classes/system/class-brpv-settings-page.php:60
 #: classes/system/class-brpv-settings-page.php:63
+msgid "or in php code"
+msgstr "или в php коде"
+
+#: classes/system/class-brpv-settings-page.php:62
+msgid "To display the number of page views"
+msgstr "Вывести количество просмотров"
+
+#: classes/system/class-brpv-settings-page.php:65
+msgid "Notice"
+msgstr "Примечание"
+
+#: classes/system/class-brpv-settings-page.php:66
+msgid "This shortcodes can be used in the body of the article"
+msgstr "Шорткоды могут использоваться в тексте статьи"
+
+#: classes/system/class-brpv-settings-page.php:67
+msgid "This shortcodes can be used in the loop body of templates"
+msgstr "Шорткоды могут использоваться в шаблоне"
+
+#: classes/system/class-brpv-settings-page.php:68
+msgid "This shortcodes cannot be used outside the loop of the template"
+msgstr "Шорткоды не могут использоваться вне цикла шаблона"
+
+#: classes/system/class-brpv-settings-page.php:77
 msgid "Save"
 msgstr "Сохранить"
 
-#: classes/system/class-brpv-settings-page.php:64
+#: classes/system/class-brpv-settings-page.php:78
 msgid "Click to save the settings"
 msgstr "Нажмите, чтобы сохранить настройки"
 
-#: classes/system/class-brpv-settings-page.php:82
-#: classes/system/class-brpv-settings-page.php:114
+#: classes/system/class-brpv-settings-page.php:96
+#: classes/system/class-brpv-settings-page.php:128
 msgid "Main settings"
 msgstr "Основные настройки"
 
-#: classes/system/class-brpv-settings-page.php:118
+#: classes/system/class-brpv-settings-page.php:132
 msgid "Not count bots"
 msgstr "Не считать ботов"
 
-#: classes/system/class-brpv-settings-page.php:124
+#: classes/system/class-brpv-settings-page.php:138
 msgid "Do not count the bots visiting the site"
 msgstr "Не считайте ботов, посещающих сайт"
 
-#: classes/system/class-brpv-settings-page.php:128
-#: classes/system/class-brpv-settings-page.php:133
+#: classes/system/class-brpv-settings-page.php:142
+#: classes/system/class-brpv-settings-page.php:147
 msgid "Rating icons"
 msgstr "Значки рейтинга"
 
-#: classes/system/class-brpv-settings-page.php:176
+#: classes/system/class-brpv-settings-page.php:190
 #: classes/system/class-brpv-statistics-page.php:75
 msgid "My plugins that may interest you"
 msgstr "Мои плагины, которые могут вас заинтересовать"
 
-#: classes/system/class-brpv-settings-page.php:178
+#: classes/system/class-brpv-settings-page.php:192
 #: classes/system/class-brpv-statistics-page.php:77
 msgid "Сreates a XML-feed to upload to Google Merchant Center"
 msgstr "Создает XML-фид для загрузки в Google Merchant Center"
 
-#: classes/system/class-brpv-settings-page.php:178
-#: classes/system/class-brpv-settings-page.php:179
-#: classes/system/class-brpv-settings-page.php:180
-#: classes/system/class-brpv-settings-page.php:181
-#: classes/system/class-brpv-settings-page.php:182
-#: classes/system/class-brpv-settings-page.php:183
-#: classes/system/class-brpv-settings-page.php:184
-#: classes/system/class-brpv-settings-page.php:185
+#: classes/system/class-brpv-settings-page.php:192
+#: classes/system/class-brpv-settings-page.php:193
+#: classes/system/class-brpv-settings-page.php:194
+#: classes/system/class-brpv-settings-page.php:195
+#: classes/system/class-brpv-settings-page.php:196
+#: classes/system/class-brpv-settings-page.php:197
+#: classes/system/class-brpv-settings-page.php:198
+#: classes/system/class-brpv-settings-page.php:199
 #: classes/system/class-brpv-statistics-page.php:77
 #: classes/system/class-brpv-statistics-page.php:78
 #: classes/system/class-brpv-statistics-page.php:79
@@ -233,22 +266,22 @@ msgstr "Создает XML-фид для загрузки в Google Merchant Cen
 msgid "Read more"
 msgstr "Подробнее"
 
-#: classes/system/class-brpv-settings-page.php:179
+#: classes/system/class-brpv-settings-page.php:193
 #: classes/system/class-brpv-statistics-page.php:78
 msgid "Сreates a YML-feed for importing your products to Yandex Market"
 msgstr "Создает YML-фид для импорта ваших товаров на Яндекс Маркет"
 
-#: classes/system/class-brpv-settings-page.php:180
+#: classes/system/class-brpv-settings-page.php:194
 #: classes/system/class-brpv-statistics-page.php:79
 msgid "Imports products from YML to your shop"
 msgstr "Импортирует товары из YML в ваш магазин"
 
-#: classes/system/class-brpv-settings-page.php:181
+#: classes/system/class-brpv-settings-page.php:195
 #: classes/system/class-brpv-statistics-page.php:80
 msgid "Сreates a XML-feed for importing your products to Hotline"
 msgstr "Создает XML-фид для импорта ваших товаров на Hotline"
 
-#: classes/system/class-brpv-settings-page.php:182
+#: classes/system/class-brpv-settings-page.php:196
 #: classes/system/class-brpv-statistics-page.php:81
 msgid ""
 "This plugin will add a marketing tool that will allow you to give gifts to "
@@ -257,14 +290,14 @@ msgstr ""
 "Этот плагин добавит маркетинговый инструмент, который позволит вам дарить "
 "подарки покупателю при покупке"
 
-#: classes/system/class-brpv-settings-page.php:183
+#: classes/system/class-brpv-settings-page.php:197
 #: classes/system/class-brpv-statistics-page.php:82
 msgid "With this plugin, you can import products to your group on ok.ru"
 msgstr ""
 "С помощью этого плагина вы можете импортировать товары в свою группу на ok.ru"
 
-#: classes/system/class-brpv-settings-page.php:184
-#: classes/system/class-brpv-settings-page.php:185
+#: classes/system/class-brpv-settings-page.php:198
+#: classes/system/class-brpv-settings-page.php:199
 #: classes/system/class-brpv-statistics-page.php:83
 #: classes/system/class-brpv-statistics-page.php:84
 msgid "Сreates a XML-feed for importing your products to"
@@ -350,30 +383,6 @@ msgstr "Просмотры"
 
 #~ msgid "Main parameters"
 #~ msgstr "Основные параметры"
-
-#~ msgid "Examples shotcodes"
-#~ msgstr "Пример шорткодов"
-
-#~ msgid "To display the rating stars"
-#~ msgstr "Вывести рейтинг"
-
-#~ msgid "or in php code"
-#~ msgstr "или в php коде"
-
-#~ msgid "To display the number of page views"
-#~ msgstr "Вывести количество просмотров"
-
-#~ msgid "Notice"
-#~ msgstr "Примечание"
-
-#~ msgid "This shortcodes can be used in the body of the article"
-#~ msgstr "Шорткоды могут использоваться в тексте статьи"
-
-#~ msgid "This shortcodes can be used in the loop body of templates"
-#~ msgstr "Шорткоды могут использоваться в шаблоне"
-
-#~ msgid "This shortcodes cannot be used outside the loop of the template"
-#~ msgstr "Шорткоды не могут использоваться вне цикла шаблона"
 
 #~ msgid ""
 #~ "this is a plugin for WooCommerce that creates an XML-feed for uploading "
