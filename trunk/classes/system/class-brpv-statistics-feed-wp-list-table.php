@@ -44,10 +44,17 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	private function table_data() {
 		$result_arr = array();
 
+		if (is_multisite()) {
+			$brpv_get_type_arr = get_blog_option(get_current_blog_id(), 'brpv_posts_type_arr');
+		} else {
+			$brpv_get_type_arr = get_option('brpv_posts_type_arr');
+		}
+
+		/*
 		$brpv_get_type_arr = array('post', 'page');		
 		if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins', array()))) && !(is_multisite() && array_key_exists($plugin, get_site_option('active_sitewide_plugins', array())))) {
 			$brpv_get_type_arr[] = 'product';
-		}
+		} */
 
 		$args = array(	
 			'post_type' => $brpv_get_type_arr,

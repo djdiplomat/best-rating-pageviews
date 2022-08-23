@@ -26,7 +26,7 @@ final class BRPV_Feedback {
 					<li><?php _e('Technical information and plugin logs', 'brpv'); ?> Best Rating & Pageviews</li>
 				</ul>
 				<p><?php _e('Did my plugin help you upload your products to the', 'brpv'); ?> Best Rating & Pageviews?</p>
-				<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
+				<form action="<?php echo esc_html($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
 					<p>
 						<input type="radio" name="<?php echo $this->get_radio_name(); ?>" value="yes"><?php _e('Yes', 'brpv'); ?><br />
 						<input type="radio" name="<?php echo $this->get_radio_name(); ?>" value="no"><?php _e('No', 'brpv'); ?><br />

@@ -3,7 +3,7 @@
 * Plugin Name: Best Rating & Pageviews
 * Plugin URI: https://icopydoc.ru/category/documentation/
 * Description: Add Star rating, pageviews and adds a tool for analyzing the effectiveness of content. Also this plugin adds a widget which shows popular posts and pages based on the rating and pageviews.
-* Version: 2.2.0
+* Version: 2.2.1
 * Requires at least: 4.5
 * Requires PHP: 5.6
 * Author: Maxim Glazunov
@@ -27,7 +27,7 @@ $upload_dir = wp_get_upload_dir();
 define('BRPV_SITE_UPLOADS_URL', $upload_dir['baseurl']); // http://site.ru/wp-content/uploads
 define('BRPV_SITE_UPLOADS_DIR_PATH', $upload_dir['basedir']); // /home/site.ru/public_html/wp-content/uploads
 
-define('BRPV_PLUGIN_VERSION', '2.2.0'); // 1.0.0
+define('BRPV_PLUGIN_VERSION', '2.2.1'); // 1.0.0
 define('BRPV_PLUGIN_UPLOADS_DIR_URL', $upload_dir['baseurl'].'/best-rating-pageviews'); // http://site.ru/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_UPLOADS_DIR_PATH', $upload_dir['basedir'].'/best-rating-pageviews'); // /home/site.ru/public_html/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_DIR_URL', plugin_dir_url(__FILE__)); // http://site.ru/wp-content/plugins/best-rating-pageviews/
@@ -66,11 +66,13 @@ final class BestRatingPageviews {
 	public static function on_activation() {
 		if (!current_user_can('activate_plugins')) {return;}
 		if (is_multisite()) {
-			add_blog_option(get_current_blog_id(), 'brpv_version', '2.2.0');
+			add_blog_option(get_current_blog_id(), 'brpv_version', '2.2.1');
+			add_blog_option(get_current_blog_id(), 'brpv_posts_type_arr', array('post', 'page'));
 			add_blog_option(get_current_blog_id(), 'brpv_not_count_bots', 'yes');
 			add_blog_option(get_current_blog_id(), 'brpv_rating_icons', 'brpv_pic1');
 		} else {
-			add_option('brpv_version', '2.2.0', '', 'no');
+			add_option('brpv_version', '2.2.1', '', 'no');
+			add_option('brpv_posts_type_arr', array('post', 'page'));
 			add_option('brpv_not_count_bots', 'yes'); // Учитывать ботов?
 			add_option('brpv_rating_icons', 'brpv_pic1');
 		}
@@ -115,7 +117,7 @@ final class BestRatingPageviews {
 		if (brpv_optionGET('brpv_debug') !== false) {brpv_optionDEL('brpv_debug');}
 
 		// добавление новых опций
-		// if (brpv_optionGET('brpv_version') === false) {brpv_optionUPD('2.2.0', '', '', 'no');}
+		if (brpv_optionGET('brpv_posts_type_arr') === false) {brpv_optionUPD('brpv_posts_type_arr', array('post', 'page'), '', 'yes');}
 
 		if (is_multisite()) {
 			update_blog_option(get_current_blog_id(), 'brpv_version', BRPV_PLUGIN_VERSION);
@@ -157,6 +159,9 @@ final class BestRatingPageviews {
 		if (isset($_REQUEST['brpv_submit_action'])) {
 			if (!empty($_POST) && check_admin_referer('brpv_nonce_action', 'brpv_nonce_field')) {
 				if (is_multisite()) {
+					if (isset($_POST['brpv_posts_type_arr'])) {
+						update_blog_option(get_current_blog_id(), 'brpv_posts_type_arr', $_POST['brpv_posts_type_arr']);
+					}
 					if (isset($_POST['brpv_submit_action'])) {
 						update_blog_option(get_current_blog_id(), 'brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
 					}
@@ -164,6 +169,9 @@ final class BestRatingPageviews {
 						update_blog_option(get_current_blog_id(), 'brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
 					}
 				} else {
+					if (isset($_POST['brpv_posts_type_arr'])) {
+						update_option('brpv_posts_type_arr', $_POST['brpv_posts_type_arr']);
+					}
 					if (isset($_POST['brpv_submit_action'])) {
 						update_option('brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
 					}
@@ -247,7 +255,7 @@ final class BestRatingPageviews {
 	
 	public function session_counter() {
 		// https://habrahabr.ru/sandbox/74080/
-		if (is_singular()) { // Функция объединяет в себе : is_single(), is_page(), is_attachment() и и произвольные типы записей.
+		if (is_singular()) { // Функция объединяет в себе : is_single(), is_page(), is_attachment() и произвольные типы записей.
 			// если не учитываем ботов
 			if (is_multisite()) {
 				$not_count_bots = get_blog_option(get_current_blog_id(), 'brpv_not_count_bots');
@@ -389,8 +397,16 @@ final class BestRatingPageviews {
 
 	/* Функция увеличения счетчика просмотров */
 	private function add_pageviews() {
-		global $user_ID, $post;
+		global $user_ID, $post;	
+		if (is_multisite()) {
+			$brpv_posts_type_arr = get_blog_option(get_current_blog_id(), 'brpv_posts_type_arr');
+		} else {
+			$brpv_posts_type_arr = get_option('brpv_posts_type_arr');
+		}
 		$post_id = (int)$post->ID; // получаем id поста
+		$post_type = get_post_type($post_id);
+		if (!in_array($post_type, $brpv_posts_type_arr)) {return;}
+
 		$lastime = current_time('timestamp');
 		$pageviews = (int)get_post_meta($post_id, 'brpv_pageviews', true); // получаем число постов
 		update_post_meta($post_id, 'brpv_pageviews', ($pageviews + 1));

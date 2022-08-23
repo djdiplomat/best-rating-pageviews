@@ -31,7 +31,7 @@ class BRPV_Settings_Page {
 							<div class="postbox">
 								<h2 class="hndle"><?php _e('Clear all statistics', 'brpv'); ?>!</h2>
 								<div class="inside">
-									<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
+									<form action="<?php echo esc_html($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
 										<?php wp_nonce_field('brpv_nonce_action_clear_stat', 'brpv_nonce_clear_stat_field'); ?>
 										<input id="brpv_submit_clear_stat" class="button" type="submit" name="brpv_submit_clear_stat" value="<?php _e('Clear statistics', 'brpv'); ?>" />
 									</form>
@@ -43,10 +43,10 @@ class BRPV_Settings_Page {
 
 					<div id="postbox-container-2" class="postbox-container">
 						<div class="meta-box-sortables"><?php 
-							if (isset($_GET['tab'])) {$tab = $_GET['tab'];} else {$tab = 'main_tab';}
+							if (isset($_GET['tab'])) {$tab = sanitize_text_field($_GET['tab']);} else {$tab = 'main_tab';}
 							echo $this->get_html_tabs($tab); ?>
 
-							<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
+							<form action="<?php echo esc_html($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
 								<?php do_action('brpv_prepend_form_container_2'); ?>
 								<?php switch ($tab) : 
 									case 'main_tab' : ?>
@@ -117,9 +117,11 @@ class BRPV_Settings_Page {
 
 	public function get_html_main_settings() { 	
 		if (is_multisite()) {
+			$brpv_posts_type_arr = get_blog_option(get_current_blog_id(), 'brpv_posts_type_arr');
 			$not_count_bots = get_blog_option(get_current_blog_id(), 'brpv_not_count_bots');
 			$brpv_rating_icons = get_blog_option(get_current_blog_id(), 'brpv_rating_icons');
 		} else {
+			$brpv_posts_type_arr = get_option('brpv_posts_type_arr');
 			$not_count_bots = get_option('brpv_not_count_bots');
 			$brpv_rating_icons = get_option('brpv_rating_icons');
 		}	
@@ -128,12 +130,31 @@ class BRPV_Settings_Page {
 			<h2 class="hndle"><?php _e('Main settings', 'brpv'); ?></h2>
 			<div class="inside">
 				<table class="form-table"><tbody>
+					<tr class="brpv_tr">
+						<th scope="row"><label for="brpv_posts_type_arr">posts types</label></th>
+						<td class="overalldesc">
+						<select id="brpv_posts_type_arr" style="width: 100%;" name="brpv_posts_type_arr[]" size="8" multiple>
+							<?php $post_types = get_post_types();
+							foreach($post_types as $post_type) {								
+								if (in_array($post_type, $brpv_posts_type_arr)) {
+									$sel = ' selected';
+								} else {
+									$sel = '';
+								}
+								printf('<option value="%1$s"%2$s>%1$s</option>',
+									$post_type,
+									$sel
+								);
+							} ?>
+						</select>
+						</td>
+					</tr>
 					<tr class="brpv_tr">		
 						<th scope="row"><label for="brpv_not_count_bots"><?php _e('Not count bots', 'brpv'); ?></label></th>
 						<td class="overalldesc">
 							<select name="brpv_not_count_bots">					
-								<option value="yes" <?php selected($not_count_bots, 'yes'); ?>><?php _e('Yes', 'brpv'); ?></option>
-								<option value="no" <?php selected($not_count_bots, 'no'); ?>><?php _e('No', 'brpv'); ?></option>
+								<option value="yes" <?php selected( esc_html($not_count_bots), 'yes'); ?>><?php _e('Yes', 'brpv'); ?></option>
+								<option value="no" <?php selected( esc_html($not_count_bots), 'no'); ?>><?php _e('No', 'brpv'); ?></option>
 							</select><br />
 							<span class="description"><?php _e('Do not count the bots visiting the site', 'brpv'); ?></span>
 						</td>
@@ -141,9 +162,9 @@ class BRPV_Settings_Page {
 					<tr>
 						<th scope="row"><label for="brpv_rating_icons"><?php _e('Rating icons', 'brpv'); ?></label></th>
 						<td class="overalldesc">
-							<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic1" <?php checked($brpv_rating_icons, 'brpv_pic1'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings1.png'; ?>" alt="" /><br />
-							<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic2" <?php checked($brpv_rating_icons, 'brpv_pic2'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings2.png'; ?>" alt="" /><br />
-							<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic3" <?php checked($brpv_rating_icons, 'brpv_pic3'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings3.png'; ?>" alt="" /><br />
+							<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic1" <?php checked(esc_html($brpv_rating_icons), 'brpv_pic1'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings1.png'; ?>" alt="" /><br />
+							<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic2" <?php checked(esc_html($brpv_rating_icons), 'brpv_pic2'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings2.png'; ?>" alt="" /><br />
+							<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic3" <?php checked(esc_html($brpv_rating_icons), 'brpv_pic3'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings3.png'; ?>" alt="" /><br />
 							<span class="description"><?php _e('Rating icons', 'brpv'); ?></span>
 						</td>
 					</tr>

@@ -1,14 +1,9 @@
 <?php if (!defined('ABSPATH')) {exit;}
-/*
-Version: 1.1.0
-Date: 22-01-2022
-Author: Maxim Glazunov
-Author URI: https://icopydoc.ru 
-License: GPLv2
-Description: This code adds several useful functions to the WordPress.
-*/
+// 1.1.1 (23-08-2022)
+// Maxim Glazunov (https://icopydoc.ru)
+// This code adds several useful functions to the WordPress.
 
-/*
+/**
 * @since 1.0.0
 *
 * @param 
@@ -42,7 +37,7 @@ if (!function_exists('get_array_as_string')) {
 	}	
 }
 
-/*
+/**
 * @since 1.0.0
 *
 * @param string 		$url (require)
@@ -70,7 +65,7 @@ if (!function_exists('get_from_url')) {
 	}
 }
 
-/*
+/**
 * @since 1.1.0
 *
 * @param string 		$option_name (require)
@@ -90,7 +85,7 @@ if (!function_exists('univ_option_add')) {
 	}
 }
 
-/*
+/**
 * @since 1.1.0
 *
 * @param string 		$option_name (require)
@@ -110,7 +105,7 @@ if (!function_exists('univ_option_upd')) {
 	}
 }
 
-/*
+/**
 * @since 1.1.0
 *
 * @param string 		$option_name (require)
@@ -129,7 +124,7 @@ if (!function_exists('univ_option_get')) {
 	}
 }
 
-/*
+/**
 * @since 1.1.0
 *
 * @param string 		$option_name (require)
