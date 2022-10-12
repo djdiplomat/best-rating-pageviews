@@ -3,7 +3,7 @@
 * Plugin Name: Best Rating & Pageviews
 * Plugin URI: https://icopydoc.ru/category/documentation/
 * Description: Add Star rating, pageviews and adds a tool for analyzing the effectiveness of content. Also this plugin adds a widget which shows popular posts and pages based on the rating and pageviews.
-* Version: 2.2.1
+* Version: 3.0.0
 * Requires at least: 4.5
 * Requires PHP: 5.6
 * Author: Maxim Glazunov
@@ -27,7 +27,7 @@ $upload_dir = wp_get_upload_dir();
 define('BRPV_SITE_UPLOADS_URL', $upload_dir['baseurl']); // http://site.ru/wp-content/uploads
 define('BRPV_SITE_UPLOADS_DIR_PATH', $upload_dir['basedir']); // /home/site.ru/public_html/wp-content/uploads
 
-define('BRPV_PLUGIN_VERSION', '2.2.1'); // 1.0.0
+define('BRPV_PLUGIN_VERSION', '3.0.0'); // 1.0.0
 define('BRPV_PLUGIN_UPLOADS_DIR_URL', $upload_dir['baseurl'].'/best-rating-pageviews'); // http://site.ru/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_UPLOADS_DIR_PATH', $upload_dir['basedir'].'/best-rating-pageviews'); // /home/site.ru/public_html/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_DIR_URL', plugin_dir_url(__FILE__)); // http://site.ru/wp-content/plugins/best-rating-pageviews/
@@ -66,15 +66,17 @@ final class BestRatingPageviews {
 	public static function on_activation() {
 		if (!current_user_can('activate_plugins')) {return;}
 		if (is_multisite()) {
-			add_blog_option(get_current_blog_id(), 'brpv_version', '2.2.1');
+			add_blog_option(get_current_blog_id(), 'brpv_version', '3.0.0');
 			add_blog_option(get_current_blog_id(), 'brpv_posts_type_arr', array('post', 'page'));
 			add_blog_option(get_current_blog_id(), 'brpv_not_count_bots', 'yes');
-			add_blog_option(get_current_blog_id(), 'brpv_rating_icons', 'brpv_pic1');
+			add_blog_option(get_current_blog_id(), 'brpv_main_color', '#ffc000');
+			add_blog_option(get_current_blog_id(), 'brpv_hover_color', '#ff5500');
 		} else {
-			add_option('brpv_version', '2.2.1', '', 'no');
+			add_option('brpv_version', '3.0.0', '', 'no');
 			add_option('brpv_posts_type_arr', array('post', 'page'));
 			add_option('brpv_not_count_bots', 'yes'); // Учитывать ботов?
-			add_option('brpv_rating_icons', 'brpv_pic1');
+			add_option('brpv_main_color', '#ffc000');
+			add_option('brpv_hover_color', '#ff5500');
 		}
 	}
 
@@ -115,9 +117,12 @@ final class BestRatingPageviews {
 	public function set_new_options() {
 		// удаление старых опций
 		if (brpv_optionGET('brpv_debug') !== false) {brpv_optionDEL('brpv_debug');}
-
+		if (brpv_optionGET('brpv_rating_icons') !== false) {brpv_optionDEL('brpv_rating_icons');}
+		
 		// добавление новых опций
 		if (brpv_optionGET('brpv_posts_type_arr') === false) {brpv_optionUPD('brpv_posts_type_arr', array('post', 'page'), '', 'yes');}
+		if (brpv_optionGET('brpv_main_color') === false) {brpv_optionUPD('brpv_main_color', '#ffc000', '', 'yes');}
+		if (brpv_optionGET('brpv_hover_color') === false) {brpv_optionUPD('brpv_hover_color', '#ff5500', '', 'yes');}
 
 		if (is_multisite()) {
 			update_blog_option(get_current_blog_id(), 'brpv_version', BRPV_PLUGIN_VERSION);
@@ -165,8 +170,11 @@ final class BestRatingPageviews {
 					if (isset($_POST['brpv_submit_action'])) {
 						update_blog_option(get_current_blog_id(), 'brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
 					}
-					if (isset($_POST['brpv_rating_icons'])) {
-						update_blog_option(get_current_blog_id(), 'brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
+					if (isset($_POST['brpv_main_color'])) {
+						update_blog_option(get_current_blog_id(), 'brpv_main_color', sanitize_text_field($_POST['brpv_main_color']));
+					}
+					if (isset($_POST['brpv_hover_color'])) {
+						update_blog_option(get_current_blog_id(), 'brpv_hover_color', sanitize_text_field($_POST['brpv_hover_color']));
 					}
 				} else {
 					if (isset($_POST['brpv_posts_type_arr'])) {
@@ -175,8 +183,11 @@ final class BestRatingPageviews {
 					if (isset($_POST['brpv_submit_action'])) {
 						update_option('brpv_not_count_bots', sanitize_text_field($_POST['brpv_not_count_bots']));
 					}
-					if (isset($_POST['brpv_rating_icons'])) {
-						update_option('brpv_rating_icons', sanitize_text_field($_POST['brpv_rating_icons']));
+					if (isset($_POST['brpv_main_color'])) {
+						update_option('brpv_main_color', sanitize_text_field($_POST['brpv_main_color']));
+					}
+					if (isset($_POST['brpv_hover_color'])) {
+						update_option('brpv_hover_color', sanitize_text_field($_POST['brpv_hover_color']));
 					}
 				}
 			}
@@ -251,9 +262,44 @@ final class BestRatingPageviews {
 
 	public function enqueue_style_admin_css_func() {
 		wp_enqueue_style('brpv-admin-css'); /* Ставим css-файл в очередь на вывод */
+		wp_enqueue_style('wp-color-picker');
+		wp_enqueue_script('wp-color-picker');
+		add_action('admin_footer', array($this, 'admin_footer_script'), 99 );
+	} 
+
+	// Подключаем свой скрпит в подвал 
+	public function admin_footer_script() { 
+		// https://wp-kama.ru/id_4621/vyibora-tsveta-iris-color-picker-v-wordpress.html 
+		// http://automattic.github.io/Iris/
+		?>
+		<script type="text/javascript">jQuery(document).ready(function($) { 
+			var myOptions = {
+				// устанавливает цвет по умолчанию, также цвет по умолчанию из атрибута value у input
+				defaultColor: false,
+				// функция обратного вызова, срабатывающая каждый раз при выборе цвета (когда водите мышкой по палитре)
+				change: function(event, ui){ },
+				// функция обратного вызова, срабатывающая при очистке (сбросе) цвета
+				clear: function(){ },
+				// спрятать ли выбор цвета при загрузке палитра будет появляться при клике
+				hide: true,
+				// показывать ли группу стандартных цветов внизу палитры 
+				// можно добавить свои цвета указав их в массиве: ['#125', '#459', '#78b', '#ab0', '#de3', '#f0f']
+				palettes: true
+			}
+			$('#brpv_main_color').wpColorPicker(myOptions);
+			$('#brpv_hover_color').wpColorPicker(myOptions);
+		});</script><?php
 	} 
 	
 	public function session_counter() {
+		if (is_multisite()) {
+			$hover_color = get_blog_option(get_current_blog_id(), 'brpv_hover_color');
+		} else {
+			$hover_color = get_option('brpv_hover_color');
+		}
+		// печатаем стили
+		echo '<style>.brpv_raiting_icon:hover ~ .brpv_raiting_icon use, .brpv_raiting_icon:hover use {fill: '.$hover_color.' !important;}</style>';
+
 		// https://habrahabr.ru/sandbox/74080/
 		if (is_singular()) { // Функция объединяет в себе : is_single(), is_page(), is_attachment() и произвольные типы записей.
 			// если не учитываем ботов
@@ -291,36 +337,59 @@ final class BestRatingPageviews {
 	}	
 
 	function brpv_pageratings_func() {
-		global $post;
-		$post_id = (int)$post->ID; 
+		global $post;		
+		$post_id = (int)$post->ID;
 		if (get_post_meta($post_id, 'brpv_total_rating', true)) {
-			$ratingValue = get_post_meta($post_id, 'brpv_total_rating', true);
+			$rating_value = get_post_meta($post_id, 'brpv_total_rating', true);
 		} else {
-			$ratingValue = 0;
+			$rating_value = 0;
+		}
+		$half_mask_id = 'half_'.$post_id;
+		if ($rating_value > 0) {
+			$full_stars_count = (int)$rating_value; // сколько целых звёзд
+			$half_mask_value_x = round(fmod($rating_value, 1)*100, 2); // какой процент зведы закрасить
 		}	
 		/* число голосов */
 		if (get_post_meta($post_id, 'brpv_golosov', true)) {
-			$ratingCount = (int)get_post_meta($post_id, 'brpv_golosov', true);
+			$rating_count = (int)get_post_meta($post_id, 'brpv_golosov', true);
 		} else {
-			$ratingCount = 0;
+			$rating_count = 0;
 		}
 		if (is_multisite()) {
-			$rating_icons = get_blog_option(get_current_blog_id(), 'brpv_rating_icons');
+			$main_color = get_blog_option(get_current_blog_id(), 'brpv_main_color');
+			// $hover_color = get_blog_option(get_current_blog_id(), 'brpv_hover_color');
 		} else {
-			$rating_icons = get_option('brpv_rating_icons');
+			$main_color = get_option('brpv_main_color');
+			// $hover_color = get_option('brpv_hover_color');
 		}
-		$itemReviewed = esc_html($post->post_title);
-		?>
-		<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="https://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $ratingValue; ?>"><meta itemprop="ratingCount" content="<?php echo $ratingCount; ?>"><meta itemprop="itemReviewed" content="<?php echo $itemReviewed; ?>"></div>	
-		<div class="brpv_raiting_star_<?php echo $post_id; ?>">
-			<div class="raiting">
-				<div class="raiting_blank <?php echo $rating_icons; ?>"></div>
-				<div class="raiting_hover <?php echo $rating_icons; ?>"></div>
-				<div class="raiting_votes <?php echo $rating_icons; ?>"></div>
-			</div>
-			<div class="raiting_info"><img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/'; ?>load.gif" /><strong><?php _e('Raiting', 'brpv'); ?>:</strong> <span class="brpv_raiting_value"></span></div>
-			<div style="display: none;" class="hidden" postid="<?php echo $post_id; ?>" ratingvalue="<?php echo $ratingValue; ?>"></div>
-		</div><?php 
+		$item_reviewed = esc_html($post->post_title); ?>
+		<svg width="0" height="0" viewBox="0 0 32 32">
+			<defs>
+				<mask id="<?php echo $half_mask_id; ?>">
+					<rect x="0" y="0" width="32" height="32" fill="white" />
+					<rect x="<?php echo $half_mask_value_x; ?>%" y="0" width="32" height="32" fill="grey" />
+				</mask>
+				<symbol viewBox="0 0 32 32" id="star">
+					<path d="M31.547 12a.848.848 0 00-.677-.577l-9.427-1.376-4.224-8.532a.847.847 0 00-1.516 0l-4.218 8.534-9.427 1.355a.847.847 0 00-.467 1.467l6.823 6.664-1.612 9.375a.847.847 0 001.23.893l8.428-4.434 8.432 4.432a.847.847 0 001.229-.894l-1.615-9.373 6.822-6.665a.845.845 0 00.214-.869z" />
+				</symbol>
+			</defs>
+		</svg>
+		<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="https://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $rating_value; ?>"><meta itemprop="ratingCount" content="<?php echo $rating_count; ?>"><meta itemprop="itemReviewed" content="<?php echo $item_reviewed; ?>"></div>
+		<div id="brpv_raiting_star_<?php echo $post_id; ?>" class="brpv_raiting">
+			<div class="brpv_raiting_info"><strong><?php _e('Raiting', 'brpv'); ?>:</strong> <span class="brpv_raiting_value"><?php echo $rating_value; ?></span></div>
+			<?php for ($i = 5; $i > 0; $i--) : ?>
+				<svg class="brpv_raiting_icon" width="32" height="32" viewBox="0 0 32 32" data-rating="<?php echo $i; ?>" post-id="<?php echo $post_id; ?>">
+					<?php if ($i-1 > $full_stars_count) : ?>
+						<use xlink:href="#star" fill="grey"></use>
+					<?php elseif ($i-1 == $full_stars_count) : ?>
+						<use xlink:href="#star" fill="<?php echo $main_color; ?>" mask="url(#<?php echo $half_mask_id; ?>)"></use>
+					<?php else : ?>
+						<use xlink:href="#star" fill="<?php echo $main_color; ?>"></use>
+					<?php endif; ?>
+				</svg>
+			<?php endfor; ?>
+		</div>
+		<?php 
 	}
 	/* end шорткод рейтинг поста */ 
  
@@ -369,13 +438,13 @@ final class BestRatingPageviews {
  
 	/* Подключение таблицы стилей только для фронтенда */
 	public function register_style_frontend() {	 
-		wp_register_style('brpv_style', BRPV_PLUGIN_DIR_URL . 'css/rating.css', '', null, 'all' );
+		wp_register_style('brpv_style', BRPV_PLUGIN_DIR_URL . 'css/brpv-rating.css', '', null, 'all' );
 		wp_enqueue_style('brpv_style', '', '', '', true); // подключаем в футре
 	}
 	
 	// регистрируем скрипты для внешней части сайта
 	public function brpv_enqueue_fp() { 
-		wp_register_script('brpv_rating', BRPV_PLUGIN_DIR_URL . 'js/rating.js');
+		wp_register_script('brpv_rating', BRPV_PLUGIN_DIR_URL . 'js/brpv-rating.js');
 		wp_enqueue_script('brpv_rating', '', '', array('jquery'), true); // подключаем в футре
 		wp_register_script('brpv_jquery_cookiess', BRPV_PLUGIN_DIR_URL . 'js/jquery.cookies.js');
 		wp_enqueue_script('brpv_jquery_cookiess', '', '', array('jquery'), true);

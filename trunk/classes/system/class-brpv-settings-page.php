@@ -118,12 +118,14 @@ class BRPV_Settings_Page {
 	public function get_html_main_settings() { 	
 		if (is_multisite()) {
 			$brpv_posts_type_arr = get_blog_option(get_current_blog_id(), 'brpv_posts_type_arr');
-			$not_count_bots = get_blog_option(get_current_blog_id(), 'brpv_not_count_bots');
-			$brpv_rating_icons = get_blog_option(get_current_blog_id(), 'brpv_rating_icons');
+			$brpv_not_count_bots = get_blog_option(get_current_blog_id(), 'brpv_not_count_bots');
+			$brpv_main_color = get_blog_option(get_current_blog_id(), 'brpv_main_color');
+			$brpv_hover_color = get_blog_option(get_current_blog_id(), 'brpv_hover_color');
 		} else {
 			$brpv_posts_type_arr = get_option('brpv_posts_type_arr');
-			$not_count_bots = get_option('brpv_not_count_bots');
-			$brpv_rating_icons = get_option('brpv_rating_icons');
+			$brpv_not_count_bots = get_option('brpv_not_count_bots');
+			$brpv_main_color = get_option('brpv_main_color');
+			$brpv_hover_color = get_option('brpv_hover_color');
 		}	
 		?>
 		<div class="postbox">
@@ -153,20 +155,19 @@ class BRPV_Settings_Page {
 						<th scope="row"><label for="brpv_not_count_bots"><?php _e('Not count bots', 'brpv'); ?></label></th>
 						<td class="overalldesc">
 							<select name="brpv_not_count_bots">					
-								<option value="yes" <?php selected( esc_html($not_count_bots), 'yes'); ?>><?php _e('Yes', 'brpv'); ?></option>
-								<option value="no" <?php selected( esc_html($not_count_bots), 'no'); ?>><?php _e('No', 'brpv'); ?></option>
+								<option value="yes" <?php selected( esc_html($brpv_not_count_bots), 'yes'); ?>><?php _e('Yes', 'brpv'); ?></option>
+								<option value="no" <?php selected( esc_html($brpv_not_count_bots), 'no'); ?>><?php _e('No', 'brpv'); ?></option>
 							</select><br />
 							<span class="description"><?php _e('Do not count the bots visiting the site', 'brpv'); ?></span>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="brpv_rating_icons"><?php _e('Rating icons', 'brpv'); ?></label></th>
-						<td class="overalldesc">
-							<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic1" <?php checked(esc_html($brpv_rating_icons), 'brpv_pic1'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings1.png'; ?>" alt="" /><br />
-							<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic2" <?php checked(esc_html($brpv_rating_icons), 'brpv_pic2'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings2.png'; ?>" alt="" /><br />
-							<input class="brpv_radio" type="radio" name="brpv_rating_icons" value="brpv_pic3" <?php checked(esc_html($brpv_rating_icons), 'brpv_pic3'); ?>> <img src="<?php echo BRPV_PLUGIN_DIR_URL.'img/ratings3.png'; ?>" alt="" /><br />
-							<span class="description"><?php _e('Rating icons', 'brpv'); ?></span>
-						</td>
+						<th scope="row"><label for="brpv_main_color"><?php _e('Main color', 'brpv'); ?></label></th>
+						<td class="overalldesc"><input class="iris_color" name="brpv_main_color" id="brpv_main_color" type="text" value="<?php echo $brpv_main_color; ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="brpv_hover_color"><?php _e('Hover color', 'brpv'); ?></label></th>
+						<td class="overalldesc"><input class="iris_color" name="brpv_hover_color" id="brpv_hover_color" type="text" value="<?php echo $brpv_hover_color; ?>"></td>
 					</tr>
 				</tbody></table>
 			</div>
@@ -213,6 +214,7 @@ class BRPV_Settings_Page {
 					<p><span class="brpv_bold">XML for Google Merchant Center</span> - <?php _e('Сreates a XML-feed to upload to Google Merchant Center', 'brpv'); ?>. <a href="https://wordpress.org/plugins/xml-for-google-merchant-center/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p> 
 					<p><span class="brpv_bold">YML for Yandex Market</span> - <?php _e('Сreates a YML-feed for importing your products to Yandex Market', 'brpv'); ?>. <a href="https://wordpress.org/plugins/yml-for-yandex-market/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
 					<p><span class="brpv_bold">Import from YML</span> - <?php _e('Imports products from YML to your shop', 'brpv'); ?>. <a href="https://wordpress.org/plugins/import-from-yml/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
+					<p><span class="brpv_bold">Integrate myTarget for WooCommerce</span> - <?php _e('This plugin helps setting up myTarget counter for dynamic remarketing for WooCommerce', 'brpv'); ?>. <a href="https://wordpress.org/plugins/wc-mytarget/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
 					<p><span class="brpv_bold">XML for Hotline</span> - <?php _e('Сreates a XML-feed for importing your products to Hotline', 'brpv'); ?>. <a href="https://wordpress.org/plugins/xml-for-hotline/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
 					<p><span class="brpv_bold">Gift upon purchase for WooCommerce</span> - <?php _e('This plugin will add a marketing tool that will allow you to give gifts to the buyer upon purchase', 'brpv'); ?>. <a href="https://wordpress.org/plugins/gift-upon-purchase-for-woocommerce/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
 					<p><span class="brpv_bold">Import products to ok.ru</span> - <?php _e('With this plugin, you can import products to your group on ok.ru', 'brpv'); ?>. <a href="https://wordpress.org/plugins/import-products-to-ok-ru/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>

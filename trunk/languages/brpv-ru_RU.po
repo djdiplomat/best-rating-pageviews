@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-08-23 23:14+0300\n"
-"PO-Revision-Date: 2022-08-23 23:14+0300\n"
+"POT-Creation-Date: 2022-10-12 18:52+0300\n"
+"PO-Revision-Date: 2022-10-12 18:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: Maxim Glazunov <djdiplomat477@gmail.com>\n"
 "Language: ru\n"
@@ -30,23 +30,23 @@ msgstr ""
 "X-Poedit-SearchPath-11: includes/icopydoc-useful-functions.php\n"
 "X-Poedit-SearchPath-12: includes/old-php-add-functions.php\n"
 
-#: best-rating-pageviews.php:184
+#: best-rating-pageviews.php:195
 msgid "Updated"
 msgstr "Обновлено"
 
-#: best-rating-pageviews.php:218
+#: best-rating-pageviews.php:229
 msgid "Statistics deleted"
 msgstr "Статистика удалена"
 
-#: best-rating-pageviews.php:229
+#: best-rating-pageviews.php:240
 msgid "Statistics"
 msgstr "Статистика"
 
-#: best-rating-pageviews.php:232 best-rating-pageviews.php:393
+#: best-rating-pageviews.php:243 best-rating-pageviews.php:462
 msgid "Settings"
 msgstr "Настройки"
 
-#: best-rating-pageviews.php:321
+#: best-rating-pageviews.php:379
 msgid "Raiting"
 msgstr "Рейтинг"
 
@@ -79,12 +79,12 @@ msgid "Did my plugin help you upload your products to the"
 msgstr "Помог ли Вам плагин загрузить продукцию на"
 
 #: classes/system/class-brpv-feedback.php:31
-#: classes/system/class-brpv-settings-page.php:156
+#: classes/system/class-brpv-settings-page.php:158
 msgid "Yes"
 msgstr "Да"
 
 #: classes/system/class-brpv-feedback.php:32
-#: classes/system/class-brpv-settings-page.php:157
+#: classes/system/class-brpv-settings-page.php:159
 msgid "No"
 msgstr "Нет"
 
@@ -220,34 +220,36 @@ msgid "Click to save the settings"
 msgstr "Нажмите, чтобы сохранить настройки"
 
 #: classes/system/class-brpv-settings-page.php:96
-#: classes/system/class-brpv-settings-page.php:130
+#: classes/system/class-brpv-settings-page.php:132
 msgid "Main settings"
 msgstr "Основные настройки"
 
-#: classes/system/class-brpv-settings-page.php:153
+#: classes/system/class-brpv-settings-page.php:155
 msgid "Not count bots"
 msgstr "Не считать ботов"
 
-#: classes/system/class-brpv-settings-page.php:159
+#: classes/system/class-brpv-settings-page.php:161
 msgid "Do not count the bots visiting the site"
 msgstr "Не считайте ботов, посещающих сайт"
 
-#: classes/system/class-brpv-settings-page.php:163
-#: classes/system/class-brpv-settings-page.php:168
-msgid "Rating icons"
-msgstr "Значки рейтинга"
+#: classes/system/class-brpv-settings-page.php:165
+msgid "Main color"
+msgstr "Основной цвет"
 
-#: classes/system/class-brpv-settings-page.php:211
+#: classes/system/class-brpv-settings-page.php:169
+msgid "Hover color"
+msgstr "Цвет при наведении"
+
+#: classes/system/class-brpv-settings-page.php:212
 #: classes/system/class-brpv-statistics-page.php:75
 msgid "My plugins that may interest you"
 msgstr "Мои плагины, которые могут вас заинтересовать"
 
-#: classes/system/class-brpv-settings-page.php:213
+#: classes/system/class-brpv-settings-page.php:214
 #: classes/system/class-brpv-statistics-page.php:77
 msgid "Сreates a XML-feed to upload to Google Merchant Center"
 msgstr "Создает XML-фид для загрузки в Google Merchant Center"
 
-#: classes/system/class-brpv-settings-page.php:213
 #: classes/system/class-brpv-settings-page.php:214
 #: classes/system/class-brpv-settings-page.php:215
 #: classes/system/class-brpv-settings-page.php:216
@@ -255,6 +257,8 @@ msgstr "Создает XML-фид для загрузки в Google Merchant Cen
 #: classes/system/class-brpv-settings-page.php:218
 #: classes/system/class-brpv-settings-page.php:219
 #: classes/system/class-brpv-settings-page.php:220
+#: classes/system/class-brpv-settings-page.php:221
+#: classes/system/class-brpv-settings-page.php:222
 #: classes/system/class-brpv-statistics-page.php:77
 #: classes/system/class-brpv-statistics-page.php:78
 #: classes/system/class-brpv-statistics-page.php:79
@@ -266,22 +270,30 @@ msgstr "Создает XML-фид для загрузки в Google Merchant Cen
 msgid "Read more"
 msgstr "Подробнее"
 
-#: classes/system/class-brpv-settings-page.php:214
+#: classes/system/class-brpv-settings-page.php:215
 #: classes/system/class-brpv-statistics-page.php:78
 msgid "Сreates a YML-feed for importing your products to Yandex Market"
 msgstr "Создает YML-фид для импорта ваших товаров на Яндекс Маркет"
 
-#: classes/system/class-brpv-settings-page.php:215
+#: classes/system/class-brpv-settings-page.php:216
 #: classes/system/class-brpv-statistics-page.php:79
 msgid "Imports products from YML to your shop"
 msgstr "Импортирует товары из YML в ваш магазин"
 
-#: classes/system/class-brpv-settings-page.php:216
+#: classes/system/class-brpv-settings-page.php:217
+msgid ""
+"This plugin helps setting up myTarget counter for dynamic remarketing for "
+"WooCommerce"
+msgstr ""
+"Этот плагин помогает настроить счетчик myTarget для динамического "
+"ремаркетинга для WooCommerce"
+
+#: classes/system/class-brpv-settings-page.php:218
 #: classes/system/class-brpv-statistics-page.php:80
 msgid "Сreates a XML-feed for importing your products to Hotline"
 msgstr "Создает XML-фид для импорта ваших товаров на Hotline"
 
-#: classes/system/class-brpv-settings-page.php:217
+#: classes/system/class-brpv-settings-page.php:219
 #: classes/system/class-brpv-statistics-page.php:81
 msgid ""
 "This plugin will add a marketing tool that will allow you to give gifts to "
@@ -290,14 +302,14 @@ msgstr ""
 "Этот плагин добавит маркетинговый инструмент, который позволит вам дарить "
 "подарки покупателю при покупке"
 
-#: classes/system/class-brpv-settings-page.php:218
+#: classes/system/class-brpv-settings-page.php:220
 #: classes/system/class-brpv-statistics-page.php:82
 msgid "With this plugin, you can import products to your group on ok.ru"
 msgstr ""
 "С помощью этого плагина вы можете импортировать товары в свою группу на ok.ru"
 
-#: classes/system/class-brpv-settings-page.php:219
-#: classes/system/class-brpv-settings-page.php:220
+#: classes/system/class-brpv-settings-page.php:221
+#: classes/system/class-brpv-settings-page.php:222
 #: classes/system/class-brpv-statistics-page.php:83
 #: classes/system/class-brpv-statistics-page.php:84
 msgid "Сreates a XML-feed for importing your products to"
@@ -374,6 +386,9 @@ msgstr "Сортировать по"
 #: classes/widgets/class-brpv-widget-popular.php:81
 msgid "PageViews"
 msgstr "Просмотры"
+
+#~ msgid "Rating icons"
+#~ msgstr "Значки рейтинга"
 
 #, fuzzy
 #~| msgid "Clear statistics"

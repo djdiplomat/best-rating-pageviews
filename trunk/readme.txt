@@ -1,10 +1,10 @@
 ﻿=== Best Rating & Pageviews ===
 Contributors: icopydoc
-Donate link: https://sobe.ru/na/best_rating_pageviews
+Donate link: https://pay.cloudtips.ru/p/45d8ff3f
 Tags: rating, stars, pageviews, widget, popular
 Requires at least: 4.5
-Tested up to: 6.0.1
-Stable tag: 2.2.1
+Tested up to: 6.0.2
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,10 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Changelog ==
 
+= 3.0.0 =
+* New plugin core
+* Important! Some settings are completely incompatible with previous versions of the plugin. Before updating the plugin, make a backup copy of it
+
 = 2.2.1 =
 * Now you can choose which post types to collect statistics for
 
@@ -100,5 +104,6 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Upgrade Notice ==
 
-= 2.2.1 =
-* Now you can choose which post types to collect statistics for
+= 3.0.0 =
+* New plugin core
+* Important! Some settings are completely incompatible with previous versions of the plugin. Before updating the plugin, make a backup copy of it

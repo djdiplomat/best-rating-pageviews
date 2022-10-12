@@ -1,0 +1,3 @@
+.brpv_raiting {position:relative; display:flex; flex-direction: row-reverse; float: left;}
+.brpv_raiting_info {padding: 5px 0px 0px 10px;}
+.brpv_raiting_icon:hover ~ .brpv_raiting_icon use, .brpv_raiting_icon:hover use {cursor: pointer; mask: none !important;}
