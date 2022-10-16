@@ -3,7 +3,7 @@
 * Plugin Name: Best Rating & Pageviews
 * Plugin URI: https://icopydoc.ru/category/documentation/
 * Description: Add Star rating, pageviews and adds a tool for analyzing the effectiveness of content. Also this plugin adds a widget which shows popular posts and pages based on the rating and pageviews.
-* Version: 3.0.0
+* Version: 3.0.1
 * Requires at least: 4.5
 * Requires PHP: 5.6
 * Author: Maxim Glazunov
@@ -27,7 +27,7 @@ $upload_dir = wp_get_upload_dir();
 define('BRPV_SITE_UPLOADS_URL', $upload_dir['baseurl']); // http://site.ru/wp-content/uploads
 define('BRPV_SITE_UPLOADS_DIR_PATH', $upload_dir['basedir']); // /home/site.ru/public_html/wp-content/uploads
 
-define('BRPV_PLUGIN_VERSION', '3.0.0'); // 1.0.0
+define('BRPV_PLUGIN_VERSION', '3.0.1'); // 1.0.0
 define('BRPV_PLUGIN_UPLOADS_DIR_URL', $upload_dir['baseurl'].'/best-rating-pageviews'); // http://site.ru/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_UPLOADS_DIR_PATH', $upload_dir['basedir'].'/best-rating-pageviews'); // /home/site.ru/public_html/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_DIR_URL', plugin_dir_url(__FILE__)); // http://site.ru/wp-content/plugins/best-rating-pageviews/
@@ -66,13 +66,13 @@ final class BestRatingPageviews {
 	public static function on_activation() {
 		if (!current_user_can('activate_plugins')) {return;}
 		if (is_multisite()) {
-			add_blog_option(get_current_blog_id(), 'brpv_version', '3.0.0');
+			add_blog_option(get_current_blog_id(), 'brpv_version', '3.0.1');
 			add_blog_option(get_current_blog_id(), 'brpv_posts_type_arr', array('post', 'page'));
 			add_blog_option(get_current_blog_id(), 'brpv_not_count_bots', 'yes');
 			add_blog_option(get_current_blog_id(), 'brpv_main_color', '#ffc000');
 			add_blog_option(get_current_blog_id(), 'brpv_hover_color', '#ff5500');
 		} else {
-			add_option('brpv_version', '3.0.0', '', 'no');
+			add_option('brpv_version', '3.0.1', '', 'no');
 			add_option('brpv_posts_type_arr', array('post', 'page'));
 			add_option('brpv_not_count_bots', 'yes'); // Учитывать ботов?
 			add_option('brpv_main_color', '#ffc000');
@@ -140,7 +140,7 @@ final class BestRatingPageviews {
 		add_action('admin_init', array($this, 'listen_submits_func'), 10); // ещё можно слушать чуть раньше на wp_loaded
 		add_action('admin_menu', array($this, 'add_admin_menu_func'));
 
-		add_action('wp_head',  array($this, 'session_counter')); // cчетчик посещений
+		add_action('wp_head',  array($this, 'hover_styles_and_session_counter')); // вывод нужных стилей и cчетчик посещений
 		add_action('wp_enqueue_scripts', array($this, 'brpv_enqueue_fp'));
 		add_action('wp_enqueue_scripts', array($this, 'register_style_frontend'));
 		add_action('admin_notices', array($this, 'print_admin_notices_func'));
@@ -291,14 +291,14 @@ final class BestRatingPageviews {
 		});</script><?php
 	} 
 	
-	public function session_counter() {
+	public function hover_styles_and_session_counter() {
 		if (is_multisite()) {
 			$hover_color = get_blog_option(get_current_blog_id(), 'brpv_hover_color');
 		} else {
 			$hover_color = get_option('brpv_hover_color');
 		}
 		// печатаем стили
-		echo '<style>.brpv_raiting_icon:hover ~ .brpv_raiting_icon use, .brpv_raiting_icon:hover use {fill: '.$hover_color.' !important;}</style>';
+		echo '<style>.brpv_raiting:not(.hover_disabled) .brpv_raiting_icon:hover ~ .brpv_raiting_icon use, .brpv_raiting:not(.hover_disabled) .brpv_raiting_icon:hover use {fill: '.$hover_color.';}</style>';
 
 		// https://habrahabr.ru/sandbox/74080/
 		if (is_singular()) { // Функция объединяет в себе : is_single(), is_page(), is_attachment() и произвольные типы записей.
@@ -362,7 +362,8 @@ final class BestRatingPageviews {
 			$main_color = get_option('brpv_main_color');
 			// $hover_color = get_option('brpv_hover_color');
 		}
-		$item_reviewed = esc_html($post->post_title); ?>
+		$item_reviewed = esc_html($post->post_title); 
+		$cookie_name = 'article'.$post_id; ?>
 		<svg width="0" height="0" viewBox="0 0 32 32">
 			<defs>
 				<mask id="<?php echo $half_mask_id; ?>">
@@ -375,7 +376,7 @@ final class BestRatingPageviews {
 			</defs>
 		</svg>
 		<div style="display: none;" itemprop="aggregateRating" itemscope="" itemtype="https://schema.org/AggregateRating"><meta itemprop="bestRating" content="5"><meta itemprop="ratingValue" content="<?php echo $rating_value; ?>"><meta itemprop="ratingCount" content="<?php echo $rating_count; ?>"><meta itemprop="itemReviewed" content="<?php echo $item_reviewed; ?>"></div>
-		<div id="brpv_raiting_star_<?php echo $post_id; ?>" class="brpv_raiting">
+		<div id="brpv_raiting_star_<?php echo $post_id; ?>" class="brpv_raiting<?php if (isset($_COOKIE[$cookie_name])) {echo ' hover_disabled';} ?>">
 			<div class="brpv_raiting_info"><strong><?php _e('Raiting', 'brpv'); ?>:</strong> <span class="brpv_raiting_value"><?php echo $rating_value; ?></span></div>
 			<?php for ($i = 5; $i > 0; $i--) : ?>
 				<svg class="brpv_raiting_icon" width="32" height="32" viewBox="0 0 32 32" data-rating="<?php echo $i; ?>" post-id="<?php echo $post_id; ?>">

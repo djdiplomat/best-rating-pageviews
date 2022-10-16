@@ -46,6 +46,7 @@ jQuery(function($){$(document).ready( function() {
 						$.cookies.set('article'+postId, 123, {hoursToLive: 1}); // создаем куку о голосовании
 						var zapros = '#brpv_raiting_star_'+postId;
 						$(zapros).children('div').children('.brpv_raiting_info span').text(answer['total_rating_new']); // выводим числовое значение рейтинга
+						$(zapros).toggleClass('hover_disabled');	
 						
 						var zapros = '#half_'+postId;
 						var rating_value = parseFloat(answer['total_rating_new'])

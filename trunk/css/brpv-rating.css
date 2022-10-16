@@ -1,3 +1,5 @@
 .brpv_raiting {position:relative; display:flex; flex-direction: row-reverse; float: left;}
-.brpv_raiting_info {padding: 5px 0px 0px 10px;}
-.brpv_raiting_icon:hover ~ .brpv_raiting_icon use, .brpv_raiting_icon:hover use {cursor: pointer; mask: none !important;}
+.brpv_raiting_info {padding: 5px 0px 0px 10px;} 
+.brpv_raiting:not(.hover_disabled) .brpv_raiting_icon {cursor: pointer;}
+.brpv_raiting.hover_disabled .brpv_raiting_icon { cursor:not-allowed;}
+.brpv_raiting .brpv_raiting_icon:hover ~ .brpv_raiting_icon use, .brpv_raiting_icon:hover use {mask: none !important;}
