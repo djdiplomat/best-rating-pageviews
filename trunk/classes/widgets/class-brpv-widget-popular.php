@@ -14,16 +14,16 @@ add_action('widgets_init', function () {
 class BRPV_Widget_Popular extends WP_Widget {
 	public function __construct() {
 		parent::__construct("text_widget",
-			__('Popular', 'brpv'),
+			__('Popular', 'best-rating-pageviews'),
 			array(
-				'description' => __( 'Shows popular posts and pages based on the rating and pageviews', 'brpv'),		
+				'description' => __( 'Shows popular posts and pages based on the rating and pageviews', 'best-rating-pageviews'),		
 			)
 		);
 	}
 
 	//Метод form() (отвечает за внешний вид виджета в админке)
 	public function form($instance) {
-		$title = __('Popular', 'brpv'); // дефольный заголовок
+		$title = __('Popular', 'best-rating-pageviews'); // дефольный заголовок
 		$NumPostov = "5"; // дефолтное число постов
 		$WhatShows = "post";
 		$order = "ASC";
@@ -40,46 +40,46 @@ class BRPV_Widget_Popular extends WP_Widget {
 		/* вытаскиваем первый параметр (заголовок виджета) */
 		$tableId = $this->get_field_id("title");
 		$tableName = $this->get_field_name("title");
-		echo '<p><label for="' . $tableId . '">'.__( "Title", "brpv" ).':</label>';
+		echo '<p><label for="' . $tableId . '">'.__( "Title", "best-rating-pageviews" ).':</label>';
 		echo '<input class="widefat" id="' . $tableId . '" type="text" name="' .
 		$tableName . '" value="' . $title . '"></p>';
 			
 		/* вытаскиваем второй параметр (число постов в виджете) */
 		$NumPostovId = $this->get_field_id("NumPostovId");
 		$NumPostovName = $this->get_field_name("NumPostovId");
-		echo '<p><label for="' . $NumPostovId . '">'.__( "Num Posts", "brpv" ).': </label><input class="tiny-text" size="3" step="1" min="1" id="' . $NumPostovId . '" type="number" name="' .
+		echo '<p><label for="' . $NumPostovId . '">'.__( "Num Posts", "best-rating-pageviews" ).': </label><input class="tiny-text" size="3" step="1" min="1" id="' . $NumPostovId . '" type="number" name="' .
 		$NumPostovName . '" value="' . $NumPostov . '"></p>';
 		
 		/* вытаскиваем третий параметр (что выводить) */
 		$WhatShowsId = $this->get_field_id("WhatShowsId");
 		$WhatShowsName = $this->get_field_name("WhatShowsId");?>
-		<p><label for="<?php echo $WhatShowsId; ?>"><?php _e( 'Show', 'brpv' ); ?>:</label>
+		<p><label for="<?php echo $WhatShowsId; ?>"><?php _e( 'Show', 'best-rating-pageviews' ); ?>:</label>
 		<select id="<?php $WhatShowsId; ?>" class="widefat" name="<?php
 		echo $WhatShowsName; ?>">
-			<option value="post" <?php echo ($WhatShows == 'post') ? ' selected="selected"' : '' ?>><?php _e( 'Post', 'brpv' ); ?></option>
-			<option value="page" <?php echo ($WhatShows == 'page') ? ' selected="selected"' : '' ?>><?php _e( 'Page', 'brpv'); ?></option>
+			<option value="post" <?php echo ($WhatShows == 'post') ? ' selected="selected"' : '' ?>><?php _e( 'Post', 'best-rating-pageviews' ); ?></option>
+			<option value="page" <?php echo ($WhatShows == 'page') ? ' selected="selected"' : '' ?>><?php _e( 'Page', 'best-rating-pageviews'); ?></option>
 		</select></p>	
 		<?php
 		
 		/* вытаскиваем четвертый параметр (сортировка) */
 		$orderId = $this->get_field_id("orderId");
 		$orderName = $this->get_field_name("orderId"); ?>
-		<p><label for="<?php echo $orderId; ?>"><?php _e( 'Order', 'brpv' ); ?>:</label>
+		<p><label for="<?php echo $orderId; ?>"><?php _e( 'Order', 'best-rating-pageviews' ); ?>:</label>
 		<select id="<?php $orderId; ?>" class="widefat" name="<?php
 		echo $orderName; ?>">
-			<option value="ASC" <?php echo ($order == 'ASC') ? ' selected="selected"' : '' ?>><?php _e( 'ASC', 'brpv' ); ?></option>
-			<option value="DESC" <?php echo ($order == 'DESC') ? ' selected="selected"' : '' ?>><?php _e( 'DESC', 'brpv'); ?></option>
+			<option value="ASC" <?php echo ($order == 'ASC') ? ' selected="selected"' : '' ?>><?php _e( 'ASC', 'best-rating-pageviews' ); ?></option>
+			<option value="DESC" <?php echo ($order == 'DESC') ? ' selected="selected"' : '' ?>><?php _e( 'DESC', 'best-rating-pageviews'); ?></option>
 		</select></p>	
 		<?php 
 		
 		/* вытаскиваем пятый параметр (ключ сортировки) */
 		$orderbyId = $this->get_field_id("orderbyId");
 		$orderbyName = $this->get_field_name("orderbyId"); ?>
-		<p><label for="<?php echo $orderbyId; ?>"><?php _e( 'Order by', 'brpv' ); ?>:</label>
+		<p><label for="<?php echo $orderbyId; ?>"><?php _e( 'Order by', 'best-rating-pageviews' ); ?>:</label>
 		<select id="<?php $orderbyId; ?>" class="widefat" name="<?php
 		echo $orderbyName; ?>">
-			<option value="brpv_pageviews" <?php echo ($orderby == 'brpv_pageviews') ? ' selected="selected"' : '' ?>><?php _e( 'PageViews', 'brpv' ); ?></option>
-			<option value="brpv_total_rating" <?php echo ($orderby == 'brpv_total_rating') ? ' selected="selected"' : '' ?>><?php _e( 'Rating', 'brpv'); ?></option>
+			<option value="brpv_pageviews" <?php echo ($orderby == 'brpv_pageviews') ? ' selected="selected"' : '' ?>><?php _e( 'PageViews', 'best-rating-pageviews' ); ?></option>
+			<option value="brpv_total_rating" <?php echo ($orderby == 'brpv_total_rating') ? ' selected="selected"' : '' ?>><?php _e( 'Rating', 'best-rating-pageviews'); ?></option>
 		</select></p>	
 		<?php 
 	}
@@ -134,4 +134,3 @@ class BRPV_Widget_Popular extends WP_Widget {
 		echo $args['after_widget']; // вывод обертки виджета (закрывающий тег)
 	}
 }
-?>

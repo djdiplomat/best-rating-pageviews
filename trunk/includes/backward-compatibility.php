@@ -3,4 +3,3 @@
 // Maxim Glazunov (https://icopydoc.ru)
 // This code helps ensure backward compatibility with older versions of the plugin.
 
-?>

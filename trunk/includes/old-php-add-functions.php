@@ -4,14 +4,14 @@
 // This code adds several useful functions to the WordPress.
 
 /**
-* @since 1.0.0
-* @source https://www.php.net/manual/ru/function.array-key-first.php
-*
-* @param array $arr (require)
-*
-* @return string/null
-*
-*/ 
+ * @since 1.0.0
+ * @source https://www.php.net/manual/ru/function.array-key-first.php
+ *
+ * @param array $arr (require)
+ *
+ * @return string/null
+ *
+ */ 
 if (version_compare(PHP_VERSION, '7.3.0') <= 0) {
 	if (!function_exists('array_key_first')) {
 		function array_key_first(array $arr) {
@@ -24,10 +24,10 @@ if (version_compare(PHP_VERSION, '7.3.0') <= 0) {
 }
 
 /**
-* @since 1.0.1
-*
-* @return last key of array or null
-*/
+ * @since 1.0.1
+ *
+ * @return last key of array or null
+ */
 if (version_compare(PHP_VERSION, '7.3.0') <= 0) {
 	if (!function_exists("array_key_last")) {
 		function array_key_last($array) {
@@ -38,4 +38,3 @@ if (version_compare(PHP_VERSION, '7.3.0') <= 0) {
 		}
 	}
 }
-?>

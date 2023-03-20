@@ -29,11 +29,11 @@ class BRPV_Settings_Page {
 					<div id="postbox-container-1" class="postbox-container">
 						<div class="meta-box-sortables">
 							<div class="postbox">
-								<h2 class="hndle"><?php _e('Clear all statistics', 'brpv'); ?>!</h2>
+								<h2 class="hndle"><?php _e('Clear all statistics', 'best-rating-pageviews'); ?>!</h2>
 								<div class="inside">
 									<form action="<?php echo esc_html($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
 										<?php wp_nonce_field('brpv_nonce_action_clear_stat', 'brpv_nonce_clear_stat_field'); ?>
-										<input id="brpv_submit_clear_stat" class="button" type="submit" name="brpv_submit_clear_stat" value="<?php _e('Clear statistics', 'brpv'); ?>" />
+										<input id="brpv_submit_clear_stat" class="button" type="submit" name="brpv_submit_clear_stat" value="<?php _e('Clear statistics', 'best-rating-pageviews'); ?>" />
 									</form>
 								</div>
 							</div>
@@ -54,18 +54,18 @@ class BRPV_Settings_Page {
 										<?php break; ?>
 								<?php endswitch; ?>
 								<div class="postbox">
-									<h2 class="hndle"><?php _e('Examples shotcodes', 'brpv'); ?></h2>	
+									<h2 class="hndle"><?php _e('Examples shotcodes', 'best-rating-pageviews'); ?></h2>	
 									<div class="inside">
-										<p><strong><?php _e('To display the rating stars', 'brpv'); ?></strong></p>
-										<p><strong>[pageratings]</strong><br /><?php _e('or in php code', 'brpv'); ?>:<br /> 
+										<p><strong><?php _e('To display the rating stars', 'best-rating-pageviews'); ?></strong></p>
+										<p><strong>[pageratings]</strong><br /><?php _e('or in php code', 'best-rating-pageviews'); ?>:<br /> 
 										<strong>do_shortcode('[pageratings]');</strong></p>		
-										<p><strong><?php _e('To display the number of page views', 'brpv'); ?></strong></p>
-										<p><strong>[pageviews]</strong><br /><?php _e('or in php code', 'brpv'); ?>:<br />
+										<p><strong><?php _e('To display the number of page views', 'best-rating-pageviews'); ?></strong></p>
+										<p><strong>[pageviews]</strong><br /><?php _e('or in php code', 'best-rating-pageviews'); ?>:<br />
 										<strong>do_shortcode('[pageviews]');</strong></p>
-										<?php _e('Notice', 'brpv'); ?>:<br />
-										- <?php _e('This shortcodes can be used in the body of the article', 'brpv'); ?>.<br />
-										- <?php _e('This shortcodes can be used in the loop body of templates', 'brpv'); ?>.<br />
-										- <?php _e('This shortcodes cannot be used outside the loop of the template', 'brpv'); ?>.
+										<?php _e('Notice', 'best-rating-pageviews'); ?>:<br />
+										- <?php _e('This shortcodes can be used in the body of the article', 'best-rating-pageviews'); ?>.<br />
+										- <?php _e('This shortcodes can be used in the loop body of templates', 'best-rating-pageviews'); ?>.<br />
+										- <?php _e('This shortcodes cannot be used outside the loop of the template', 'best-rating-pageviews'); ?>.
 									</div>
 								</div>
 								<?php do_action('brpv_after_optional_elemet_block'); ?>
@@ -74,8 +74,8 @@ class BRPV_Settings_Page {
 										<table class="form-table"><tbody>
 											<tr>
 												<th scope="row"><label for="button-primary"></label></th>
-												<td class="overalldesc"><?php wp_nonce_field('brpv_nonce_action', 'brpv_nonce_field'); ?><input id="button-primary" class="button-primary" type="submit" name="brpv_submit_action" value="<?php _e('Save', 'brpv'); ?>"/><br />
-												<span class="description"><small><?php _e('Click to save the settings', 'brpv'); ?><small></span></td>
+												<td class="overalldesc"><?php wp_nonce_field('brpv_nonce_action', 'brpv_nonce_field'); ?><input id="button-primary" class="button-primary" type="submit" name="brpv_submit_action" value="<?php _e('Save', 'best-rating-pageviews'); ?>"/><br />
+												<span class="description"><small><?php _e('Click to save the settings', 'best-rating-pageviews'); ?><small></span></td>
 											</tr>
 										</tbody></table>
 									</div>
@@ -93,7 +93,7 @@ class BRPV_Settings_Page {
 
 	public function get_html_tabs($current = 'main_tab') {
 		$tabs = array(
-			'main_tab' 		=> __('Main settings', 'brpv')
+			'main_tab' 		=> __('Main settings', 'best-rating-pageviews')
 		);
 		
 		$html = '<div class="nav-tab-wrapper" style="margin-bottom: 10px;">';
@@ -129,7 +129,7 @@ class BRPV_Settings_Page {
 		}	
 		?>
 		<div class="postbox">
-			<h2 class="hndle"><?php _e('Main settings', 'brpv'); ?></h2>
+			<h2 class="hndle"><?php _e('Main settings', 'best-rating-pageviews'); ?></h2>
 			<div class="inside">
 				<table class="form-table"><tbody>
 					<tr class="brpv_tr">
@@ -152,21 +152,21 @@ class BRPV_Settings_Page {
 						</td>
 					</tr>
 					<tr class="brpv_tr">		
-						<th scope="row"><label for="brpv_not_count_bots"><?php _e('Not count bots', 'brpv'); ?></label></th>
+						<th scope="row"><label for="brpv_not_count_bots"><?php _e('Not count bots', 'best-rating-pageviews'); ?></label></th>
 						<td class="overalldesc">
 							<select name="brpv_not_count_bots">					
-								<option value="yes" <?php selected( esc_html($brpv_not_count_bots), 'yes'); ?>><?php _e('Yes', 'brpv'); ?></option>
-								<option value="no" <?php selected( esc_html($brpv_not_count_bots), 'no'); ?>><?php _e('No', 'brpv'); ?></option>
+								<option value="yes" <?php selected( esc_html($brpv_not_count_bots), 'yes'); ?>><?php _e('Yes', 'best-rating-pageviews'); ?></option>
+								<option value="no" <?php selected( esc_html($brpv_not_count_bots), 'no'); ?>><?php _e('No', 'best-rating-pageviews'); ?></option>
 							</select><br />
-							<span class="description"><?php _e('Do not count the bots visiting the site', 'brpv'); ?></span>
+							<span class="description"><?php _e('Do not count the bots visiting the site', 'best-rating-pageviews'); ?></span>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="brpv_main_color"><?php _e('Main color', 'brpv'); ?></label></th>
+						<th scope="row"><label for="brpv_main_color"><?php _e('Main color', 'best-rating-pageviews'); ?></label></th>
 						<td class="overalldesc"><input class="iris_color" name="brpv_main_color" id="brpv_main_color" type="text" value="<?php echo $brpv_main_color; ?>"></td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="brpv_hover_color"><?php _e('Hover color', 'brpv'); ?></label></th>
+						<th scope="row"><label for="brpv_hover_color"><?php _e('Hover color', 'best-rating-pageviews'); ?></label></th>
 						<td class="overalldesc"><input class="iris_color" name="brpv_hover_color" id="brpv_hover_color" type="text" value="<?php echo $brpv_hover_color; ?>"></td>
 					</tr>
 				</tbody></table>
@@ -209,17 +209,17 @@ class BRPV_Settings_Page {
 	public function get_html_my_plugins_list() { ?>
 		<div class="metabox-holder">
 			<div class="postbox">
-				<h2 class="hndle"><?php _e('My plugins that may interest you', 'brpv'); ?></h2>
+				<h2 class="hndle"><?php _e('My plugins that may interest you', 'best-rating-pageviews'); ?></h2>
 				<div class="inside">
-					<p><span class="brpv_bold">XML for Google Merchant Center</span> - <?php _e('Сreates a XML-feed to upload to Google Merchant Center', 'brpv'); ?>. <a href="https://wordpress.org/plugins/xml-for-google-merchant-center/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p> 
-					<p><span class="brpv_bold">YML for Yandex Market</span> - <?php _e('Сreates a YML-feed for importing your products to Yandex Market', 'brpv'); ?>. <a href="https://wordpress.org/plugins/yml-for-yandex-market/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
-					<p><span class="brpv_bold">Import from YML</span> - <?php _e('Imports products from YML to your shop', 'brpv'); ?>. <a href="https://wordpress.org/plugins/import-from-yml/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
-					<p><span class="brpv_bold">Integrate myTarget for WooCommerce</span> - <?php _e('This plugin helps setting up myTarget counter for dynamic remarketing for WooCommerce', 'brpv'); ?>. <a href="https://wordpress.org/plugins/wc-mytarget/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
-					<p><span class="brpv_bold">XML for Hotline</span> - <?php _e('Сreates a XML-feed for importing your products to Hotline', 'brpv'); ?>. <a href="https://wordpress.org/plugins/xml-for-hotline/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
-					<p><span class="brpv_bold">Gift upon purchase for WooCommerce</span> - <?php _e('This plugin will add a marketing tool that will allow you to give gifts to the buyer upon purchase', 'brpv'); ?>. <a href="https://wordpress.org/plugins/gift-upon-purchase-for-woocommerce/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
-					<p><span class="brpv_bold">Import products to ok.ru</span> - <?php _e('With this plugin, you can import products to your group on ok.ru', 'brpv'); ?>. <a href="https://wordpress.org/plugins/import-products-to-ok-ru/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
-					<p><span class="brpv_bold">XML for Avito</span> - <?php _e('Сreates a XML-feed for importing your products to', 'brpv'); ?> Avito. <a href="https://wordpress.org/plugins/xml-for-avito/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
-					<p><span class="brpv_bold">XML for O.Yandex (Яндекс Объявления)</span> - <?php _e('Сreates a XML-feed for importing your products to', 'brpv'); ?> Яндекс.Объявления. <a href="https://wordpress.org/plugins/xml-for-o-yandex/" target="_blank"><?php _e('Read more', 'brpv'); ?></a>.</p>
+					<p><span class="brpv_bold">XML for Google Merchant Center</span> - <?php _e('Сreates a XML-feed to upload to Google Merchant Center', 'best-rating-pageviews'); ?>. <a href="https://wordpress.org/plugins/xml-for-google-merchant-center/" target="_blank"><?php _e('Read more', 'best-rating-pageviews'); ?></a>.</p> 
+					<p><span class="brpv_bold">YML for Yandex Market</span> - <?php _e('Сreates a YML-feed for importing your products to Yandex Market', 'best-rating-pageviews'); ?>. <a href="https://wordpress.org/plugins/yml-for-yandex-market/" target="_blank"><?php _e('Read more', 'best-rating-pageviews'); ?></a>.</p>
+					<p><span class="brpv_bold">Import from YML</span> - <?php _e('Imports products from YML to your shop', 'best-rating-pageviews'); ?>. <a href="https://wordpress.org/plugins/import-from-yml/" target="_blank"><?php _e('Read more', 'best-rating-pageviews'); ?></a>.</p>
+					<p><span class="brpv_bold">Integrate myTarget for WooCommerce</span> - <?php _e('This plugin helps setting up myTarget counter for dynamic remarketing for WooCommerce', 'best-rating-pageviews'); ?>. <a href="https://wordpress.org/plugins/wc-mytarget/" target="_blank"><?php _e('Read more', 'best-rating-pageviews'); ?></a>.</p>
+					<p><span class="brpv_bold">XML for Hotline</span> - <?php _e('Сreates a XML-feed for importing your products to Hotline', 'best-rating-pageviews'); ?>. <a href="https://wordpress.org/plugins/xml-for-hotline/" target="_blank"><?php _e('Read more', 'best-rating-pageviews'); ?></a>.</p>
+					<p><span class="brpv_bold">Gift upon purchase for WooCommerce</span> - <?php _e('This plugin will add a marketing tool that will allow you to give gifts to the buyer upon purchase', 'best-rating-pageviews'); ?>. <a href="https://wordpress.org/plugins/gift-upon-purchase-for-woocommerce/" target="_blank"><?php _e('Read more', 'best-rating-pageviews'); ?></a>.</p>
+					<p><span class="brpv_bold">Import products to ok.ru</span> - <?php _e('With this plugin, you can import products to your group on ok.ru', 'best-rating-pageviews'); ?>. <a href="https://wordpress.org/plugins/import-products-to-ok-ru/" target="_blank"><?php _e('Read more', 'best-rating-pageviews'); ?></a>.</p>
+					<p><span class="brpv_bold">XML for Avito</span> - <?php _e('Сreates a XML-feed for importing your products to', 'best-rating-pageviews'); ?> Avito. <a href="https://wordpress.org/plugins/xml-for-avito/" target="_blank"><?php _e('Read more', 'best-rating-pageviews'); ?></a>.</p>
+					<p><span class="brpv_bold">XML for O.Yandex (Яндекс Объявления)</span> - <?php _e('Сreates a XML-feed for importing your products to', 'best-rating-pageviews'); ?> Яндекс.Объявления. <a href="https://wordpress.org/plugins/xml-for-o-yandex/" target="_blank"><?php _e('Read more', 'best-rating-pageviews'); ?></a>.</p>
 				</div>
 			</div>
 		</div><?php

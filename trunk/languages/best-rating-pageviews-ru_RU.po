@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-10-12 18:52+0300\n"
-"PO-Revision-Date: 2022-10-12 18:53+0300\n"
+"POT-Creation-Date: 2023-03-20 22:13+0300\n"
+"PO-Revision-Date: 2023-03-20 22:13+0300\n"
 "Last-Translator: \n"
 "Language-Team: Maxim Glazunov <djdiplomat477@gmail.com>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.1.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c\n"
@@ -29,26 +29,15 @@ msgstr ""
 "X-Poedit-SearchPath-10: includes/backward-compatibility.php\n"
 "X-Poedit-SearchPath-11: includes/icopydoc-useful-functions.php\n"
 "X-Poedit-SearchPath-12: includes/old-php-add-functions.php\n"
+"X-Poedit-SearchPath-13: classes/system/class-brpv.php\n"
 
-#: best-rating-pageviews.php:195
-msgid "Updated"
-msgstr "Обновлено"
+#: best-rating-pageviews.php:34
+msgid "plugin requires a php version of at least"
+msgstr "для работы плагина требуется php версии не ниже"
 
-#: best-rating-pageviews.php:229
-msgid "Statistics deleted"
-msgstr "Статистика удалена"
-
-#: best-rating-pageviews.php:240
-msgid "Statistics"
-msgstr "Статистика"
-
-#: best-rating-pageviews.php:243 best-rating-pageviews.php:462
-msgid "Settings"
-msgstr "Настройки"
-
-#: best-rating-pageviews.php:379
-msgid "Raiting"
-msgstr "Рейтинг"
+#: best-rating-pageviews.php:35
+msgid "You have the version installed"
+msgstr "У вас установлена версия"
 
 #: classes/system/class-brpv-feedback.php:20
 msgid "Send data about the work of the plugin"
@@ -63,8 +52,8 @@ msgid "The following data will be transferred"
 msgstr "Следующие данные будут переданы"
 
 #: classes/system/class-brpv-feedback.php:24
-msgid "PHP version information "
-msgstr "Информация о версии PHP"
+msgid "PHP version information"
+msgstr "Информация о PHP версии"
 
 #: classes/system/class-brpv-feedback.php:25
 msgid "Multisite mode status"
@@ -341,6 +330,26 @@ msgstr "Дата последнего визита"
 msgid "No data availabled"
 msgstr "Нет доступных данных"
 
+#: classes/system/class-brpv.php:176
+msgid "Updated"
+msgstr "Обновлено"
+
+#: classes/system/class-brpv.php:210
+msgid "Statistics deleted"
+msgstr "Статистика удалена"
+
+#: classes/system/class-brpv.php:221
+msgid "Statistics"
+msgstr "Статистика"
+
+#: classes/system/class-brpv.php:224 classes/system/class-brpv.php:444
+msgid "Settings"
+msgstr "Настройки"
+
+#: classes/system/class-brpv.php:361
+msgid "Raiting"
+msgstr "Рейтинг"
+
 #: classes/widgets/class-brpv-widget-popular.php:17
 #: classes/widgets/class-brpv-widget-popular.php:26
 msgid "Popular"
@@ -386,6 +395,16 @@ msgstr "Сортировать по"
 #: classes/widgets/class-brpv-widget-popular.php:81
 msgid "PageViews"
 msgstr "Просмотры"
+
+#: includes/icopydoc-useful-functions.php:200
+#, php-format
+msgid "No %s is associated with #%d"
+msgstr "Нет %s с таким #%d"
+
+#: includes/icopydoc-useful-functions.php:225
+#, php-format
+msgid "This %s cannot be deleted"
+msgstr "%s не может быть удалён"
 
 #~ msgid "Rating icons"
 #~ msgstr "Значки рейтинга"

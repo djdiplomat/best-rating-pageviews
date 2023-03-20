@@ -12,4 +12,3 @@ if (is_multisite()) {
 	delete_option('brpv_main_color');
 	delete_option('brpv_hover_color');
 }
-?>

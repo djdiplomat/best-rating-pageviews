@@ -78,4 +78,3 @@ final class BRPV_Error_Log {
 		return $res;
 	}
 }
-?>

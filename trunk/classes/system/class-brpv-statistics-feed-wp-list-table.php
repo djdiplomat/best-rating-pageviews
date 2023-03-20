@@ -2,13 +2,13 @@
 class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	function __construct() {
 		global $status, $page;
-		parent::__construct( array(
+		parent::__construct( [
 			'plural'	=> '', 		// По умолчанию: '' ($this->screen->base); Название для множественного числа, используется во всяких заголовках, например в css классах, в заметках, например 'posts', тогда 'posts' будет добавлен в класс table.
 			'singular'	=> '', 		// По умолчанию: ''; Название для единственного числа, например 'post'. 
 			'ajax'		=> false,	// По умолчанию: false; Должна ли поддерживать таблица AJAX. Если true, класс будет вызывать метод _js_vars() в подвале, чтобы передать нужные переменные любому скрипту обрабатывающему AJAX события.
 			'screen'	=> null, 	// По умолчанию: null; Строка содержащая название хука, нужного для определения текущей страницы. Если null, то будет установлен текущий экран.
-		) );
-		add_action('admin_footer', array($this, 'admin_header')); // меняем ширину колонок	
+		] );
+		add_action('admin_footer', [ $this, 'admin_header' ] ); // меняем ширину колонок	
 	}
 
 	/*	Сейчас у таблицы стандартные стили WordPress. Чтобы это исправить, вам нужно адаптировать классы CSS, которые были 
@@ -27,14 +27,14 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	*	иначе соответствующие столбцы не будут отображены.
 	*/
 	function get_columns() {
-		$columns = array(
+		$columns = [
 //			'cb'							=> '<input type="checkbox" />', // флажок сортировки. см get_bulk_actions и column_cb
-			'brpv_title'				=> __('Title', 'brpv'),
-			'brpv_rating'				=> __('Rating', 'brpv'),
-			'brpv_votes'				=> __('Votes', 'brpv'),
-			'brpv_page_views'			=> __('Page Views', 'brpv'),
-			'brpv_date_of_last_visit'	=> __('Date of last visit', 'brpv'),
-		);
+			'brpv_title'				=> __('Title', 'best-rating-pageviews'),
+			'brpv_rating'				=> __('Rating', 'best-rating-pageviews'),
+			'brpv_votes'				=> __('Votes', 'best-rating-pageviews'),
+			'brpv_page_views'			=> __('Page Views', 'best-rating-pageviews'),
+			'brpv_date_of_last_visit'	=> __('Date of last visit', 'best-rating-pageviews'),
+		];
 		return $columns;
 	}
 	/*	
@@ -42,7 +42,7 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	*	$this->table_data();
 	*/
 	private function table_data() {
-		$result_arr = array();
+		$result_arr = [ ];
 
 		if (is_multisite()) {
 			$brpv_get_type_arr = get_blog_option(get_current_blog_id(), 'brpv_posts_type_arr');
@@ -51,17 +51,17 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 		}
 
 		/*
-		$brpv_get_type_arr = array('post', 'page');		
-		if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins', array()))) && !(is_multisite() && array_key_exists($plugin, get_site_option('active_sitewide_plugins', array())))) {
+		$brpv_get_type_arr = [ 'post', 'page' ];
+		if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins', [ ]))) && !(is_multisite() && array_key_exists($plugin, get_site_option('active_sitewide_plugins', [ ])))) {
 			$brpv_get_type_arr[] = 'product';
 		} */
 
-		$args = array(	
+		$args = [	
 			'post_type' => $brpv_get_type_arr,
 			'fields' => 'ids',
 			'posts_per_page' => -1,
 			'get_status' => 'publish',
-		);
+		];
 
 		$featured_query = new WP_Query($args);
 		if ($featured_query->have_posts()) { 
@@ -73,13 +73,13 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 				} else {
 					$normal_date = '';
 				}
-				$result_arr[] = array(
+				$result_arr[] = [
 					'brpv_title' 				=> sprintf('<a href="%1$s">%2$s</a>', get_the_permalink($cur_post_id), get_the_title($cur_post_id)),
 					'brpv_rating' 				=> (int)get_post_meta($cur_post_id, 'brpv_total_rating', true),
 					'brpv_votes' 				=> (int)get_post_meta($cur_post_id, 'brpv_golosov', true),
 					'brpv_page_views' 			=> (int)get_post_meta($cur_post_id, 'brpv_pageviews', true),
 					'brpv_date_of_last_visit'	=> $normal_date
-				);
+				];
 			}
 		}
 
@@ -96,20 +96,20 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	*/
 	function prepare_items() {
 		$columns = $this->get_columns();
-		$hidden = array();
+		$hidden = [ ];
 		$sortable = $this->get_sortable_columns(); // вызов сортировки
-		$this->_column_headers = array($columns, $hidden, $sortable);
+		$this->_column_headers = [ $columns, $hidden, $sortable ];
 		$table_data = $this->table_data(); // данные для формирования таблицы
-		usort($table_data, array(&$this, 'usort_reorder')); // сортировка в usort_reorder() для работы get_sortable_columns()
+		usort($table_data, [ &$this, 'usort_reorder' ]); // сортировка в usort_reorder() для работы get_sortable_columns()
 		// пагинация 
 		$per_page = 20;
 		$current_page = $this->get_pagenum();
 		$total_items = count($table_data);	
 		$found_data = array_slice($table_data, (($current_page - 1) * $per_page), $per_page);
-		$this->set_pagination_args(array(
+		$this->set_pagination_args( [
 			'total_items' => $total_items, // Мы должны вычислить общее количество элементов
 			'per_page'	  => $per_page // Мы должны определить, сколько элементов отображается на странице
-		));
+		] );
 		// end пагинация 
 		$this->items = $found_data; // $this->items = $table_data // Получаем данные для формирования таблицы
 	}
@@ -141,12 +141,12 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	*	сортировки, чтобы строки отображались в правильном направлении
 	*/
 	function get_sortable_columns() {
-		$sortable_columns = array(
-			'brpv_title'		=> array('brpv_title', true),
-			'brpv_rating'		=> array('brpv_rating', true),
-			'brpv_votes'		=> array('brpv_votes', true),
-			'brpv_page_views'	=> array('brpv_page_views', false)
-		);
+		$sortable_columns = [
+			'brpv_title'		=> [ 'brpv_title', true ],
+			'brpv_rating'		=> [ 'brpv_rating', true ],
+			'brpv_votes'		=> [ 'brpv_votes', true ],
+			'brpv_page_views'	=> [ 'brpv_page_views', false ]
+		];
 		return $sortable_columns;
 	}
 
@@ -185,7 +185,6 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 	* Если в списке нет никаких элементов, отображается стандартное сообщение «No items found.». Если вы хотите изменить это сообщение, вы можете переписать метод no_items():
 	*/
 	function no_items() {
-		_e('No data availabled', 'brpv');
+		_e('No data availabled', 'best-rating-pageviews');
 	}
 }
-?>

@@ -3,8 +3,8 @@ Contributors: icopydoc
 Donate link: https://pay.cloudtips.ru/p/45d8ff3f
 Tags: rating, stars, pageviews, widget, popular
 Requires at least: 4.5
-Tested up to: 6.0.2
-Stable tag: 3.0.1
+Tested up to: 6.1.1
+Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,8 +61,13 @@ Yes. When counting the pageviews plugin does not take into account bots.
 == Screenshots ==
 
 1. screenshot-1.png
+1. screenshot-2.png
+1. screenshot-3.png
 
 == Changelog ==
+
+= 3.0.2 =
+* Fixed bugs
 
 = 3.0.1 =
 * Fixed bugs
@@ -107,5 +112,5 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Upgrade Notice ==
 
-= 3.0.1 =
+= 3.0.2 =
 * Fixed bugs

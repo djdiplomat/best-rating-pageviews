@@ -17,26 +17,26 @@ final class BRPV_Feedback {
 
 	public function get_form() { ?>
 		<div class="postbox">
-			<h2 class="hndle"><?php _e('Send data about the work of the plugin', 'brpv'); ?></h2>
+			<h2 class="hndle"><?php _e('Send data about the work of the plugin', 'best-rating-pageviews'); ?></h2>
 			<div class="inside">
-				<p><?php _e('Sending statistics you help make the plugin even better', 'brpv'); ?>! <?php _e('The following data will be transferred', 'brpv'); ?>:</p>
+				<p><?php _e('Sending statistics you help make the plugin even better', 'best-rating-pageviews'); ?>! <?php _e('The following data will be transferred', 'best-rating-pageviews'); ?>:</p>
 				<ul class="brpv_ul">
-					<li><?php _e('PHP version information ', 'brpv'); ?></li>
-					<li><?php _e('Multisite mode status', 'brpv'); ?></li>
-					<li><?php _e('Technical information and plugin logs', 'brpv'); ?> Best Rating & Pageviews</li>
+					<li><?php _e('PHP version information', 'best-rating-pageviews'); ?></li>
+					<li><?php _e('Multisite mode status', 'best-rating-pageviews'); ?></li>
+					<li><?php _e('Technical information and plugin logs', 'best-rating-pageviews'); ?> Best Rating & Pageviews</li>
 				</ul>
-				<p><?php _e('Did my plugin help you upload your products to the', 'brpv'); ?> Best Rating & Pageviews?</p>
+				<p><?php _e('Did my plugin help you upload your products to the', 'best-rating-pageviews'); ?> Best Rating & Pageviews?</p>
 				<form action="<?php echo esc_html($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
 					<p>
-						<input type="radio" name="<?php echo $this->get_radio_name(); ?>" value="yes"><?php _e('Yes', 'brpv'); ?><br />
-						<input type="radio" name="<?php echo $this->get_radio_name(); ?>" value="no"><?php _e('No', 'brpv'); ?><br />
+						<input type="radio" name="<?php echo $this->get_radio_name(); ?>" value="yes"><?php _e('Yes', 'best-rating-pageviews'); ?><br />
+						<input type="radio" name="<?php echo $this->get_radio_name(); ?>" value="no"><?php _e('No', 'best-rating-pageviews'); ?><br />
 					</p>
-					<p><?php _e("If you don't mind to be contacted in case of problems, please enter your email address", "brpv"); ?>.</p>
+					<p><?php _e("If you don't mind to be contacted in case of problems, please enter your email address", "best-rating-pageviews"); ?>.</p>
 					<p><input type="email" name="<?php echo $this->get_input_name(); ?>"></p>
-					<p><?php _e('Your message', 'brpv'); ?>:</p>
-					<p><textarea rows="6" cols="32" name="<?php echo $this->get_textarea_name(); ?>" placeholder="<?php _e('Enter your text to send me a message (You can write me in Russian or English). I check my email several times a day', 'brpv'); ?>"></textarea></p>
+					<p><?php _e('Your message', 'best-rating-pageviews'); ?>:</p>
+					<p><textarea rows="6" cols="32" name="<?php echo $this->get_textarea_name(); ?>" placeholder="<?php _e('Enter your text to send me a message (You can write me in Russian or English). I check my email several times a day', 'best-rating-pageviews'); ?>"></textarea></p>
 					<?php wp_nonce_field($this->get_nonce_action(), $this->get_nonce_field()); ?>
-					<input class="button-primary" type="submit" name="<?php echo $this->get_submit_name(); ?>" value="<?php _e('Send data', 'brpv'); ?>" />
+					<input class="button-primary" type="submit" name="<?php echo $this->get_submit_name(); ?>" value="<?php _e('Send data', 'best-rating-pageviews'); ?>" />
 				</form>	
 			</div>
 		</div><?php
@@ -44,18 +44,18 @@ final class BRPV_Feedback {
 
 	public function get_block_support_project() { ?>
 		<div class="postbox">
-			<h2 class="hndle"><?php _e('Please support the project', 'brpv'); ?>!</h2>
+			<h2 class="hndle"><?php _e('Please support the project', 'best-rating-pageviews'); ?>!</h2>
 			<div class="inside">	  
-				<p><?php _e('Thank you for using the plugin', 'brpv'); ?> <strong>Best Rating & Pageviews</strong></p>
-				<p><?php _e('Please help make the plugin better', 'brpv'); ?> <a href="https://docs.google.com/forms/d/1Nv25ESNvJtUA0i3MQRmFy9pvK1qgEUgq-IJzIcGfvp4" target="_blank" ><?php _e('answering 3 questions', 'brpv'); ?></a>!</p>
-				<p><?php _e('If this plugin useful to you, please support the project one way', 'brpv'); ?>:</p>
+				<p><?php _e('Thank you for using the plugin', 'best-rating-pageviews'); ?> <strong>Best Rating & Pageviews</strong></p>
+				<p><?php _e('Please help make the plugin better', 'best-rating-pageviews'); ?> <a href="https://docs.google.com/forms/d/1Nv25ESNvJtUA0i3MQRmFy9pvK1qgEUgq-IJzIcGfvp4" target="_blank" ><?php _e('answering 3 questions', 'best-rating-pageviews'); ?></a>!</p>
+				<p><?php _e('If this plugin useful to you, please support the project one way', 'best-rating-pageviews'); ?>:</p>
 				<ul class="brpv_ul">
-					<li><a href="//wordpress.org/support/plugin/best-rating-pageviews/reviews/" target="_blank"><?php _e('Leave a comment on the plugin page', 'brpv'); ?></a>.</li>
-					<li><?php _e('Support the project financially', 'brpv'); ?>. <a href="//sobe.ru/na/best_rating_pageviews" target="_blank"> <?php _e('Donate now', 'brpv'); ?></a>.</li>
-					<li><?php _e('Noticed a bug or have an idea how to improve the quality of the plugin', 'brpv'); ?>? <a href="mailto:support@icopydoc.ru"><?php _e('Let me know', 'brpv'); ?></a>.</li>
+					<li><a href="//wordpress.org/support/plugin/best-rating-pageviews/reviews/" target="_blank"><?php _e('Leave a comment on the plugin page', 'best-rating-pageviews'); ?></a>.</li>
+					<li><?php _e('Support the project financially', 'best-rating-pageviews'); ?>. <a href="//sobe.ru/na/best_rating_pageviews" target="_blank"> <?php _e('Donate now', 'best-rating-pageviews'); ?></a>.</li>
+					<li><?php _e('Noticed a bug or have an idea how to improve the quality of the plugin', 'best-rating-pageviews'); ?>? <a href="mailto:support@icopydoc.ru"><?php _e('Let me know', 'best-rating-pageviews'); ?></a>.</li>
 				</ul>
-				<p><?php _e('The author of the plugin Maxim Glazunov', 'brpv'); ?>.</p>
-				<p><span style="color: red;"><?php _e('Accept orders for individual revision of the plugin', 'brpv'); ?></span>:<br /><a href="mailto:support@icopydoc.ru"><?php _e('Leave a request', 'brpv'); ?></a>.</p>
+				<p><?php _e('The author of the plugin Maxim Glazunov', 'best-rating-pageviews'); ?>.</p>
+				<p><span style="color: red;"><?php _e('Accept orders for individual revision of the plugin', 'best-rating-pageviews'); ?></span>:<br /><a href="mailto:support@icopydoc.ru"><?php _e('Leave a request', 'best-rating-pageviews'); ?></a>.</p>
 			</div>
 		</div><?php
 	}
@@ -93,7 +93,7 @@ final class BRPV_Feedback {
 			$this->send_data();
 			add_action('admin_notices', function() {
 				$class = 'notice notice-success is-dismissible';
-				$message = __('The data has been sent. Thank you', 'brpv');
+				$message = __('The data has been sent. Thank you', 'best-rating-pageviews');
 				printf('<div class="%1$s"><p>%2$s</p></div>', $class, $message);
 			}, 9999);
 		}

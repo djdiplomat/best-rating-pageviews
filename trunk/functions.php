@@ -1,5 +1,5 @@
 <?php if (!defined('ABSPATH')) {exit;}
-/*
+/**
 * @since 2.0.0
 *
 * @param string $option_name (require)
@@ -46,7 +46,7 @@ function brpv_optionADD($option_name, $value = '', $n = '', $autoload = 'yes', $
 			}
 	}
 }
-/*
+/**
 * @since 2.0.0
 *
 * @param string $option_name (require)
@@ -93,7 +93,7 @@ function brpv_optionUPD($option_name, $value = '', $n = '', $autoload = 'yes', $
 			}
 	}
 }
-/*
+/**
 * @since 2.0.0
 *
 * @param string $option_name (require)
@@ -145,7 +145,7 @@ function brpv_optionGET($option_name, $n = '', $type = '', $source_settings_name
 			}
 	}
 }
-/*
+/**
 * @since 2.0.0
 *
 * @param string $option_name (require)
@@ -190,4 +190,3 @@ function brpv_optionDEL($option_name, $n = '', $type = '', $source_settings_name
 		}
 	}
 } 
-?>
