@@ -3,7 +3,7 @@
 * Plugin Name: Best Rating & Pageviews
 * Plugin URI: https://icopydoc.ru/category/documentation/
 * Description: Add Star rating, pageviews and adds a tool for analyzing the effectiveness of content. Also this plugin adds a widget which shows popular posts and pages based on the rating and pageviews.
-* Version: 3.0.1
+* Version: 3.0.3
 * Requires at least: 4.5
 * Requires PHP: 5.6
 * Author: Maxim Glazunov
@@ -61,7 +61,7 @@ $upload_dir = wp_get_upload_dir();
 define('BRPV_SITE_UPLOADS_URL', $upload_dir['baseurl']); // http://site.ru/wp-content/uploads
 define('BRPV_SITE_UPLOADS_DIR_PATH', $upload_dir['basedir']); // /home/site.ru/public_html/wp-content/uploads
 
-define('BRPV_PLUGIN_VERSION', '3.0.2'); // 0.1.0
+define('BRPV_PLUGIN_VERSION', '3.0.3'); // 0.1.0
 define('BRPV_PLUGIN_UPLOADS_DIR_URL', $upload_dir['baseurl'].'/best-rating-pageviews'); // http://site.ru/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_UPLOADS_DIR_PATH', $upload_dir['basedir'].'/best-rating-pageviews'); // /home/site.ru/public_html/wp-content/uploads/best-rating-pageviews
 define('BRPV_PLUGIN_DIR_URL', plugin_dir_url(__FILE__)); // http://site.ru/wp-content/plugins/best-rating-pageviews/

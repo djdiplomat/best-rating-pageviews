@@ -95,10 +95,6 @@ final class BestRatingPageviews {
 		} else { // обновления не требуются
 			return;
 		}
-
-		// удаление старых опций
-		if (brpv_optionGET('brpv_debug') !== false) {brpv_optionDEL('brpv_debug');}
-		if (brpv_optionGET('brpv_rating_icons') !== false) {brpv_optionDEL('brpv_rating_icons');}
 		
 		// добавление новых опций
 		if (brpv_optionGET('brpv_posts_type_arr') === false) {brpv_optionUPD('brpv_posts_type_arr', array('post', 'page'), '', 'yes');}
@@ -118,25 +114,25 @@ final class BestRatingPageviews {
 	}
 
 	public function init_hooks() {		
-		add_action('admin_init', array($this, 'listen_submits_func'), 10); // ещё можно слушать чуть раньше на wp_loaded
-		add_action('admin_menu', array($this, 'add_admin_menu_func'));
+		add_action('admin_init', [ $this, 'listen_submits_func' ], 10); // ещё можно слушать чуть раньше на wp_loaded
+		add_action('admin_menu', [ $this, 'add_admin_menu_func' ]);
 
-		add_action('wp_head',  array($this, 'hover_styles_and_session_counter')); // вывод нужных стилей и cчетчик посещений
-		add_action('wp_enqueue_scripts', array($this, 'brpv_enqueue_fp'));
-		add_action('wp_enqueue_scripts', array($this, 'register_style_frontend'));
-		add_action('admin_notices', array($this, 'print_admin_notices_func'));
-		add_action('wp_ajax_brpv_ajax_func',  array($this, 'brpv_ajax_func'));
-		add_action('wp_ajax_nopriv_brpv_ajax_func',  array($this, 'brpv_ajax_func'));
+		add_action('wp_head',  [ $this, 'hover_styles_and_session_counter' ]); // вывод нужных стилей и cчетчик посещений
+		add_action('wp_enqueue_scripts', [ $this, 'brpv_enqueue_fp' ]);
+		add_action('wp_enqueue_scripts', [ $this, 'register_style_frontend' ]);
+		add_action('admin_notices', [ $this, 'print_admin_notices_func' ]);
+		add_action('wp_ajax_brpv_ajax_func',  [ $this, 'brpv_ajax_func' ]);
+		add_action('wp_ajax_nopriv_brpv_ajax_func',  [ $this, 'brpv_ajax_func' ]);
 		
-		add_shortcode('pageviews', array($this, 'brpv_pageviews_func'));
-		add_shortcode('pageratings', array($this, 'brpv_pageratings_func')); /* шорткод рейтинг поста */
+		add_shortcode('pageviews', [ $this, 'brpv_pageviews_func' ]);
+		add_shortcode('pageratings', [ $this, 'brpv_pageratings_func' ]); /* шорткод рейтинг поста */
 		
 		/* Регаем стили только для страницы настроек плагина */
 		add_action('admin_init', function() {
 			wp_register_style('brpv-admin-css', BRPV_PLUGIN_DIR_URL.'css/brpv.css');
 		}, 9999);	
 
-		add_filter('plugin_action_links', array($this, 'add_plugin_action_links'), 10, 2 );
+		add_filter('plugin_action_links', [ $this, 'add_plugin_action_links' ], 10, 2 );
 	}
 
 	public function listen_submits_func() {
@@ -182,28 +178,29 @@ final class BestRatingPageviews {
 
 		if (isset($_REQUEST['brpv_submit_clear_stat'])) {
 			if (!empty($_POST) && check_admin_referer('brpv_nonce_action_clear_stat', 'brpv_nonce_clear_stat_field')) {
-				$args = array(
-					'post_type' => array('post', 'page', 'product'),
+				$args = [
+					'post_type' => ['post', 'page', 'product'],
 					'post_status' => 'publish',
 					'posts_per_page' => -1,
 					'relation' => 'AND',
+					'orderby' => 'ID',
 					'fields'  => 'ids',
-					'meta_query' => array(
-						array(
-							'key' => 'brpv_pageviews',
+					'meta_query' => [
+						[
+							'key' => '_brpv_pageviews',
 							'compare' => 'EXISTS'
-						)
-					)
-				);
+						]
+					]
+				];
 				$res_query = new WP_Query($args);
 				global $wpdb;
 				if ($res_query->have_posts()) { 
 					for ($i = 0; $i < count($res_query->posts); $i++) {
-						delete_post_meta($res_query->posts[$i], 'brpv_ballov');
-						delete_post_meta($res_query->posts[$i], 'brpv_golosov');
-						delete_post_meta($res_query->posts[$i], 'brpv_lastime');
-						delete_post_meta($res_query->posts[$i], 'brpv_pageviews');
-						delete_post_meta($res_query->posts[$i], 'brpv_total_rating');
+						delete_post_meta($res_query->posts[$i], '_brpv_ballov');
+						delete_post_meta($res_query->posts[$i], '_brpv_golosov');
+						delete_post_meta($res_query->posts[$i], '_brpv_lastime');
+						delete_post_meta($res_query->posts[$i], '_brpv_pageviews');
+						delete_post_meta($res_query->posts[$i], '_brpv_total_rating');
 					}
 				}
 
@@ -218,15 +215,15 @@ final class BestRatingPageviews {
 
 	// Добавляем пункты меню
 	public function add_admin_menu_func() {
-		$page_suffix = add_menu_page(null , __('Statistics', 'best-rating-pageviews'), 'unfiltered_html', 'brpv-statistics', array($this, 'get_statistics_page_func'), 'dashicons-chart-bar', 51);	
-		add_action('admin_print_styles-'. $page_suffix, array($this, 'enqueue_style_admin_css_func')); // создаём хук, чтобы стили выводились только на странице настроек
+		$page_suffix = add_menu_page(null , __('Statistics', 'best-rating-pageviews'), 'unfiltered_html', 'brpv-statistics', [ $this, 'get_statistics_page_func' ], 'dashicons-chart-bar', 51);	
+		add_action('admin_print_styles-'. $page_suffix, [ $this, 'enqueue_style_admin_css_func' ]); // создаём хук, чтобы стили выводились только на странице настроек
 
-		$page_suffix = add_submenu_page('brpv-statistics', __('Settings', 'best-rating-pageviews'), __('Settings', 'best-rating-pageviews'), 'unfiltered_html', 'brpv-settings', array($this, 'get_settings_page_func'));
-		add_action('admin_print_styles-'. $page_suffix, array($this, 'enqueue_style_admin_css_func'));
+		$page_suffix = add_submenu_page('brpv-statistics', __('Settings', 'best-rating-pageviews'), __('Settings', 'best-rating-pageviews'), 'unfiltered_html', 'brpv-settings', [ $this, 'get_settings_page_func' ]);
+		add_action('admin_print_styles-'. $page_suffix, [ $this, 'enqueue_style_admin_css_func' ]);
 
 		// $page_subsuffix = add_submenu_page('brpvexport', __('Add Extensions', 'best-rating-pageviews'), __('Extensions', 'best-rating-pageviews'), 'manage_woocommerce', 'brpv-extensions', 'brpv_extensions_page');
 		// require_once BRPV_PLUGIN_DIR_PATH.'/extensions.php';
-		// add_action('admin_print_styles-'. $page_subsuffix, array($this, 'enqueue_style_admin_css_func'));
+		// add_action('admin_print_styles-'. $page_subsuffix, [ $this, 'enqueue_style_admin_css_func' ]);
 	} 
 
 	// вывод страницы настроек плагина
@@ -245,7 +242,7 @@ final class BestRatingPageviews {
 		wp_enqueue_style('brpv-admin-css'); /* Ставим css-файл в очередь на вывод */
 		wp_enqueue_style('wp-color-picker');
 		wp_enqueue_script('wp-color-picker');
-		add_action('admin_footer', array($this, 'admin_footer_script'), 99 );
+		add_action('admin_footer', [ $this, 'admin_footer_script' ], 99 );
 	} 
 
 	// Подключаем свой скрпит в подвал 
@@ -310,8 +307,8 @@ final class BestRatingPageviews {
  
 	public function brpv_pageviews_func() {
 		global $post;
-		if (get_post_meta($post->ID, 'brpv_pageviews', true)) {
-			echo get_post_meta($post->ID, 'brpv_pageviews', true); /*.$_SERVER['HTTP_USER_AGENT'];*/
+		if (get_post_meta($post->ID, '_brpv_pageviews', true)) {
+			echo get_post_meta($post->ID, '_brpv_pageviews', true); /*.$_SERVER['HTTP_USER_AGENT'];*/
 		} else {
 			echo "0";
 		}
@@ -320,8 +317,8 @@ final class BestRatingPageviews {
 	function brpv_pageratings_func() {
 		global $post;		
 		$post_id = (int)$post->ID;
-		if (get_post_meta($post_id, 'brpv_total_rating', true)) {
-			$rating_value = get_post_meta($post_id, 'brpv_total_rating', true);
+		if (get_post_meta($post_id, '_brpv_total_rating', true)) {
+			$rating_value = get_post_meta($post_id, '_brpv_total_rating', true);
 		} else {
 			$rating_value = 0;
 		}
@@ -331,8 +328,8 @@ final class BestRatingPageviews {
 			$half_mask_value_x = round(fmod($rating_value, 1)*100, 2); // какой процент зведы закрасить
 		}	
 		/* число голосов */
-		if (get_post_meta($post_id, 'brpv_golosov', true)) {
-			$rating_count = (int)get_post_meta($post_id, 'brpv_golosov', true);
+		if (get_post_meta($post_id, '_brpv_golosov', true)) {
+			$rating_count = (int)get_post_meta($post_id, '_brpv_golosov', true);
 		} else {
 			$rating_count = 0;
 		}
@@ -376,21 +373,23 @@ final class BestRatingPageviews {
 	/* end шорткод рейтинг поста */ 
  
 	/* Функция Аякс обработчика рейтинга */
-	public function brpv_ajax_func(){		
-		$result = array();
+	public function brpv_ajax_func() {		
+		$result = [ ];
 		if (isset($_REQUEST['user_votes']) && isset($_REQUEST['postId'])) {
 			$user_votes = (int)sanitize_text_field($_REQUEST['user_votes']); // получаем оценку, которую поставил пользователь	
 			$post_id = (int)sanitize_text_field($_REQUEST['postId']); // id поста, которому поставили оценку
 		} else {$result['status'] = "false"; $result = json_encode($result); echo $result; die();} 
 		
-		if (get_post_meta($post_id, 'brpv_golosov', true)) { 
-			$golosov = (int)get_post_meta($post_id, 'brpv_golosov', true); 
+		$this->fixer($post_id);
+
+		if (get_post_meta($post_id, '_brpv_golosov', true)) { 
+			$golosov = (int)get_post_meta($post_id, '_brpv_golosov', true); 
 		} else {$golosov = (int)0;}
-		if (get_post_meta($post_id, 'brpv_ballov', true)) { 
-			$ballov = (int)get_post_meta($post_id, 'brpv_ballov', true); 
+		if (get_post_meta($post_id, '_brpv_ballov', true)) { 
+			$ballov = (int)get_post_meta($post_id, '_brpv_ballov', true); 
 		} else {$ballov = (int)0;}
-		if (get_post_meta($post_id, 'brpv_total_rating', true)) {
-			$total_rating = (int)get_post_meta($post_id, 'brpv_total_rating', true);
+		if (get_post_meta($post_id, '_brpv_total_rating', true)) {
+			$total_rating = (int)get_post_meta($post_id, '_brpv_total_rating', true);
 		} else {$total_rating = (int)0;}
 		
 		$golosov_new = $golosov + 1; // нове значение проголосовавших
@@ -398,9 +397,9 @@ final class BestRatingPageviews {
 		$total_rating_new = $ballov_new / $golosov_new; // общая оценка
 		$total_rating_new = round($total_rating_new, 2); // округляем до сотых
 		
-		update_post_meta($post_id, 'brpv_golosov', $golosov_new);
-		update_post_meta($post_id, 'brpv_ballov', $ballov_new);
-		update_post_meta($post_id, 'brpv_total_rating', $total_rating_new);
+		update_post_meta($post_id, '_brpv_golosov', $golosov_new);
+		update_post_meta($post_id, '_brpv_ballov', $ballov_new);
+		update_post_meta($post_id, '_brpv_total_rating', $total_rating_new);
 
 		$result['user_votes'] = $user_votes;
 		$result['postId'] = $post_id;
@@ -458,14 +457,39 @@ final class BestRatingPageviews {
 		$post_type = get_post_type($post_id);
 		if (!in_array($post_type, $brpv_posts_type_arr)) {return;}
 
+		$this->fixer($post_id);
+
 		$lastime = current_time('timestamp');
-		$pageviews = (int)get_post_meta($post_id, 'brpv_pageviews', true); // получаем число постов
-		update_post_meta($post_id, 'brpv_pageviews', ($pageviews + 1));
-		update_post_meta($post_id, 'brpv_lastime', $lastime);
+		$pageviews = (int)get_post_meta($post_id, '_brpv_pageviews', true); // получаем число постов
+		update_post_meta($post_id, '_brpv_pageviews', ($pageviews + 1));
+		update_post_meta($post_id, '_brpv_lastime', $lastime);
 	}
 
 	private function admin_notices_func($message, $class) {
 		printf('<div class="notice %1$s"><p>%2$s</p></div>', $class, $message);
 		return;
+	}
+
+	private function fixer($post_id) {
+		if (get_post_meta($post_id, 'brpv_ballov', true) !== '') {
+			update_post_meta($post_id, '_brpv_ballov', get_post_meta($post_id, 'brpv_ballov', true));
+			delete_post_meta($post_id, 'brpv_ballov');
+		}
+		if (get_post_meta($post_id, 'brpv_golosov', true) !== '') {
+			update_post_meta($post_id, '_brpv_golosov', get_post_meta($post_id, 'brpv_golosov', true));
+			delete_post_meta($post_id, 'brpv_golosov');
+		}	
+		if (get_post_meta($post_id, 'brpv_lastime', true) !== '') {
+			update_post_meta($post_id, '_brpv_lastime', get_post_meta($post_id, 'brpv_lastime', true));
+			delete_post_meta($post_id, 'brpv_lastime');
+		}	
+		if (get_post_meta($post_id, 'brpv_pageviews', true) !== '') {
+			update_post_meta($post_id, '_brpv_pageviews', get_post_meta($post_id, 'brpv_pageviews', true));
+			delete_post_meta($post_id, 'brpv_pageviews');
+		}		
+		if (get_post_meta($post_id, 'brpv_total_rating', true) !== '') {
+			update_post_meta($post_id, '_brpv_total_rating', get_post_meta($post_id, 'brpv_total_rating', true));
+			delete_post_meta($post_id, 'brpv_total_rating');
+		}
 	}
 } /* end class BestRatingPageviews */

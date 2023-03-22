@@ -15,9 +15,9 @@ class BRPV_Widget_Popular extends WP_Widget {
 	public function __construct() {
 		parent::__construct("text_widget",
 			__('Popular', 'best-rating-pageviews'),
-			array(
+			[
 				'description' => __( 'Shows popular posts and pages based on the rating and pageviews', 'best-rating-pageviews'),		
-			)
+			]
 		);
 	}
 
@@ -86,7 +86,7 @@ class BRPV_Widget_Popular extends WP_Widget {
 
 	//Метод update() (отвечает за обновление параметров)
 	public function update($newInstance, $oldInstance) {
-		$values = array();
+		$values = [ ];
 		$values["title"] = htmlentities($newInstance["title"]); // обновляем заголовок
 		$values["NumPostovId"] = htmlentities($newInstance["NumPostovId"]); // обновляем число постов
 		$values["WhatShowsId"] = htmlentities($newInstance["WhatShowsId"]); // обновляем что выводить
@@ -106,17 +106,20 @@ class BRPV_Widget_Popular extends WP_Widget {
 			
 		echo $args['before_widget']; // вывод обертки виджета (открывающий тег)
 		/* Выводт виджета */
-		if (!empty( $title )) { echo $args['before_title'] . $title . $args['after_title'];} // выводим заголовок виджета в оберткие $args['after_title']
+		if (!empty( $title )) { 
+			// выводим заголовок виджета в оберткие $args['after_title']
+			echo $args['before_title'] . $title . $args['after_title']; 
+		} 
 		
-		$argums = array(
+		$argums = [
 			'meta_key' => $orderby,
-			'post_type' => array($WhatShows),
+			'post_type' => [ $WhatShows ],
 			'showposts' => $NumPostov,
 			'posts_per_page' => -1,
 			'orderby' => $orderby,
 			'order' => $order,
 			'post_status' => 'publish',
-		);
+		];
 		$t_dir = get_bloginfo('template_directory'); // в $t_dir храним урл директории шаблона
 		query_posts($argums);
 		$brpv = new WP_Query($argums);

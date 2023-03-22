@@ -4,7 +4,7 @@ Donate link: https://pay.cloudtips.ru/p/45d8ff3f
 Tags: rating, stars, pageviews, widget, popular
 Requires at least: 4.5
 Tested up to: 6.1.1
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Changelog ==
 
+= 3.0.3 =
+* Fixed bugs
+
 = 3.0.2 =
 * Fixed bugs
 
@@ -112,5 +115,5 @@ Yes. When counting the pageviews plugin does not take into account bots.
 
 == Upgrade Notice ==
 
-= 3.0.2 =
+= 3.0.3 =
 * Fixed bugs

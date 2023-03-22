@@ -1,10 +1,10 @@
 <?php if (!defined('ABSPATH')) {exit;}
 /**
-* Plugin Settings Page
-*
-* @link			https://icopydoc.ru/
-* @since		2.1.0
-*/
+ * Plugin Settings Page
+ *
+ * @link			https://icopydoc.ru/
+ * @since		2.1.0
+ */
 
 class BRPV_Settings_Page {
 	private $feed_id;

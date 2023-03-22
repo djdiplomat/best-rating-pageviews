@@ -58,6 +58,7 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 
 		$args = [	
 			'post_type' => $brpv_get_type_arr,
+			'orderby' => 'ID',
 			'fields' => 'ids',
 			'posts_per_page' => -1,
 			'get_status' => 'publish',
@@ -67,17 +68,17 @@ class BRPV_Statistics_WP_List_Table extends WP_List_Table {
 		if ($featured_query->have_posts()) { 
 			for ($i = 0; $i < count($featured_query->posts); $i++) {
 				$cur_post_id = $featured_query->posts[$i];
-				if (get_post_meta($cur_post_id, 'brpv_lastime', true) !== '') {
-					$unix_date = (int)get_post_meta($cur_post_id, 'brpv_lastime', true); 
+				if (get_post_meta($cur_post_id, '_brpv_lastime', true) !== '') {
+					$unix_date = (int)get_post_meta($cur_post_id, '_brpv_lastime', true); 
 					$normal_date = date('d/m/Y g:i A', $unix_date);			
 				} else {
 					$normal_date = '';
 				}
 				$result_arr[] = [
 					'brpv_title' 				=> sprintf('<a href="%1$s">%2$s</a>', get_the_permalink($cur_post_id), get_the_title($cur_post_id)),
-					'brpv_rating' 				=> (int)get_post_meta($cur_post_id, 'brpv_total_rating', true),
-					'brpv_votes' 				=> (int)get_post_meta($cur_post_id, 'brpv_golosov', true),
-					'brpv_page_views' 			=> (int)get_post_meta($cur_post_id, 'brpv_pageviews', true),
+					'brpv_rating' 				=> (int)get_post_meta($cur_post_id, '_brpv_total_rating', true),
+					'brpv_votes' 				=> (int)get_post_meta($cur_post_id, '_brpv_golosov', true),
+					'brpv_page_views' 			=> (int)get_post_meta($cur_post_id, '_brpv_pageviews', true),
 					'brpv_date_of_last_visit'	=> $normal_date
 				];
 			}
